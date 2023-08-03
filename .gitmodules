@@ -1,0 +1,12 @@
+[submodule "Packages/UXF-extensions"]
+	path = Packages/UXF-extensions
+	url = https://github.com/ovi-lab/UXF-extensions.git
+[submodule "Packages/HPUI-Core"]
+	path = Packages/HPUI-Core
+	url = https://github.com/ovi-lab/HPUI-Core.git
+[submodule "Packages/EditorUtils"]
+	path = Packages/EditorUtils
+	url = https://github.com/ovi-lab/EditorUtils.git
+[submodule "Packages/vicon-nexus-unity-stream"]
+	path = Packages/vicon-nexus-unity-stream
+	url = https://github.com/ahmed-shariff/vicon-nexus-unity-stream.git
