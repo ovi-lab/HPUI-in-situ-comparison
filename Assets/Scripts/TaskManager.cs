@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using ubc.ok.ovilab.HPUI.Core;
 
 namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 {
@@ -18,6 +19,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public float secondDisplayVisibleStartAtScale;
 
         public Transform workspace;
+        [SerializeField]
+        List<ButtonGroup> buttonGroups;
+
+        private ButtonGroup activeButtonGroup;
+        private List<Target> targets;
 
         public float Scale
         {
@@ -35,8 +41,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
-        private List<Target> targets;
-
         private void Start()
         {
             targets = workspace.GetComponentsInChildren<Target>().ToList();
@@ -51,7 +55,52 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
+        /// <summary>
+        /// Picks the first actve button group
+        /// </summary>
+        private void SetActiveButtonGroup()
+        {
+            activeButtonGroup = null;
+            foreach (ButtonGroup bg in buttonGroups)
+            {
+                if (bg.IsActive())
+                {
+                    activeButtonGroup = bg;
+                    break;
+                }
+            }
+        }
+
+        [Serializable]
+        class ButtonGroup
+        {
+            public string name;
+            public ButtonController zoomUpButton, zoomDownButton, acceptButton;
+            public List<ButtonController> colorButtons;
+
+            public bool IsActive()
+            {
+                // FIXME somewhere else ensure all of em have the same root and check once here?
+                return
+                    zoomUpButton.transform.root.gameObject.activeSelf &&
+                    zoomDownButton.transform.root.gameObject.activeSelf &&
+                    acceptButton.transform.root.gameObject.activeSelf &&
+                    colorButtons.Aggregate(
+                        true,
+                        (active, current) => active && current.transform.root.gameObject.activeSelf);
+            }
+
+            public bool ButtonInGroup(ButtonController btn)
+            {
+                return
+                    zoomUpButton == btn ||
+                    zoomDownButton == btn ||
+                    acceptButton == btn ||
+                    colorButtons.Aggregate(
+                        true,
+                        (active, current) => active || current == btn);
+            }
+        }
 
     }
-
 }
