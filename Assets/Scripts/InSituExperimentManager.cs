@@ -122,6 +122,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             // - offset for skeleton
             // - offset of thumb collider
             random = new System.Random();
+            block.settings.SetValue("numTrials", el.numTrials);
             block.settings.SetValue("buttons", el.useButtons);
             block.settings.SetValue("buttonSize", el.buttonSize);
             block.settings.SetValue("changeLayout", el.changeLayout);
@@ -240,15 +241,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     {
         public int numTrials;
         public List<string> useButtons;
-        public bool usePermutations;
-        public bool useSensor;
         public float buttonSize;
-        public int numSegments;
-        public int currentSegment;
-        public int iterations;
-        public bool reciprocalStudy;
-        public List<List<string>> XORGroups;
-        public bool hideNonTargets;
+        public string handedness;
         public bool changeLayout;
 
         public override string ToString()
@@ -256,16 +250,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             return
                 base.ToString() +
                 $"Number of Trials: {numTrials}" +
-                $"Using permutations: {usePermutations}" +
-                $"ReciprocalStudy: {reciprocalStudy}" +
                 $"Button size: {buttonSize}" +
                 $"Buttons used: {useButtons}" +
-                $"Number of segments: {numSegments}" +
-                $"Current segment: {currentSegment}" +
-                $"Use sensor: {useSensor}" +
-                $"Iterations: {iterations}" +
-                $"XORGroups: {XORGroups}" +
-                $"Hide non-targets: {hideNonTargets}" +
+                $"Buttons used: {handedness}" +
                 $"Change Layout: {changeLayout}";
         }
     }

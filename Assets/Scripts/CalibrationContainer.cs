@@ -18,17 +18,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public Handedness handedness = Handedness.Right;
         public Transform rightFingertip, leftFingertip, cameraBase;
         public Transform rightAboveHandAnchor, leftAboveHandAnchor;
-        public Button dominantRightButton, dominantLeftButton, doneCalibrationButton, executeCalibrationButton;
+        public Button getPositionsButton, executeCalibrationButton, doneCalibrationButton;
         public float relativeSeperateFactor;
-        public CustomHandScript rightScript, leftScript;
         public List<CalibrationSettings> settings;
-        public List<ComputeDistancePair> rightComputeSeperatePairs;
-        public List<ComputeDistancePair> leftComputeSeperatePairs;
+        public List<ComputeDistancePair> pairs;
         #endregion
 
         #region PRIVATE_VARIABLES
         private bool recordedCalibration = false;
-        private Vector3 headPosition, headForward, fingertip;
+        private Vector3 headPosition, headForward, activeFingertipPos, rightFingertipPos, leftFingertipPos;
         private string currentCalibrationName = null;
         private float computedSeperation;
         private Dictionary<string, object> calibrationParameters;
@@ -38,10 +36,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             foreach (CalibrationSettings setting in settings)
             {
-                experimentManager.AddCalibrationMethod(setting.name, () => ExecuteCalibration(setting.name));
+                experimentManager.AddCalibrationMethod(setting.name, (blockData) => InitiateCalibration(setting.name, blockData.handedness));
             }
-            dominantRightButton.onClick.AddListener(GetPositionsDominantRight);
-            dominantLeftButton.onClick.AddListener(GetPositionsDominantLeft);
+            getPositionsButton.onClick.AddListener(GetPositions);
             doneCalibrationButton.onClick.AddListener(OnCalibrationCompleteButton);
             executeCalibrationButton.onClick.AddListener(SetCalibration);
         }
@@ -66,14 +63,29 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
-        void ExecuteCalibration(String name)
+        void InitiateCalibration(String name, string handedness)
         {
             DeactivateAll();
             // In case the computed locations need to be recomputed
-            rightComputeSeperatePairs[0].p1.root.gameObject.SetActive(true);
-            leftComputeSeperatePairs[0].p1.root.gameObject.SetActive(true);
-            dominantRightButton.interactable = true;
-            dominantLeftButton.interactable = true;
+            foreach (ComputeDistancePair pair in pairs)
+            {
+                pair.p1.root.gameObject.SetActive(true);
+            }
+
+            if (handedness == "left")
+            {
+                SetHandedness(Handedness.Left);
+            }
+            else if (handedness == "right")
+            {
+                SetHandedness(Handedness.Right);
+            }
+            else
+            {
+                throw new ArgumentException($"{handedness} not valid, need to be `right` or `left`");
+            }
+
+            getPositionsButton.interactable = true;
             executeCalibrationButton.interactable = recordedCalibration;
             doneCalibrationButton.interactable = false;
             currentCalibrationName = name;
@@ -103,13 +115,14 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 calibrationParameters.Add("handedness", handedness == Handedness.Right ? "right" : "left");
                 calibrationParameters.Add("headPosition", headPosition);
                 calibrationParameters.Add("headForward", headForward);
-                calibrationParameters.Add("fingertip", fingertip);
+                calibrationParameters.Add("activeFingertip", activeFingertipPos);
+                calibrationParameters.Add("rightFingertip", rightFingertipPos);
+                calibrationParameters.Add("leftFingertip", leftFingertipPos);
 
                 foreach(CalibrationParamters s in setting.configurePosition)
                 {
                     ProcessCalibration(s);
                 }
-                ProcessCalibration(setting.displayElementLocation);
 
                 doneCalibrationButton.interactable = true;
             }
@@ -121,8 +134,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         void OnCalibrationCompleteButton()
         {
-            dominantRightButton.interactable = false;
-            dominantLeftButton.interactable = false;
+            getPositionsButton.interactable = false;
             executeCalibrationButton.interactable = false;
             doneCalibrationButton.interactable = false;
             experimentManager.CalibrationComplete(calibrationParameters);
@@ -131,43 +143,65 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         void GetPositionsDominantRight()
         {
-            GetPositions(Handedness.Right, "R", 0);
+            SetHandedness(Handedness.Right);
+            GetPositions();
         }
 
         void GetPositionsDominantLeft()
         {
-            GetPositions(Handedness.Left, "L", 1);
+            SetHandedness(Handedness.Left);
+            GetPositions();
         }
 
-        void GetPositions(Handedness handedness, string prefix, int handIndex)
+        void SetHandedness(Handedness handedness)
         {
-            Transform anchor1 = null, anchor2 = null;
-            this.handedness = handedness;
-            headPosition = cameraBase.transform.position;
-            headForward = cameraBase.transform.forward;
-            List<ComputeDistancePair> pairs = null;
             if (handedness == Handedness.Right)
             {
-                fingertip = rightFingertip.position;
-                anchor1 = rightAboveHandAnchor;
-                anchor2 = leftAboveHandAnchor;
-                pairs = rightComputeSeperatePairs;
-            } else if (handedness == Handedness.Left){
-                fingertip = leftFingertip.position;
-                anchor1 = leftAboveHandAnchor;
-                anchor2 = rightAboveHandAnchor;
-                pairs = leftComputeSeperatePairs;
+                this.handedness = Handedness.Left;
+                activeFingertipPos = leftFingertipPos;
             }
-            recordedCalibration = true;
-            executeCalibrationButton.interactable = true;
+            else if (handedness == Handedness.Left)
+            {
+                this.handedness = Handedness.Right;
+                activeFingertipPos = rightFingertipPos;
+            }
+        }
+
+        void GetPositions()
+        {
+            headPosition = cameraBase.transform.position;
+            headForward = cameraBase.transform.forward;
+            rightFingertipPos = rightFingertip.position;
+            leftFingertipPos = leftFingertip.position;
 
             computedSeperation = 0;
             foreach(ComputeDistancePair pair in pairs)
             {
-                computedSeperation += (pair.p1.position - pair.p2.position).magnitude;
+                if (pair.p1.gameObject.activeInHierarchy && pair.p2.gameObject.activeInHierarchy)
+                {
+                    computedSeperation += (pair.p1.position - pair.p2.position).magnitude;
+                }
             }
 
             computedSeperation /= pairs.Count;
+
+            GetAnchorPositions(Handedness.Left, "L", 1);
+            GetAnchorPositions(Handedness.Right, "R", 0);
+
+            recordedCalibration = true;
+            executeCalibrationButton.interactable = true;
+        }
+
+        void GetAnchorPositions(Handedness handedness, string prefix, int handIndex)
+        {
+            Transform anchor = null;
+
+            if (handedness == Handedness.Right)
+            {
+                anchor = rightAboveHandAnchor;
+            } else if (handedness == Handedness.Left){
+                anchor = leftAboveHandAnchor;
+            }
 
             Transform palmBase = HandsManager.instance.handCoordinateManagers[handIndex].palmBase.transform;
             Transform indexMiddle = HandsManager.instance.handCoordinateManagers[handIndex].GetProxyTrasnform(prefix + "2D2");
@@ -177,15 +211,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 anchorUp = -anchorUp;
             }
-            anchor1.rotation = Quaternion.LookRotation(-palmBase.forward.normalized - palmBase.up.normalized * 0.3f, anchorUp);
-            anchor1.position = indexMiddle.position + palmBase.up.normalized * computedSeperation * 0.7f
-                + anchor1.up.normalized * computedSeperation * relativeSeperateFactor
-                + anchor1.forward.normalized * computedSeperation * 0.6f;
-            Vector3 pos = anchor1.localPosition;
-            pos.x = -pos.x;
-            anchor2.localPosition = pos;
-            anchor2.localRotation = anchor1.localRotation;
-            anchor2.rotation = Quaternion.LookRotation(anchor2.forward, -anchor2.up);
+            anchor.rotation = Quaternion.LookRotation(-palmBase.forward.normalized - palmBase.up.normalized * 0.3f, anchorUp);
+            anchor.position = indexMiddle.position + palmBase.up.normalized * computedSeperation * 0.7f
+                + anchor.up.normalized * computedSeperation * relativeSeperateFactor
+                + anchor.forward.normalized * computedSeperation * 0.6f;
         }
 
         public void ProcessCalibration(CalibrationParamters s) 
@@ -282,14 +311,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             if (fixedLayout != null)
             {
                 fixedLayout.relativeSeperateFactor = relativeSeperateFactor;
-                if (s.relativeFixedButtonLayout == null)
-                {
-                    fixedLayout.SetParameters(s.buttonSeperation, s.buttonScale, position, rotation);
-                }
-                else
-                {
-                    fixedLayout.SetParameters(s.buttonSeperation, s.buttonScale, s.relativeFixedButtonLayout);
-                }
+                fixedLayout.SetParameters(s.buttonSeperation, s.buttonScale, position, rotation);
             }
             else
             {
@@ -312,9 +334,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             float horizontalOffset = handedness == Handedness.Right ? s.horizontalOffset : -s.horizontalOffset;
             // Point on coronal plane (plne making the lataral ventral/dorsal axis)
             Plane headPlane = new Plane(headForward, headPosition);
-            Vector3 shoulderOrHipPoint = headPlane.ClosestPointOnPlane(fingertip); // aka shoulderOrHip point
-            Vector3 armVector = fingertip - shoulderOrHipPoint;
-            Vector3 position = fingertip + armVector * s.forwardOffset +
+            Vector3 shoulderOrHipPoint = headPlane.ClosestPointOnPlane(activeFingertipPos); // aka shoulderOrHip point
+            Vector3 armVector = activeFingertipPos - shoulderOrHipPoint;
+            Vector3 position = activeFingertipPos + armVector * s.forwardOffset +
                 Vector3.up.normalized * armVector.magnitude * s.verticalOffset +
                 Vector3.Cross(headForward, Vector3.up).normalized * horizontalOffset;
             float tiltAngleRadian = Mathf.Deg2Rad * s.tiltAngle;
@@ -333,9 +355,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             public List<GameObject> commonObjects;
             public List<GameObject> rightHandedObjects;
             public List<GameObject> leftHandedObjects;
-            public CalibrationParamters displayElementLocation;
             public List<CalibrationParamters> configurePosition;
-            public bool switchToDefaultPose;
         }
 
         [Serializable]
@@ -350,7 +370,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             public float buttonScale = 1;
             public float buttonSeperation;
             public bool useComputedButtonSeperation;
-            public FixedButtonLayout relativeFixedButtonLayout;
         }
 
         public enum CalibrationOptions {
