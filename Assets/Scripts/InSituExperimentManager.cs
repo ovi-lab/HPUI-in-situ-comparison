@@ -20,8 +20,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public AudioClip contactAudio;
         public AudioSource audioSource;
         public bool trackJoints = true; // Adding this for performance reasons
+        public TaskManager taskManager;
         public List<string> forceTrackJoints = new List<string>(); // When trackJoints is false, bypass that for the coordinates in this list
-        // Start is called before the first frame update
 
         #region HIDDEN_VARIABLES
         private Dictionary<string, (ButtonController controller, Tracker tracker, Vector3 localScale)> buttons;
@@ -32,8 +32,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         public override void Start()
         {
-
-            Session.instance.settingsToLog.AddRange(new List<string>(){"button", "spriteName", "sequenceIndex", "inSequenceIndex"});
+            Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex", "targetIndex", "targetLocation", "sequenceIndex", "inSequenceIndex"});
             base.Start();
         }
 

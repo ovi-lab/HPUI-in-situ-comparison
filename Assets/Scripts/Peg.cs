@@ -10,6 +10,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private Renderer displayRenderer;
         private TransformLinker linker;
         private int colorIndex;
+        private bool active;
 
         public Transform trackingObject
         {
@@ -31,6 +32,27 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 Color _color = ColorIndex.instance.GetColor(value);
                 colorIndex = value;
                 displayRenderer.material.SetColor("_Color", _color);
+            }
+        }
+
+        public bool Visible
+        {
+            get {
+                return this.gameObject.activeSelf;
+            }
+            set {
+                this.gameObject.SetActive(value);
+            }
+        }
+
+        public bool Active
+        {
+            get {
+                return active;
+            }
+            set {
+                active = value;
+                // TODO change shader or hide color?
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using UXF;
 using ubc.ok.ovilab.HPUI.Core;
 
 namespace ubc.ok.ovilab.hpuiInSituComparison.study1
@@ -19,11 +20,23 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public float secondDisplayVisibleStartAtScale;
 
         public Transform workspace;
+        public GameObject pegsRoot;
         [SerializeField]
         List<ButtonGroup> buttonGroups;
 
+        public bool debug = false;
+
+        #region private_variables
         private ButtonGroup activeButtonGroup;
         private List<Target> targets;
+        private List<Peg> pegs;
+        private List<List<int>> sequences;
+        private int currentColorIndex, currentSequenceIndex;
+        private Target currentTarget;
+        private Peg currentPeg;
+        private List<int> activeColorLayout;
+        private Dictionary<ButtonController, int> buttonToColorMapping;
+        #endregion
 
         public float Scale
         {
@@ -44,12 +57,13 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private void Start()
         {
             targets = workspace.GetComponentsInChildren<Target>().ToList();
+            pegs = pegsRoot.GetComponentsInChildren<Peg>().ToList();
         }
 
         private void Update()
         {
             // NOTE: This is used for debugging purposes
-            if (workspace.hasChanged)
+            if (debug && workspace.hasChanged)
             {
                 Scale = workspace.localScale[0];
             }
@@ -68,6 +82,114 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     activeButtonGroup = bg;
                     break;
                 }
+            }
+        }
+
+        // TODO randomize target location
+        public void ConfigureTaskBlock(Block block, System.Random random, int numTrials, bool changeLayout)
+        {
+            SetActiveButtonGroup();
+            foreach (Target target in targets)
+            {
+                target.Visible = true;
+                target.Active = false;
+            }
+
+            foreach (Peg peg in pegs)
+            {
+                peg.Active = false;
+                peg.Visible = false;
+            }
+
+            if (changeLayout || activeColorLayout == null)
+            {
+                int newColorIndex;
+                bool done = false;
+                List<int> newColorLayout = new List<int>();
+
+                // NOTE: Assuming there are enough colors in the color index
+                // to have two completely different layouts
+                for(int j = 0; j < activeButtonGroup.colorButtons.Count; j++)
+                {
+                    do
+                    {
+                        newColorIndex = random.Next(ColorIndex.instance.Count());
+                    } while (activeButtonGroup != null && activeColorLayout.Contains(newColorIndex));
+                    newColorLayout.Add(newColorIndex);
+                }
+
+                activeColorLayout = newColorLayout;
+
+                buttonToColorMapping.Clear();
+                for(int j = 0; j < activeButtonGroup.colorButtons.Count; j++)
+                {
+                    int colorIndex = activeColorLayout[j];
+                    ButtonController btn = activeButtonGroup.colorButtons[j];
+                    btn.GetComponent<SpriteRenderer>().sprite = ColorIndex.instance.GetSprite(colorIndex);
+                    buttonToColorMapping.Add(btn, colorIndex);
+                }
+            }
+
+            sequences = new List<List<int>>();
+            for (int i = 0; i < numTrials; ++i)
+            {
+                List<int> sequence = new List<int>();
+                List<int> selectedIndices = new List<int>();
+                List<int> selectedColorIndices = new List<int>();
+                int targetIndex, colorIndex;
+                for (int j = 0; j < targets.Count; j++)
+                {
+                    Trial trial = block.CreateTrial();
+
+                    do
+                    {
+                        targetIndex = random.Next(targets.Count);
+                    } while (selectedIndices.Contains(targetIndex));
+
+                    selectedIndices.Add(targetIndex);
+
+                    sequence.Add(targetIndex);
+
+                    // Avoid using the same color in consequetive trials
+                    do
+                    {
+                        colorIndex = random.Next(activeColorLayout.Count);
+                    } while (selectedColorIndices.Contains(colorIndex));
+
+                    selectedColorIndices.Add(colorIndex);
+
+
+                    trial.settings.SetValue("colorIndex", colorIndex);
+                    trial.settings.SetValue("targetIndex", targetIndex);
+                    trial.settings.SetValue("targetLocation", targets[targetIndex].Position);
+                    trial.settings.SetValue("sequenceIndex", i);
+                    trial.settings.SetValue("inSequenceIndex", j);
+                }
+                sequences.Add(sequence);
+            }
+        }
+
+        public void SetupTrial(Trial trial)
+        {
+            int sequenceIndex = trial.settings.GetInt("sequenceIndex");
+            int inSequenceIndex = trial.settings.GetInt("inSequenceIndex");
+            int targetIndex = trial.settings.GetInt("targetIndex");
+            currentColorIndex = trial.settings.GetInt("colorIndex");
+
+            if (currentSequenceIndex != sequenceIndex)
+            {
+                currentTarget.Active = false;
+                currentTarget.Visible = false;
+                currentPeg.Active = false;
+                currentPeg.Visible = false;
+
+                currentSequenceIndex = sequenceIndex;
+                currentTarget = targets[targetIndex];
+                currentTarget.DisplayColorIndex = currentColorIndex;
+                currentTarget.Active = true;
+
+                currentPeg = pegs[targetIndex];
+                currentPeg.Active = true;
             }
         }
 

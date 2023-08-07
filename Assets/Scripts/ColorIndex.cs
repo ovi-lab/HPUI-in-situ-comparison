@@ -8,6 +8,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     {
         public static ColorIndex instance;
         public List<Color> colors;
+        public List<Sprite> colorSprites;
 
         private void OnEnable()
         {
@@ -32,6 +33,21 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public Color GetColor(int index)
         {
             return colors[index];
+        }
+
+        public Sprite GetSprite(int index)
+        {
+            return colorSprites[index];
+        }
+
+        public Color GetRandomColor(System.Random random)
+        {
+            return colors[random.Next(colors.Count)];
+        }
+
+        public int Count()
+        {
+            return colors.Count;
         }
     }
 }

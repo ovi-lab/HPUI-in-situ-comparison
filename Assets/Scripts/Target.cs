@@ -26,9 +26,41 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
+        public bool Visible
+        {
+            get {
+                return this.gameObject.activeSelf;
+            }
+            set {
+                this.gameObject.SetActive(value);
+            }
+        }
+
+        public bool Active
+        {
+            get {
+                return active;
+            }
+            set {
+                active = value;
+                // TODO change shader or hide color?
+            }
+        }
+
+        public Vector3 Position
+        {
+            get {
+                return transform.position;
+            }
+            set {
+                transform.position = value;
+            }
+        }
+
         public bool IsSelected { get; private set; }
 
         private int colorIndex;
+        private bool active;
 
         public void SetMainAsActiveDisplayElement(bool value)
         {
