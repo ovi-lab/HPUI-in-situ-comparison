@@ -49,13 +49,13 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private List<Target> targets;
         private List<Peg> pegs;
         private List<List<int>> sequences;
-        private int currentColorIndex, currentSequenceIndex;
+        private int currentColorIndex, currentSequenceIndex = -1;
         private Target currentTarget;
         private Peg currentPeg;
         private Trial currentTrial;
         private UXFDataTable buttonSelectionsTable;
         private List<int> activeColorLayout;
-        private Dictionary<ButtonController, int> buttonToColorMapping;
+        private Dictionary<ButtonController, int> buttonToColorMapping = new Dictionary<ButtonController, int>();
         #endregion
 
         #region UNITY_FUNCTIONS
@@ -102,17 +102,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 btn.contactAction.AddListener(ColorButtonContact);
             }
 
-            foreach (Target target in targets)
-            {
-                target.Visible = true;
-                target.Active = false;
-            }
-
-            foreach (Peg peg in pegs)
-            {
-                peg.Active = false;
-                peg.Visible = false;
-            }
+            InitTargetsAndPegs();
 
             if (changeLayout || activeColorLayout == null)
             {
@@ -126,7 +116,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     do
                     {
                         newColorIndex = random.Next(ColorIndex.instance.Count());
-                    } while (activeButtonGroup != null && activeColorLayout.Contains(newColorIndex));
+                    } while (activeColorLayout != null && activeColorLayout.Contains(newColorIndex));
                     newColorLayout.Add(newColorIndex);
                 }
 
@@ -141,6 +131,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     buttonToColorMapping.Add(btn, colorIndex);
                 }
             }
+            currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
 
             sequences = new List<List<int>>();
             for (int i = 0; i < numTrials; ++i)
@@ -168,7 +159,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     // Avoid using the same color in consequetive trials
                     do
                     {
-                        colorIndex = random.Next(activeColorLayout.Count);
+                        colorIndex = activeColorLayout[random.Next(activeColorLayout.Count)];
                     } while (selectedColorIndices.Contains(colorIndex));
 
                     selectedColorIndices.Add(colorIndex);
@@ -222,22 +213,33 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             int targetIndex = trial.settings.GetInt("targetIndex");
             currentColorIndex = trial.settings.GetInt("colorIndex");
 
-            if (currentSequenceIndex != sequenceIndex)
+            if (currentTarget != null)
             {
-                Scale = trial.settings.GetFloat("startZoomScale");
                 currentTarget.Active = false;
                 currentTarget.Visible = false;
+            }
+            if (currentPeg != null)
+            {
                 currentPeg.Active = false;
                 currentPeg.Visible = false;
+            }
+
+            if (currentSequenceIndex != sequenceIndex)
+            {
+                secondDisplayVisibleStartAtScale = trial.settings.GetFloat("secondDisplayVisibleStartAtScale");
+                Scale = trial.settings.GetFloat("startZoomScale");
 
                 currentSequenceIndex = sequenceIndex;
-                currentTarget = targets[targetIndex];
-                currentTarget.DisplayColorIndex = currentColorIndex;
-                currentTarget.Active = true;
-
-                currentPeg = pegs[targetIndex];
-                currentPeg.Active = true;
+                InitTargetsAndPegs();
             }
+
+            currentTarget = targets[targetIndex];
+            currentTarget.DisplayColorIndex = currentColorIndex;
+            currentTarget.Active = true;
+
+            currentPeg = pegs[targetIndex];
+            currentPeg.Active = true;
+            currentPeg.Visible = true;
         }
 
         public void OnBlockEnd(Block block)
@@ -305,6 +307,23 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 AddButtonSelectionToTable(btn.name, "accept", 0);
                 audioSource.PlayOneShot(successAudio);
+            }
+        }
+        #endregion
+
+        #region Helper functions
+        private void InitTargetsAndPegs()
+        {
+            foreach (Target target in targets)
+            {
+                target.Visible = true;
+                target.Active = false;
+            }
+
+            foreach (Peg peg in pegs)
+            {
+                peg.Active = false;
+                peg.Visible = false;
             }
         }
         #endregion

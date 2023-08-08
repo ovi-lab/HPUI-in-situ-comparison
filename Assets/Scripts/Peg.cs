@@ -58,7 +58,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         private void Start()
         {
-            trackingObject = trackingObject; // trigger activation
+            linker = GetComponent<TransformLinker>();
+            trackingObject = null; // trigger activation
             displayRenderer = GetComponentInChildren<Renderer>();
         }
     }
