@@ -43,7 +43,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
             set {
                 active = value;
-                // TODO change shader or hide color?
+                if (!active)
+                {
+                    DisplayColorIndex = -1;
+                }
             }
         }
 

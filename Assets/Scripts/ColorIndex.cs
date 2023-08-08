@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     public class ColorIndex : MonoBehaviour
     {
         public static ColorIndex instance;
+        public Color defaultColor;
         public List<Color> colors;
         public List<Sprite> colorSprites;
 
@@ -32,6 +32,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         public Color GetColor(int index)
         {
+            if (index == -1)
+            {
+                return defaultColor;
+            }
             return colors[index];
         }
 
