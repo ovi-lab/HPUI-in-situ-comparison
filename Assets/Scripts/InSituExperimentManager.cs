@@ -139,8 +139,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             IEnumerable<ButtonController> usedButtonObjects = usedButtons
                 .Select(btn => buttons[btn].Item1);
 
-            // TODO Setup trials
-            // TODO Configure the the target sequence
+            taskManager.ConfigureTaskBlock(block, random, el.numTrials, el.changeLayout);
+
+            foreach (ButtonController btn in taskManager.GetActiveButtons())
+            {
+                btn.Show();
+                btn.ResetStates();
+                btn.contactAction.AddListener(OnButtonContact);
+                btn.proximateAction.AddListener(OnButtonHover);
+            }
         }
 
         protected override void OnBlockBegin(Block block)

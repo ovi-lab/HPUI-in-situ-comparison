@@ -24,19 +24,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         [SerializeField]
         List<ButtonGroup> buttonGroups;
 
-        public bool debug = false;
+        public AudioClip failAudio;
+        public AudioClip successAudio;
+        public AudioSource audioSource;
 
-        #region private_variables
-        private ButtonGroup activeButtonGroup;
-        private List<Target> targets;
-        private List<Peg> pegs;
-        private List<List<int>> sequences;
-        private int currentColorIndex, currentSequenceIndex;
-        private Target currentTarget;
-        private Peg currentPeg;
-        private List<int> activeColorLayout;
-        private Dictionary<ButtonController, int> buttonToColorMapping;
-        #endregion
+        public bool debug = false;
 
         public float Scale
         {
@@ -54,10 +46,29 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
+        #region private_variables
+        private ButtonGroup activeButtonGroup;
+        private List<Target> targets;
+        private List<Peg> pegs;
+        private List<List<int>> sequences;
+        private int currentColorIndex, currentSequenceIndex;
+        private Target currentTarget;
+        private Peg currentPeg;
+        private Trial currentTrial;
+        private UXFDataTable buttonSelectionsTable;
+        private List<int> activeColorLayout;
+        private Dictionary<ButtonController, int> buttonToColorMapping;
+        #endregion
+
+        #region UNITY_FUNCTIONS
         private void Start()
         {
             targets = workspace.GetComponentsInChildren<Target>().ToList();
             pegs = pegsRoot.GetComponentsInChildren<Peg>().ToList();
+
+            Session session = Session.instance;
+            session.onBlockEnd.AddListener(OnBlockEnd);
+            session.onTrialBegin.AddListener(OnTrialBegin);
         }
 
         private void Update()
@@ -68,7 +79,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 Scale = workspace.localScale[0];
             }
         }
+        #endregion
 
+        #region Setting up tasks
         /// <summary>
         /// Picks the first actve button group
         /// </summary>
@@ -83,12 +96,23 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     break;
                 }
             }
+            InteractionManger.instance.GetButtons();
         }
 
+        // NOTE: This is not added to the session.onBlockBeing as this depends on information
+        // the experiment manager gets
         // TODO randomize target location
         public void ConfigureTaskBlock(Block block, System.Random random, int numTrials, bool changeLayout)
         {
             SetActiveButtonGroup();
+            activeButtonGroup.zoomDownButton.contactAction.AddListener(ZoomDownButtonContact);
+            activeButtonGroup.zoomUpButton.contactAction.AddListener(ZoomUpButtonContact);
+            activeButtonGroup.acceptButton.contactAction.AddListener(AcceptButtonContact);
+            foreach (ButtonController btn in activeButtonGroup.colorButtons)
+            {
+                btn.contactAction.AddListener(ColorButtonContact);
+            }
+
             foreach (Target target in targets)
             {
                 target.Visible = true;
@@ -104,7 +128,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             if (changeLayout || activeColorLayout == null)
             {
                 int newColorIndex;
-                bool done = false;
                 List<int> newColorLayout = new List<int>();
 
                 // NOTE: Assuming there are enough colors in the color index
@@ -158,7 +181,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
                     selectedColorIndices.Add(colorIndex);
 
-
                     trial.settings.SetValue("colorIndex", colorIndex);
                     trial.settings.SetValue("targetIndex", targetIndex);
                     trial.settings.SetValue("targetLocation", targets[targetIndex].Position);
@@ -167,10 +189,39 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 }
                 sequences.Add(sequence);
             }
+
+            // Logging the function mappings
+            Dictionary<string, string> mappings = new Dictionary<string, string>()
+            {
+                {activeButtonGroup.acceptButton.name, "accept"},
+                {activeButtonGroup.zoomUpButton.name, "zoomUp"},
+                {activeButtonGroup.zoomDownButton.name, "zoomDown"}
+            };
+
+            foreach (KeyValuePair<ButtonController, int> kvp in buttonToColorMapping)
+            {
+                mappings.Add(kvp.Key.name, kvp.Value.ToString());
+            }
+            block.settings.SetValue("buttonToFunctionMapping", mappings);
         }
 
-        public void SetupTrial(Trial trial)
+        public List<ButtonController> GetActiveButtons()
         {
+            List<ButtonController> btns = new List<ButtonController>();
+            btns.Add(activeButtonGroup.zoomDownButton);
+            btns.Add(activeButtonGroup.zoomUpButton);
+            btns.Add(activeButtonGroup.acceptButton);
+            btns.AddRange(activeButtonGroup.colorButtons);
+            return btns;
+        }
+        #endregion
+
+        #region UXF functions
+        public void OnTrialBegin(Trial trial)
+        {
+            buttonSelectionsTable = new UXFDataTable("time","buttonName", "function", "value");
+            currentTrial = trial;
+
             int sequenceIndex = trial.settings.GetInt("sequenceIndex");
             int inSequenceIndex = trial.settings.GetInt("inSequenceIndex");
             int targetIndex = trial.settings.GetInt("targetIndex");
@@ -192,6 +243,75 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 currentPeg.Active = true;
             }
         }
+
+        public void OnBlockEnd(Block block)
+        {
+            currentTrial = null;
+            activeButtonGroup.zoomDownButton.contactAction.RemoveListener(ZoomDownButtonContact);
+            activeButtonGroup.zoomUpButton.contactAction.RemoveListener(ZoomUpButtonContact);
+            activeButtonGroup.acceptButton.contactAction.RemoveListener(AcceptButtonContact);
+            foreach (ButtonController btn in activeButtonGroup.colorButtons)
+            {
+                btn.contactAction.RemoveListener(ColorButtonContact);
+            }
+        }
+
+        public void AddButtonSelectionToTable(string btn, string function, float val)
+        {
+            UXFDataRow row = new UXFDataRow(){
+                ("time", Time.time),
+                ("buttonName", btn),
+                ("function", function),
+                ("value", val)
+            };
+            buttonSelectionsTable.AddCompleteRow(row);
+        }
+        #endregion
+
+        #region Button callbacks
+        private void ColorButtonContact(ButtonController btn)
+        {
+            int colorIndex = buttonToColorMapping[btn];
+            AddButtonSelectionToTable(btn.name, "color", colorIndex);
+            currentPeg.DisplayColorIndex = colorIndex;
+        }
+
+        private void ZoomUpButtonContact(ButtonController btn)
+        {
+            Scale += 0.1f;
+            AddButtonSelectionToTable(btn.name, "zoomUp", Scale);
+        }
+
+        private void ZoomDownButtonContact(ButtonController btn)
+        {
+            Scale -= 0.1f;
+            AddButtonSelectionToTable(btn.name, "zoomDown", Scale);
+        }
+
+        private void AcceptButtonContact(ButtonController btn)
+        {
+            if (currentPeg.DisplayColorIndex == currentColorIndex && currentTarget.IsSelected)
+            {
+                AddButtonSelectionToTable(btn.name, "accept", 1);
+                currentTrial.SaveDataTable(buttonSelectionsTable, "buttonSelections");
+                audioSource.PlayOneShot(successAudio);
+                try
+                {
+                    Session.instance.EndCurrentTrial();
+                    Session.instance.BeginNextTrial();
+                }
+                catch (NoSuchTrialException)
+                {
+                    Debug.Log($"Session ended. (probably?)");
+                }
+            }
+            else
+            {
+                AddButtonSelectionToTable(btn.name, "accept", 0);
+                audioSource.PlayOneShot(successAudio);
+            }
+        }
+        #endregion
 
         [Serializable]
         class ButtonGroup
@@ -223,6 +343,5 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                         (active, current) => active || current == btn);
             }
         }
-
     }
 }
