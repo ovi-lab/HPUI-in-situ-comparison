@@ -96,6 +96,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             if (settings.Select(x => x.name).Contains(currentCalibrationName))
             {
                 DeactivateAll();
+                SetHandedness(handedness); // Making sure active finger tip is set correctly
                 CalibrationSettings setting = settings.First(x => x.name == currentCalibrationName);
                 foreach (GameObject obj in setting.commonObjects)
                 {

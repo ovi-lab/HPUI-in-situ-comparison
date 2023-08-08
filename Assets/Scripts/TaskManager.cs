@@ -28,6 +28,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public AudioClip successAudio;
         public AudioSource audioSource;
 
+        public Transform leftIndex, rightIndex;
+
+        public bool debug = false;
+
         public float Scale
         {
             get {
@@ -91,7 +95,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         // NOTE: This is not added to the session.onBlockBeing as this depends on information
         // the experiment manager gets
         // TODO randomize target location
-        public void ConfigureTaskBlock(Block block, System.Random random, int numTrials, bool changeLayout)
+        public void ConfigureTaskBlock(Block block, System.Random random, InSituCompBlockData el)
         {
             SetActiveButtonGroup();
             activeButtonGroup.zoomDownButton.contactAction.AddListener(ZoomDownButtonContact);
@@ -102,9 +106,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 btn.contactAction.AddListener(ColorButtonContact);
             }
 
-            InitTargetsAndPegs();
+            InitTargetsAndPegs(el.handedness);
 
-            if (changeLayout || activeColorLayout == null)
+            if (el.changeLayout || activeColorLayout == null)
             {
                 int newColorIndex;
                 List<int> newColorLayout = new List<int>();
@@ -134,7 +138,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
 
             sequences = new List<List<int>>();
-            for (int i = 0; i < numTrials; ++i)
+            for (int i = 0; i < el.numTrials; ++i)
             {
                 List<int> sequence = new List<int>();
                 List<int> selectedIndices = new List<int>();
@@ -312,7 +316,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         #endregion
 
         #region Helper functions
-        private void InitTargetsAndPegs()
+        private void InitTargetsAndPegs(string handedness="None")
         {
             foreach (Target target in targets)
             {
@@ -324,6 +328,14 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 peg.Active = false;
                 peg.Visible = false;
+                if (handedness == "left" && !debug)
+                {
+                    peg.trackingObject = rightIndex;
+                }
+                else if (handedness == "right" && !debug)
+                {
+                    peg.trackingObject = leftIndex;
+                }
             }
         }
         #endregion

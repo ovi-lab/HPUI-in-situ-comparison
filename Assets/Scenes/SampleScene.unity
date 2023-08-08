@@ -1394,6 +1394,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436735549}
   m_CullTransparentMesh: 1
+--- !u!4 &492457336 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7958652112371479010, guid: 8fdd68de6c6446a419b0fa3f06ede985, type: 3}
+  m_PrefabInstance: {fileID: 1379040961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &500058951 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6308017777116032085, guid: 1f52f4c44b201b1439b8cc9a34559343, type: 3}
+  m_PrefabInstance: {fileID: 1032887236}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &508075020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,6 +1980,9 @@ MonoBehaviour:
   failAudio: {fileID: 8300000, guid: e50d0430640444d478d4043646e6749f, type: 3}
   successAudio: {fileID: 8300000, guid: 1518224aef142144d857ecc0c52c3848, type: 3}
   audioSource: {fileID: 1289117044}
+  leftIndex: {fileID: 500058951}
+  rightIndex: {fileID: 492457336}
+  debug: 1
 --- !u!4 &985419660
 Transform:
   m_ObjectHideFlags: 0

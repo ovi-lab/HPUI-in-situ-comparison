@@ -125,7 +125,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             block.settings.SetValue("numTrials", el.numTrials);
             block.settings.SetValue("changeLayout", el.changeLayout);
 
-            taskManager.ConfigureTaskBlock(block, random, el.numTrials, el.changeLayout);
+            taskManager.ConfigureTaskBlock(block, random, el);
 
             foreach (ButtonController btn in taskManager.GetActiveButtons())
             {
