@@ -1,0 +1,65 @@
+# The `configuration` table contains settings of the study/experiment itself
+[configuration]
+# The `order` is an array of block names or an array of array of block names.
+# order = ["unimanual", "gaze-pinch", "ray-pointer", "mid-air"]
+# order = ["mid-air", "gaze-pinch"]
+# order = ["bimanual"]
+# order = ["gaze-pinch"]
+# order = ["unimanual"]
+# ["unimanual-change-layout", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual"], 
+order = [["unimanual-r-change-layout", "unimanual-r"], ["unimanual-l-change-layout", "unimanual-l"]]
+
+# - "latin_square": apply latin square to balance the values.
+# - "randomize": for each participant randomize the order of the values in the array.
+# - "as_is": use the order of the values as specified. 
+groups = "latin_square"
+within_groups= "as_is"
+
+[configuration.variables]
+TRIALS = 20
+
+HPUI_UNIMANUAL = "HPUI-unimanual"
+MID_AIR = "mid-air"
+
+[[blocks]]
+name = "unimanual-r"
+[blocks.config]
+numTrials = "$TRIALS"
+calibrationName = "$HPUI_UNIMANUAL"
+changeLayout = false
+handedness = "right"
+
+[[blocks]]
+name = "unimanual-r-change-layout"
+extends = "unimanual-r"
+config.changeLayout = true
+
+[[blocks]]
+name = "unimanual-l"
+extends = "unimanual-r"
+config.handedness = "left"
+
+[[blocks]]
+name = "unimanual-l-change-layout"
+extends = "unimanual-l"
+config.changeLayout = true
+
+[[blocks]]
+name = "mid-air-r"
+extends = "unimanual-r"
+calibrationName = "$MID_AIR"
+
+[[blocks]]
+name = "mid-air-r-change-layout"
+extends = "mid-air-r"
+config.changeLayout = true
+
+[[blocks]]
+name = "mid-air-l"
+extends = "mid-air-r"
+config.handedness = "left"
+
+[[blocks]]
+name = "mid-air-l-change-layout"
+extends = "mid-air-l"
+config.changeLayout = true

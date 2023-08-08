@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "hpui-in-situ-comparison-external"
+version = "0.1.0"
+description = ""
+authors = ["Ahmed Shariff <shariff.mfa@outlook.com>"]
+readme = "README.md"
+packages = [{include = "hpui_in_situ_comparison_external"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+experiment-server = "^0.2.4"
+importlib-metadata = "^6.8.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
