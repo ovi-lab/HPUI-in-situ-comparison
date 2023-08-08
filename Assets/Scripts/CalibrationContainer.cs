@@ -66,11 +66,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         void InitiateCalibration(String name, string handedness)
         {
             DeactivateAll();
-            // In case the computed locations need to be recomputed
-            foreach (ComputeDistancePair pair in pairs)
-            {
-                pair.p1.root.gameObject.SetActive(true);
-            }
 
             if (handedness == "left")
             {
@@ -176,15 +171,16 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             leftFingertipPos = leftFingertip.position;
 
             computedSeperation = 0;
+            int computedSeperationCount = 0;
             foreach(ComputeDistancePair pair in pairs)
             {
-                if (pair.p1.gameObject.activeInHierarchy && pair.p2.gameObject.activeInHierarchy)
-                {
-                    computedSeperation += (pair.p1.position - pair.p2.position).magnitude;
-                }
+                // NOTE: Even if not active, use the location, we are using both hands anyhow,
+                // hence this shouldn't be an issue
+                computedSeperation += (pair.p1.position - pair.p2.position).magnitude;
+                computedSeperationCount += 1;
             }
 
-            computedSeperation /= pairs.Count;
+            computedSeperation /= computedSeperationCount;
 
             GetAnchorPositions(Handedness.Left, "L", 1);
             GetAnchorPositions(Handedness.Right, "R", 0);
