@@ -309,6 +309,37 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         }
         #endregion
 
+#if UNITY_EDITOR
+        public void PegInTheHole()
+        {
+            currentPeg.transform.position = currentTarget.Position;
+        }
+
+        public void SetCorrectColor()
+        {
+            ButtonController btn = buttonToColorMapping.Where(kvp => kvp.Value == currentColorIndex).Select(kvp => kvp.Key).First();
+            ButtonController.TriggerTargetButton(btn);
+        }
+
+        public void SetCorrectScale()
+        {
+            Scale = secondDisplayVisibleStartAtScale + secondDisplayVisibleScaleWindow / 2;
+        }
+
+        public void AcceptCorrect()
+        {
+            ButtonController.TriggerTargetButton(activeButtonGroup.acceptButton);
+        }
+
+        public void CompleteStep()
+        {
+            SetCorrectColor();
+            SetCorrectScale();
+            PegInTheHole();
+            AcceptCorrect();
+        }
+#endif
+
         [Serializable]
         class ButtonGroup
         {
