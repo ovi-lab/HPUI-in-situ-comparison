@@ -47,7 +47,7 @@ config.changeLayout = true
 [[blocks]]
 name = "mid-air-r"
 extends = "unimanual-r"
-calibrationName = "$MID_AIR"
+config.calibrationName = "$MID_AIR"
 
 [[blocks]]
 name = "mid-air-r-change-layout"
