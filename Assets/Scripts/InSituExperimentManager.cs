@@ -123,22 +123,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             // - offset of thumb collider
             random = new System.Random();
             block.settings.SetValue("numTrials", el.numTrials);
-            block.settings.SetValue("buttons", el.useButtons);
-            block.settings.SetValue("buttonSize", el.buttonSize);
             block.settings.SetValue("changeLayout", el.changeLayout);
-
-            // The config doesn't say which targets are shown/hidden after the calibration
-            // determine this by checking if the root is active or not
-            List<string> usedButtons = el.useButtons.Where(btn => buttons[btn].Item1.transform.root.gameObject.activeSelf).ToList();
-            block.settings.SetValue("usedButtons", usedButtons);
-
-            /// unique seed for participant_index + buttons size
-            int seed = (int)Math.Floor(el.participant_index * el.buttonSize * 100);
-            // Using seed to ensure the same sequences are genereted with a given seed
-            System.Random rng = new System.Random(seed);
-
-            IEnumerable<ButtonController> usedButtonObjects = usedButtons
-                .Select(btn => buttons[btn].Item1);
 
             taskManager.ConfigureTaskBlock(block, random, el.numTrials, el.changeLayout);
 
@@ -247,8 +232,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     public class InSituCompBlockData: BlockData
     {
         public int numTrials;
-        public List<string> useButtons;
-        public float buttonSize;
         public string handedness;
         public bool changeLayout;
 
@@ -257,8 +240,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             return
                 base.ToString() +
                 $"Number of Trials: {numTrials}" +
-                $"Button size: {buttonSize}" +
-                $"Buttons used: {useButtons}" +
                 $"Buttons used: {handedness}" +
                 $"Change Layout: {changeLayout}";
         }
