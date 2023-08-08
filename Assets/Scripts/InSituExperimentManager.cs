@@ -32,7 +32,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         public override void Start()
         {
-            Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex", "targetIndex", "targetLocation", "sequenceIndex", "inSequenceIndex"});
+            Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex", "targetIndex", "targetLocation", "sequenceIndex",
+                        "inSequenceIndex", "startZoomScale", "secondDisplayVisibleStartAtScale", "secondDisplayVisibleScaleWindow"});
             base.Start();
         }
 

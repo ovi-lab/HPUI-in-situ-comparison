@@ -61,13 +61,22 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         private int colorIndex;
         private bool active;
+        private Collider collider;
 
+        private void Start()
+        {
+            collider = GetComponent<Collider>();
+        }
+
+        // Main is the cylinder, second is the pipe
         public void SetMainAsActiveDisplayElement(bool value)
         {
             if (value)
             {
                 if (secondDisplayElement.gameObject.activeSelf)
                 {
+                    collider.enabled = false;
+                    IsSelected = false;
                     secondDisplayElement.gameObject.SetActive(false);
                 }
                 if (!mainDisplayElement.gameObject.activeSelf)
@@ -79,6 +88,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 if (!secondDisplayElement.gameObject.activeSelf)
                 {
+                    collider.enabled = true;
+                    IsSelected = false;
                     secondDisplayElement.gameObject.SetActive(true);
                 }
                 if (mainDisplayElement.gameObject.activeSelf)

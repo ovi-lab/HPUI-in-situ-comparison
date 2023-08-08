@@ -28,17 +28,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public AudioClip successAudio;
         public AudioSource audioSource;
 
-        public bool debug = false;
-
         public float Scale
         {
             get {
-                return transform.localScale[0];
+                return (workspace.transform.localScale[0] - minScale) / (maxScale - minScale);
             }
             set {
-                float scale = Math.Clamp(value, 0, 1);
-                transform.localScale = Vector3.one * scale;
-                bool visibilityState = scale > secondDisplayVisibleStartAtScale && scale < secondDisplayVisibleStartAtScale + secondDisplayVisibleScaleWindow;
+                float scale = Math.Clamp(value, 0, 1) * (maxScale - minScale) + minScale;
+                workspace.transform.localScale = Vector3.one * scale;
+                bool visibilityState = value > secondDisplayVisibleStartAtScale && value < secondDisplayVisibleStartAtScale + secondDisplayVisibleScaleWindow;
                 foreach (Target target in targets)
                 {
                     target.SetMainAsActiveDisplayElement(!visibilityState);
@@ -69,15 +67,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             Session session = Session.instance;
             session.onBlockEnd.AddListener(OnBlockEnd);
             session.onTrialBegin.AddListener(OnTrialBegin);
-        }
-
-        private void Update()
-        {
-            // NOTE: This is used for debugging purposes
-            if (debug && workspace.hasChanged)
-            {
-                Scale = workspace.localScale[0];
-            }
         }
         #endregion
 
@@ -160,6 +149,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 List<int> selectedIndices = new List<int>();
                 List<int> selectedColorIndices = new List<int>();
                 int targetIndex, colorIndex;
+
+                float secondDisplayStartAtScale = (float)Math.Clamp(random.NextDouble(), 0.5f, 1 - secondDisplayVisibleScaleWindow);
+                float startZoom = (float) Math.Clamp(random.NextDouble(), 0, secondDisplayStartAtScale - 0.1f);
                 for (int j = 0; j < targets.Count; j++)
                 {
                     Trial trial = block.CreateTrial();
@@ -186,6 +178,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     trial.settings.SetValue("targetLocation", targets[targetIndex].Position);
                     trial.settings.SetValue("sequenceIndex", i);
                     trial.settings.SetValue("inSequenceIndex", j);
+                    trial.settings.SetValue("startZoomScale", startZoom);
+                    trial.settings.SetValue("secondDisplayVisibleStartAtScale", secondDisplayStartAtScale);
+                    trial.settings.SetValue("secondDisplayVisibleScaleWindow", secondDisplayVisibleScaleWindow);
                 }
                 sequences.Add(sequence);
             }
@@ -229,6 +224,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             if (currentSequenceIndex != sequenceIndex)
             {
+                Scale = trial.settings.GetFloat("startZoomScale");
                 currentTarget.Active = false;
                 currentTarget.Visible = false;
                 currentPeg.Active = false;
@@ -278,13 +274,13 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         private void ZoomUpButtonContact(ButtonController btn)
         {
-            Scale += 0.1f;
+            Scale += 0.01f;
             AddButtonSelectionToTable(btn.name, "zoomUp", Scale);
         }
 
         private void ZoomDownButtonContact(ButtonController btn)
         {
-            Scale -= 0.1f;
+            Scale -= 0.01f;
             AddButtonSelectionToTable(btn.name, "zoomDown", Scale);
         }
 
