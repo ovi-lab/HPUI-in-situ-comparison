@@ -20,6 +20,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public Transform rightAboveHandAnchor, leftAboveHandAnchor;
         public Button getPositionsButton, executeCalibrationButton, doneCalibrationButton;
         public float relativeSeperateFactor;
+        public CalibrateButton2 deformableDisplayCalibration;
         public List<CalibrationSettings> settings;
         public List<ComputeDistancePair> pairs;
         #endregion
@@ -187,6 +188,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             recordedCalibration = true;
             executeCalibrationButton.interactable = true;
+
+            deformableDisplayCalibration.OnClick();
         }
 
         void GetAnchorPositions(Handedness handedness, string prefix, int handIndex)

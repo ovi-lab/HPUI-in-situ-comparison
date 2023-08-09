@@ -134,6 +134,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 btn.contactAction.AddListener(OnButtonContact);
                 btn.proximateAction.AddListener(OnButtonHover);
             }
+
+            foreach (Slider slider in taskManager.GetActiveSliders())
+            {
+                slider.inUse = true;
+            }
         }
 
         protected override void OnBlockBegin(Block block)
@@ -172,6 +177,19 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             Debug.Log($"Button contact  Trial num: {Session.instance.CurrentTrial.number}     " +
                       $"Block num: {Session.instance.CurrentBlock.number}     " +
                       $"Contact button: {buttonController.transform.parent.parent.name}     ");
+        }
+
+        private void OnSliderChange(float val, Slider slider)
+        {
+            audioSource.PlayOneShot(contactAudio);
+            if (!Session.instance.hasInitialised)
+            {
+                Debug.Log($"{Session.instance.hasInitialised}");
+                return;
+            }
+            Debug.Log($"Slider change Trial num: {Session.instance.CurrentTrial.number}     " +
+                      $"Block num: {Session.instance.CurrentBlock.number}     " +
+                      $"Slider: {slider.name}    Value: {val} ");
         }
 
         private void OnButtonHover(ButtonController buttonController)

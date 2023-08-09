@@ -12,6 +12,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public DeformableSurfaceDisplayManager deformableSurfaceDisplayManager;
         public Color defaultColor, highlightColor;
 
+        public override bool inUse
+        {
+            get {
+                return deformableSurfaceDisplayManager.inUse;
+            }
+            set {
+                deformableSurfaceDisplayManager.inUse = value;
+            }
+        }
         private float range;
 
         private void Start()
@@ -41,7 +50,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 }
                 otherBtn.InvokeDefault();
             }
-            InvokeSliderEvent(y / range);
+            _InvokeSliderEvent(y / range, this);
         }
     }
 }

@@ -25,6 +25,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             base.OnInspectorGUI();
             targetTransform = (Transform)EditorGUILayout.ObjectField("Target Transform", targetTransform, typeof(Transform), true);
+            GUI.enabled = EditorApplication.isPlaying;
             if (GUILayout.Button("Look at transform") && targetTransform != null)
             {
                 t.transform.rotation = Quaternion.LookRotation(targetTransform.position - t.transform.position);

@@ -98,8 +98,12 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public void ConfigureTaskBlock(Block block, System.Random random, InSituCompBlockData el)
         {
             SetActiveButtonGroup();
-            activeButtonGroup.zoomDownButton.contactAction.AddListener(ZoomDownButtonContact);
-            activeButtonGroup.zoomUpButton.contactAction.AddListener(ZoomUpButtonContact);
+            activeButtonGroup.zoomDownButton?.contactAction.AddListener(ZoomDownButtonContact);
+            activeButtonGroup.zoomUpButton?.contactAction.AddListener(ZoomUpButtonContact);
+            if (activeButtonGroup.zoomSlider != null)
+            {
+                activeButtonGroup.zoomSlider.OnSliderEventChange += ZoomSliderChange;
+            }
             activeButtonGroup.acceptButton.contactAction.AddListener(AcceptButtonContact);
             foreach (ButtonController btn in activeButtonGroup.colorButtons)
             {
@@ -184,9 +188,20 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             Dictionary<string, string> mappings = new Dictionary<string, string>()
             {
                 {activeButtonGroup.acceptButton.name, "accept"},
-                {activeButtonGroup.zoomUpButton.name, "zoomUp"},
-                {activeButtonGroup.zoomDownButton.name, "zoomDown"}
             };
+
+            if (activeButtonGroup.zoomUpButton != null)
+            {
+                mappings.Add(activeButtonGroup.zoomUpButton.name, "zoomUp");
+            }
+            if (activeButtonGroup.zoomDownButton != null)
+            {
+                mappings.Add(activeButtonGroup.zoomDownButton.name, "zoomDown");
+            }
+            if (activeButtonGroup.zoomSlider != null)
+            {
+                mappings.Add(activeButtonGroup.zoomSlider.name, "zoomSlider");
+            }
 
             foreach (KeyValuePair<ButtonController, int> kvp in buttonToColorMapping)
             {
@@ -198,11 +213,27 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public List<ButtonController> GetActiveButtons()
         {
             List<ButtonController> btns = new List<ButtonController>();
-            btns.Add(activeButtonGroup.zoomDownButton);
-            btns.Add(activeButtonGroup.zoomUpButton);
+            if (activeButtonGroup.zoomDownButton != null)
+            {
+                btns.Add(activeButtonGroup.zoomDownButton);
+            }
+            if (activeButtonGroup.zoomUpButton != null)
+            {
+                btns.Add(activeButtonGroup.zoomUpButton);
+            }
             btns.Add(activeButtonGroup.acceptButton);
             btns.AddRange(activeButtonGroup.colorButtons);
             return btns;
+        }
+
+        public List<Slider> GetActiveSliders()
+        {
+            List<Slider> sliders = new List<Slider>();
+            if (activeButtonGroup.zoomSlider != null)
+            {
+                sliders.Add(activeButtonGroup.zoomSlider);
+            }
+            return sliders;
         }
         #endregion
 
@@ -249,12 +280,23 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public void OnBlockEnd(Block block)
         {
             currentTrial = null;
-            activeButtonGroup.zoomDownButton.contactAction.RemoveListener(ZoomDownButtonContact);
-            activeButtonGroup.zoomUpButton.contactAction.RemoveListener(ZoomUpButtonContact);
+            if (activeButtonGroup.zoomDownButton != null)
+            {
+                activeButtonGroup.zoomDownButton.contactAction.RemoveListener(ZoomDownButtonContact);
+            }
+            if (activeButtonGroup.zoomUpButton != null)
+            {
+                activeButtonGroup.zoomUpButton.contactAction.RemoveListener(ZoomUpButtonContact);
+            }
             activeButtonGroup.acceptButton.contactAction.RemoveListener(AcceptButtonContact);
             foreach (ButtonController btn in activeButtonGroup.colorButtons)
             {
                 btn.contactAction.RemoveListener(ColorButtonContact);
+            }
+
+            if (activeButtonGroup.zoomSlider != null)
+            {
+                activeButtonGroup.zoomSlider.OnSliderEventChange -= ZoomSliderChange;
             }
         }
 
@@ -288,6 +330,13 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             Scale -= 0.01f;
             AddButtonSelectionToTable(btn.name, "zoomDown", Scale);
+        }
+
+        private void ZoomSliderChange(float val, Slider slider)
+        {
+            // val is between 0-1
+            Scale = val;
+            AddButtonSelectionToTable(slider.name, "zoomSlider", Scale);
         }
 
         private void AcceptButtonContact(ButtonController btn)
@@ -375,15 +424,19 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         class ButtonGroup
         {
             public string name;
+            public Slider zoomSlider;
             public ButtonController zoomUpButton, zoomDownButton, acceptButton;
             public List<ButtonController> colorButtons;
 
             public bool IsActive()
             {
-                // FIXME somewhere else ensure all of em have the same root and check once here?
                 return
-                    zoomUpButton.transform.root.gameObject.activeSelf &&
-                    zoomDownButton.transform.root.gameObject.activeSelf &&
+                    (zoomUpButton != null &&
+                     zoomUpButton.transform.root.gameObject.activeSelf &&
+                     zoomDownButton != null &&
+                     zoomDownButton.transform.root.gameObject.activeSelf ||
+                     zoomSlider != null &&
+                     zoomSlider.gameObject.activeSelf) &&
                     acceptButton.transform.root.gameObject.activeSelf &&
                     colorButtons.Aggregate(
                         true,
