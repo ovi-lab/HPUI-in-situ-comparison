@@ -124,7 +124,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     do
                     {
                         newColorIndex = random.Next(ColorIndex.instance.Count());
-                    } while (activeColorLayout != null && activeColorLayout.Contains(newColorIndex));
+                    } while (newColorLayout.Contains(newColorIndex) ||
+                             activeColorLayout != null && activeColorLayout.Contains(newColorIndex));
                     newColorLayout.Add(newColorIndex);
                 }
 
