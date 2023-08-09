@@ -2,18 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UXF;
+using ubc.ok.ovilab.HPUI.Core.DeformableSurfaceDisplay;
+using ubc.ok.ovilab.HPUI.Core;
 
 namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 {
-    public abstract class Slider : Tracker
+    public class Slider : Tracker
     {
         public override string MeasurementDescriptor => "slider";
         public override IEnumerable<string> CustomHeader => new string[] {
             "val"
         };
 
+        public Color defaultColor, highlightColor;
+
         // A value between 0 and 1;
         public event System.Action<float, Slider> OnSliderEventChange;
+
+        public virtual bool inUse
+        {
+            get {
+                return displayManager.inUse;
+            }
+            set {
+                displayManager.inUse = value;
+            }
+        }
         public new string name
         {
             get {
@@ -24,9 +38,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
-        public abstract bool inUse {get; set;}
-
+        protected DeformableSurfaceDisplayManager displayManager;
         private float val;
+        private float range;
 
         #region unity functions
         private void OnEnable()
@@ -34,9 +48,12 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             StartCoroutine(DelayedHook());
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             this.updateType = TrackerUpdateType.Manual;
+            displayManager = GetComponentInParent<DeformableSurfaceDisplayManager>();
+            displayManager.SurfaceReadyAction.AddListener(OnSurfaceReady);
+            displayManager.currentCoord.OnStateChanged += OnCoordStateChanged;
         }
 
         private IEnumerator DelayedHook()
@@ -52,11 +69,35 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         #endregion
 
         #region slider functions
+        private void OnSurfaceReady()
+        {
+            range = displayManager.currentCoord.maxY;
+        }
+
         public void _InvokeSliderEvent(float val, Slider slider)
         {
             this.val = val;
             OnSliderEventChange.Invoke(val, slider);
             this.RecordRow();
+        }
+
+        private void OnCoordStateChanged(int x, int y)
+        {
+            foreach(var otherBtn in displayManager.buttonControllers)
+            {
+                int _x, _y;
+                displayManager.idToXY(otherBtn.id, out _x, out _y);
+                if (_y >= y)
+                {
+                    otherBtn.GetComponent<ButtonColorBehaviour>().DefaultColor = defaultColor;
+                }
+                else
+                {
+                    otherBtn.GetComponent<ButtonColorBehaviour>().DefaultColor = highlightColor;
+                }
+                otherBtn.InvokeDefault();
+            }
+            _InvokeSliderEvent(y / range, this);
         }
         #endregion
 

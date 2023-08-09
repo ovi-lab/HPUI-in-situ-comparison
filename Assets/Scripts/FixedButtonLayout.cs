@@ -16,10 +16,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public float Seperation { get; private set; }
         public float relativeSeperateFactor = 1;
 
-        // Start is called before the first frame update
+        public event System.Action ParametersSet;
+
         void Start()
         {
-            SetParameters(0.075f, 4, transform.position, transform.rotation);
+            // SetParameters(0.075f, 4, transform.position, transform.rotation);
         }
 
         public void SetParameters(float seperation, float scale, FixedButtonLayout relativeFixedButtonLayout)
@@ -53,6 +54,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 buttonTransform.localPosition = new Vector3(horizontalOffset - seperation * column, verticalOffset - seperation * row, 0);
                 buttonTransform.localScale = scale * Vector3.one;
             }
+
+            ParametersSet?.Invoke();
         }
     }
 
