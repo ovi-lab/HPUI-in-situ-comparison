@@ -28,6 +28,7 @@ numTrials = "$TRIALS"
 calibrationName = "$HPUI_UNIMANUAL"
 changeLayout = false
 handedness = "right"
+startZoomAbove = false
 
 [[blocks]]
 name = "unimanual-r-change-layout"

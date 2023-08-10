@@ -150,8 +150,17 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 List<int> selectedColorIndices = new List<int>();
                 int targetIndex, colorIndex;
 
-                float secondDisplayStartAtScale = (float)Math.Clamp(random.NextDouble(), 0.5f, 1 - secondDisplayVisibleScaleWindow);
-                float startZoom = (float) Math.Clamp(random.NextDouble(), 0, secondDisplayStartAtScale - 0.1f);
+                float secondDisplayStartAtScale, startZoom;
+                if (el.startZoomAbove)
+                {
+                    secondDisplayStartAtScale = (float)Math.Clamp(random.NextDouble(), secondDisplayVisibleScaleWindow, 0.5f);
+                    startZoom = (float)Math.Clamp(random.NextDouble(), secondDisplayStartAtScale, 1);
+                }
+                else
+                {
+                    secondDisplayStartAtScale = (float)Math.Clamp(random.NextDouble(), 0.5f, 1 - secondDisplayVisibleScaleWindow);
+                    startZoom = (float)Math.Clamp(random.NextDouble(), 0, secondDisplayStartAtScale - 0.1f);
+                }
                 for (int j = 0; j < targets.Count; j++)
                 {
                     Trial trial = block.CreateTrial();

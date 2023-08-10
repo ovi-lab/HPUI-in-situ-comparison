@@ -124,6 +124,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             random = new System.Random();
             block.settings.SetValue("numTrials", el.numTrials);
             block.settings.SetValue("changeLayout", el.changeLayout);
+            block.settings.SetValue("startZoomAbove", el.startZoomAbove);
 
             taskManager.ConfigureTaskBlock(block, random, el);
 
@@ -252,14 +253,16 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public int numTrials;
         public string handedness;
         public bool changeLayout;
+        public bool startZoomAbove;
 
         public override string ToString()
         {
             return
                 base.ToString() +
-                $"Number of Trials: {numTrials}" +
-                $"Buttons used: {handedness}" +
-                $"Change Layout: {changeLayout}";
+                $"Number of Trials: {numTrials}    " +
+                $"Buttons used: {handedness}   " +
+                $"Change Layout: {changeLayout}   " +
+                $"Start zoom above: {startZoomAbove}";
         }
     }
 }
