@@ -31,6 +31,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private string currentCalibrationName = null;
         private float computedSeperation;
         private Dictionary<string, object> calibrationParameters;
+        private bool getDelayedGetPosition = false;
         #endregion
 
         void Start()
@@ -39,9 +40,19 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 experimentManager.AddCalibrationMethod(setting.name, (blockData) => InitiateCalibration(setting.name, blockData.handedness));
             }
-            getPositionsButton.onClick.AddListener(GetPositions);
+            getPositionsButton.onClick.AddListener(DelayedGetPositions);
             doneCalibrationButton.onClick.AddListener(OnCalibrationCompleteButton);
             executeCalibrationButton.onClick.AddListener(SetCalibration);
+        }
+
+        void Update()
+        {
+            if (getDelayedGetPosition)
+            {
+                getPositionsButton.interactable = true;
+                GetPositions();
+                getDelayedGetPosition = false;
+            }
         }
 
         #region COMMON_FUNCTIONS
@@ -163,6 +174,18 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 activeFingertipPos = rightFingertipPos;
             }
         }
+
+        void DelayedGetPositions()
+        {
+            getPositionsButton.interactable = false;
+            StartCoroutine(DelayedCallGetPositions());
+        }
+
+	IEnumerator DelayedCallGetPositions()
+	{
+	    yield return new WaitForSeconds(3);
+            getDelayedGetPosition = true;
+	}
 
         void GetPositions()
         {
