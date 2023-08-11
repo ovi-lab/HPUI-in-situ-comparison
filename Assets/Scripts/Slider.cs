@@ -77,7 +77,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public void _InvokeSliderEvent(float val, Slider slider)
         {
             this.val = val;
-            OnSliderEventChange.Invoke(val, slider);
+            OnSliderEventChange?.Invoke(val, slider);
             this.RecordRow();
         }
 

@@ -1,13 +1,8 @@
 # The `configuration` table contains settings of the study/experiment itself
 [configuration]
 # The `order` is an array of block names or an array of array of block names.
-# order = ["unimanual", "gaze-pinch", "ray-pointer", "mid-air"]
-# order = ["mid-air", "gaze-pinch"]
-# order = ["bimanual"]
-# order = ["gaze-pinch"]
-# order = ["unimanual"]
-# ["unimanual-change-layout", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual", "unimanual"], 
-order = [["unimanual-r-change-layout", "unimanual-r"], ["unimanual-l-change-layout", "unimanual-l"]]
+order = [["unimanual-r-change-layout", "unimanual-r"], ["unimanual-l-change-layout", "unimanual-l"], ["mid-air-r-change-layout", "mid-air-r"], ["mid-air-l-change-layout", "mid-air-l"]]
+# order = ["mid-air-r"]
 
 # - "latin_square": apply latin square to balance the values.
 # - "randomize": for each participant randomize the order of the values in the array.
