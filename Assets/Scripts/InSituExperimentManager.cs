@@ -12,6 +12,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 {
     public class InSituExperimentManager : ExperimentManager<InSituCompBlockData>
     {
+        public Camera mainCamera;
         public List<Transform> buttonsRoots;
         public Color defaultColor = Color.white;
         public Color defaultHoverColor = Color.yellow;
@@ -108,11 +109,13 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             HideButtons();
 
-            tracker = Camera.main.GetComponent<PositionRotationTracker>();
+            tracker = mainCamera.GetComponent<PositionRotationTracker>();
             if (tracker == null)
             {
-                Camera.main.gameObject.AddComponent<PositionRotationTracker>();
+                tracker = mainCamera.gameObject.AddComponent<PositionRotationTracker>();
             }
+            tracker.objectName = "mainCamera";
+            session.trackedObjects.Add(tracker);
         }
 
         protected override void ConfigureBlock(InSituCompBlockData el, Block block)
