@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ubc.ok.ovilab.HPUI.Core;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 {
@@ -17,7 +18,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public float relativeSeperateFactor = 1;
 
         public event System.Action ParametersSet;
+        // Offset to add to the transform after setting parameters
+        [HideInInspector]
+        public Vector3 offset;
 
+        // Start is called before the first frame update
         void Start()
         {
             // SetParameters(0.075f, 4, transform.position, transform.rotation);
@@ -34,7 +39,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         public void SetParameters(float seperation, float scale, Vector3 position, Quaternion rotation)
         {
-            transform.position = position;
+            transform.position = position + offset;
             transform.rotation = rotation;
             transform.localScale = Vector3.one;
             Seperation = seperation;

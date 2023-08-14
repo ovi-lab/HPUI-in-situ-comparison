@@ -326,6 +326,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             calibrationParameters.Add(_prefix + "s.tiltAngle", s.tiltAngle);
             calibrationParameters.Add(_prefix + "s.useComputedButtonSeperation", s.useComputedButtonSeperation);
             calibrationParameters.Add(_prefix + "s.verticalOffset", s.verticalOffset);
+            calibrationParameters.Add(_prefix + "s.fixedLayoutOffset", s.fixedLayoutOffset);
         }
 
         private void SetSettingsTransformPosition(CalibrationParamters s, Vector3 position, Quaternion rotation)
@@ -335,6 +336,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 fixedLayout.relativeSeperateFactor = relativeSeperateFactor;
                 fixedLayout.SetParameters(s.buttonSeperation, s.buttonScale, position, rotation);
+                s.fixedLayoutOffset = fixedLayout.offset;
             }
             else
             {
@@ -393,6 +395,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             public float buttonScale = 1;
             public float buttonSeperation;
             public bool useComputedButtonSeperation;
+            [HideInInspector]
+            public Vector3 fixedLayoutOffset;
         }
 
         public enum CalibrationOptions {
