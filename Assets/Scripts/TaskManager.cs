@@ -45,6 +45,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 {
                     target.SetMainAsActiveDisplayElement(!visibilityState);
                 }
+
+                foreach (Peg peg in pegs)
+                {
+                    peg.Scale = scale;
+                }
             }
         }
 
@@ -272,7 +277,12 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             if (currentSequenceIndex != sequenceIndex)
             {
                 secondDisplayVisibleStartAtScale = trial.settings.GetFloat("secondDisplayVisibleStartAtScale");
-                Scale = trial.settings.GetFloat("startZoomScale");
+                float newScale = trial.settings.GetFloat("startZoomScale");
+                Scale = newScale;
+                if(activeButtonGroup.zoomSlider != null)
+                {
+                    activeButtonGroup.zoomSlider.SetSliderValue(newScale);
+                }
 
                 currentSequenceIndex = sequenceIndex;
                 InitTargetsAndPegs();

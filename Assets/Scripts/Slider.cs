@@ -81,6 +81,12 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             this.RecordRow();
         }
 
+        public void SetSliderValue(float val)
+        {
+            int y = (int) Mathf.Round(Mathf.Clamp(val, 0, 1) * range);
+            OnCoordStateChanged(0, y);
+        }
+
         private void OnCoordStateChanged(int x, int y)
         {
             foreach(var otherBtn in displayManager.buttonControllers)

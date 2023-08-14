@@ -59,6 +59,19 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
+        public float Scale
+        {
+            get {
+                return transform.localScale[0];
+            }
+            set {
+                Vector3 scale = transform.localScale;
+                scale.x = value * scale.y;
+                scale.z = value * scale.y;
+                transform.localScale = scale;
+            }
+        }
+
         private void Start()
         {
             linker = GetComponent<TransformLinker>();
