@@ -46,7 +46,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 (topedge - bottomedge).magnitude /1.5f
             };
 
-            planeMeshGenerator.transformAnchor.position = rightEdge;
+            planeMeshGenerator.transformAnchor.position = leftEdge;
 
             planeMeshGenerator.CreateFlatMesh(dimensions);
             displayManager.SetupButtons();
