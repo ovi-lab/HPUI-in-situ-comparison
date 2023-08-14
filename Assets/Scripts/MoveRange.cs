@@ -8,6 +8,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     public class MoveRange : MonoBehaviour
     {
         public InSituExperimentManager experimentManager;
+        public SpriteRenderer sprite;
 
         public bool inRange {
             get {
@@ -21,12 +22,16 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     Color _color = experimentManager.defaultHoverColor;
                     _color.a = 0.3f;
                     m.color = _color;
+
+                    sprite.color = experimentManager.defaultHoverColor;
                 }
                 else
                 {
                     Color _color = Color.white;
                     _color.a = 0.0f;
                     m.color = _color;
+
+                    sprite.color = Color.white;
                 }
             }
         }
@@ -67,6 +72,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 Color _color = experimentManager.defaultHighlightColor;
                 _color.a = 0.3f;
                 m.color = _color;
+
+                sprite.color = experimentManager.defaultHighlightColor;
             }
             else
             {
@@ -75,5 +82,4 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
     }
-
 }

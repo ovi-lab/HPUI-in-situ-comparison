@@ -1,5 +1,6 @@
 using ubc.ok.ovilab.HPUI.Core;
 using UnityEngine;
+using UXF;
 
 namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 {
@@ -13,9 +14,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private Vector3 initialOffset, initialPosition;
         private Transform movingTransform;
 
+        #region Unity functions
         private void Start()
         {
             movingTransform = buttonLayout.transform;
+            Session.instance.onBlockBegin.AddListener(OnBlockBegin);
         }
 
         private void OnEnable()
@@ -58,5 +61,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 buttonLayout.offset = movingTransform.position - initialPosition;
             }
         }
+        #endregion
+
+        #region UXF callbacks
+        private void OnBlockBegin(Block block)
+        {
+            this.transform.parent.gameObject.SetActive(false);
+            moveRange.gameObject.SetActive(false);
+            moveRange.sprite.gameObject.SetActive(false);
+        }
+        #endregion
     }
 }
