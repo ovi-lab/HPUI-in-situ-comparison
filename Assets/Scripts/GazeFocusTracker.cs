@@ -9,10 +9,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     /// <summary>
     /// Extending the PositionRotationTracker to also include which object is getting gaze focus
     /// </summary>
-    public class GazeFocusTracker : Tracker
+    public class GazeFocusTracker : PositionRotationTracker
     {
         public override string MeasurementDescriptor => "gazeFocus";
-        public override IEnumerable<string> CustomHeader => (new string[] {"object_name"}).ToArray();
+        public override IEnumerable<string> CustomHeader => base.CustomHeader.Union(new string[] {"object_name"}).ToArray();
 
         private int layerMask;
 
@@ -59,10 +59,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         /// <returns></returns>
         protected override UXFDataRow GetCurrentValues()
         {
-            UXFDataRow data = new UXFDataRow()
-            {
-                ("object_name", GetFocusObjectName())
-            };
+            UXFDataRow data = base.GetCurrentValues();
+            data.Add(("object_name", GetFocusObjectName()));
             return data;
         }
     }
