@@ -2222,6 +2222,10 @@ PrefabInstance:
       value: LeftIndex
       objectReference: {fileID: 0}
     - target: {fileID: 8398312624707303031, guid: 5e05a2a48b22b2147b4d0156d2249d0f, type: 3}
+      propertyPath: width
+      value: 0.014
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398312624707303031, guid: 5e05a2a48b22b2147b4d0156d2249d0f, type: 3}
       propertyPath: handIndex
       value: 1
       objectReference: {fileID: 0}
@@ -2901,6 +2905,10 @@ PrefabInstance:
     - target: {fileID: 8398312624707303027, guid: 5e05a2a48b22b2147b4d0156d2249d0f, type: 3}
       propertyPath: m_Name
       value: RightIndex
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398312624707303031, guid: 5e05a2a48b22b2147b4d0156d2249d0f, type: 3}
+      propertyPath: width
+      value: 0.014
       objectReference: {fileID: 0}
     - target: {fileID: 8398312624707303031, guid: 5e05a2a48b22b2147b4d0156d2249d0f, type: 3}
       propertyPath: keyPointsUsed.Array.size

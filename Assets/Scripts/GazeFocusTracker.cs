@@ -45,7 +45,14 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             Debug.DrawRay(transform.position, transform.forward);
             if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, layerMask))
             {
-                return hit.transform.parent.parent.name;
+                if (hit.transform.parent != null && hit.transform.parent.parent != null)
+                {
+                    return hit.transform.parent.parent.name;
+                }
+                else
+                {
+                    return hit.transform.name;
+                }
             }
             else
             {
