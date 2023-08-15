@@ -26,7 +26,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             Transform leftMostButton = fixedButtonLayout.buttons[leftMostButtonIdx];
             Bounds leftBounds = leftMostButton.GetComponentInChildren<SpriteRenderer>().bounds;
-            // float leftEdge = leftBounds.center.x - leftBounds.extents.x;
             Vector3 leftEdge = new Vector3(leftBounds.center.x, 0, leftBounds.center.z) + leftBounds.extents.x * leftMostButton.right.normalized;
             leftEdge.y = leftBounds.center.y;
             Vector3 bottomedge = new Vector3(0, leftBounds.center.y, leftBounds.center.z) - leftBounds.extents.y * leftMostButton.up.normalized;
@@ -45,6 +44,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 (leftEdge - rightEdge).magnitude /1.5f,
                 (topedge - bottomedge).magnitude /1.5f
             };
+
+            displayManager.Setup();
 
             planeMeshGenerator.transformAnchor.position = leftEdge;
 
