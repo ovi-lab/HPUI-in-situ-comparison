@@ -3549,7 +3549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minScale: 0.1
   maxScale: 0.5
-  secondDisplayVisibleScaleWindow: 0.093
+  secondDisplayVisibleScaleWindow: 0.2
   secondDisplayVisibleStartAtScale: 0.738
   workspace: {fileID: 1995198707}
   pegsRoot: {fileID: 600287792}

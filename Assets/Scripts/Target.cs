@@ -60,15 +60,30 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
-        public bool IsSelected { get; private set; }
+        public bool IsSelected {
+            get {
+                return isSelected;
+            }
+            private set
+            {
+                isSelected = value;
+                foreach (Outline outline in outlines)
+                {
+                    outline.enabled = value;
+                }
+            }
+        }
 
         private int colorIndex;
         private bool active;
         private Collider _collider;
+        private bool isSelected;
+        private Outline[] outlines;
 
         private void Start()
         {
             _collider = GetComponent<Collider>();
+            outlines = GetComponentsInChildren<Outline>();
         }
 
         // Main is the cylinder, second is the pipe
