@@ -11,20 +11,20 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         // NOTE: expecting this to be in the same row and the row on which the slider will be
         public int leftMostButtonIdx, rightMostButtonIdx;
 
-        private FixedButtonLayout fixedButtonLayout;
+        private FixedTargetLayout fixedTargetLayout;
         private PlaneMeshGenerator planeMeshGenerator;
 
         protected override void Start()
         {
             base.Start();
-            fixedButtonLayout = GetComponentInParent<FixedButtonLayout>();
+            fixedTargetLayout = GetComponentInParent<FixedTargetLayout>();
             planeMeshGenerator = GetComponentInChildren<PlaneMeshGenerator>();
-            fixedButtonLayout.ParametersSet += SetupSlider;
+            fixedTargetLayout.ParametersSet += SetupSlider;
         }
 
         public void SetupSlider()
         {
-            Transform leftMostButton = fixedButtonLayout.buttons[leftMostButtonIdx];
+            Transform leftMostButton = fixedTargetLayout.targets[leftMostButtonIdx];
             Bounds leftBounds = leftMostButton.GetComponentInChildren<SpriteRenderer>().bounds;
             Vector3 leftEdge = new Vector3(leftBounds.center.x, 0, leftBounds.center.z) + leftBounds.extents.x * leftMostButton.right.normalized;
             leftEdge.y = leftBounds.center.y;
@@ -33,7 +33,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             Vector3 topedge = new Vector3(0, leftBounds.center.y, leftBounds.center.z) + leftBounds.extents.y * leftMostButton.up.normalized;
             topedge.x = leftBounds.center.x;
 
-            Transform rightMostButton = fixedButtonLayout.buttons[rightMostButtonIdx];
+            Transform rightMostButton = fixedTargetLayout.targets[rightMostButtonIdx];
             Bounds rightBounds = rightMostButton.GetComponentInChildren<SpriteRenderer>().bounds;
             Vector3 rightEdge = new Vector3(rightBounds.center.x, 0, rightBounds.center.z) - rightBounds.extents.x * rightMostButton.right.normalized;
             rightEdge.y = rightBounds.center.y;
@@ -60,7 +60,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             for (int i = leftMostButtonIdx; i <= rightMostButtonIdx; i++)
             {
-                fixedButtonLayout.buttons[i].gameObject.SetActive(false);
+                fixedTargetLayout.targets[i].gameObject.SetActive(false);
             }
         }
     }

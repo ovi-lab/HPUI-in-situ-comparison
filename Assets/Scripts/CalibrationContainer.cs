@@ -331,7 +331,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         private void SetSettingsTransformPosition(CalibrationParamters s, Vector3 position, Quaternion rotation)
         {
-            FixedButtonLayout fixedLayout = s.t.GetComponent<FixedButtonLayout>();
+            FixedTargetLayout fixedLayout = s.t.GetComponent<FixedTargetLayout>();
             if (fixedLayout != null)
             {
                 fixedLayout.relativeSeperateFactor = relativeSeperateFactor;

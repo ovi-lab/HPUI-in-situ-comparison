@@ -7,7 +7,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     public class MoveTrigger : MonoBehaviour
     {
         public MoveRange moveRange;
-        public FixedButtonLayout buttonLayout;
+        public FixedTargetLayout targetLayout;
 
         private bool moving;
         private Transform trackingTransform;
@@ -17,7 +17,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         #region Unity functions
         private void Start()
         {
-            movingTransform = buttonLayout.transform;
+            movingTransform = targetLayout.transform;
             Session.instance.onBlockBegin.AddListener(OnBlockBegin);
         }
 
@@ -58,7 +58,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 moving = false;
                 moveRange.SetSelected(false);
                 trackingTransform = null;
-                buttonLayout.offset = movingTransform.position - initialPosition;
+                targetLayout.offset = movingTransform.position - initialPosition;
             }
         }
         #endregion
