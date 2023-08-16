@@ -163,12 +163,12 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         void SetHandedness(Handedness handedness)
         {
-            if (handedness == Handedness.Right)
+            if (handedness == Handedness.Left)
             {
                 this.handedness = Handedness.Left;
                 activeFingertipPos = leftFingertipPos;
             }
-            else if (handedness == Handedness.Left)
+            else if (handedness == Handedness.Right)
             {
                 this.handedness = Handedness.Right;
                 activeFingertipPos = rightFingertipPos;

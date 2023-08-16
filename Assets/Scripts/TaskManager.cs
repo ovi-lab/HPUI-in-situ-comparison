@@ -60,6 +60,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private List<Target> targets;
         private List<Peg> pegs;
         private List<List<int>> sequences;
+        private List<List<Vector3>> sequencesLocations;
         private int currentColorIndex, currentSequenceIndex = -1;
         private Target currentTarget;
         private Peg currentPeg;
@@ -82,21 +83,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             debug = false;
 #endif
         }
-
-        public void OnDrawGizmos()
-        {
-            if (debug)
-            {
-                Bounds b = new Bounds();
-                b.center = workspace.position;
-                b.extents = workspaceExtents;
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(b.center, b.size);
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(b.center, b.size.magnitude * 0.1f);
-            }
-        }
-       #endregion
+        #endregion
 
         #region Setting up tasks
         /// <summary>
@@ -133,8 +120,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 btn.contactAction.AddListener(ColorButtonContact);
             }
 
-            InitTargetsAndPegs(el.handedness);
-
             if (el.changeLayout || activeColorLayout == null)
             {
                 int newColorIndex;
@@ -166,12 +151,16 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
 
             sequences = new List<List<int>>();
+            sequencesLocations = new List<List<Vector3>>();
             for (int i = 0; i < el.numTrials; ++i)
             {
                 List<int> sequence = new List<int>();
                 List<int> selectedIndices = new List<int>();
                 List<int> selectedColorIndices = new List<int>();
+                List<Vector3> selectedPosition = new List<Vector3>();
+
                 int targetIndex, colorIndex;
+                Vector3 position;
 
                 float secondDisplayStartAtScale, startZoom;
                 if (el.startZoomAbove)
@@ -184,6 +173,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     secondDisplayStartAtScale = (float)Math.Clamp(random.NextDouble(), 0.5f, 1 - secondDisplayVisibleScaleWindow);
                     startZoom = (float)Math.Clamp(random.NextDouble(), 0, secondDisplayStartAtScale - 0.1f);
                 }
+
                 for (int j = 0; j < targets.Count; j++)
                 {
                     Trial trial = block.CreateTrial();
@@ -205,9 +195,19 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
                     selectedColorIndices.Add(colorIndex);
 
+                    int x = 0;
+                    do
+                    {
+                        position = new Vector3(UnityEngine.Random.value * workspaceExtents.x * 2 - workspaceExtents.x,
+                                               0,
+                                               UnityEngine.Random.value * workspaceExtents.y * 2 - workspaceExtents.y);
+                    } while (selectedPosition.Any(pos => (pos - position).magnitude < 0.08));
+
+                    selectedPosition.Add(position);
+
                     trial.settings.SetValue("colorIndex", colorIndex);
                     trial.settings.SetValue("targetIndex", targetIndex);
-                    trial.settings.SetValue("targetLocation", targets[targetIndex].Position);
+                    trial.settings.SetValue("targetLocation", position);
                     trial.settings.SetValue("sequenceIndex", i);
                     trial.settings.SetValue("inSequenceIndex", j);
                     trial.settings.SetValue("startZoomScale", startZoom);
@@ -215,7 +215,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     trial.settings.SetValue("secondDisplayVisibleScaleWindow", secondDisplayVisibleScaleWindow);
                 }
                 sequences.Add(sequence);
+                sequencesLocations.Add(selectedPosition);
             }
+
+            InitTargetsAndPegs(el.handedness);
 
             // Logging the function mappings
             Dictionary<string, string> mappings = new Dictionary<string, string>()
@@ -405,11 +408,21 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         #region Helper functions
         private void InitTargetsAndPegs(string handedness="None")
         {
-            foreach (Target target in targets)
+            List<Vector3> targetPositions;
+            if (currentSequenceIndex != -1)
             {
+                targetPositions = sequencesLocations[currentSequenceIndex];
+            }
+            else
+            {
+                targetPositions = sequencesLocations.Last();
+            }
+            for (int i = 0; i < targets.Count; i++)
+            {
+                Target target = targets[i];
                 target.Visible = true;
                 target.Active = false;
-                target.Position = new Vector3(UnityEngine.Random.value * workspaceExtents.x, 0, UnityEngine.Random.value * workspaceExtents.y);
+                target.Position = targetPositions[i];
             }
 
             foreach (Peg peg in pegs)
@@ -431,7 +444,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 #if UNITY_EDITOR
         public void PegInTheHole()
         {
-            currentPeg.transform.position = currentTarget.Position;
+            currentPeg.transform.position = currentTarget.transform.position;
         }
 
         public void SetCorrectColor()

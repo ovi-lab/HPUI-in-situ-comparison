@@ -3553,7 +3553,7 @@ MonoBehaviour:
   secondDisplayVisibleScaleWindow: 0.2
   secondDisplayVisibleStartAtScale: 0.738
   workspace: {fileID: 1995198707}
-  workspaceExtents: {x: 0.18, y: 0.18, z: 0.01}
+  workspaceExtents: {x: 0.17, y: 0.17, z: 0.01}
   pegsRoot: {fileID: 600287792}
   buttonGroups:
   - name: mid-air

@@ -53,10 +53,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public Vector3 Position
         {
             get {
-                return transform.position;
+                return transform.localPosition;
             }
             set {
-                transform.position = value;
+                transform.localPosition = value;
             }
         }
 
