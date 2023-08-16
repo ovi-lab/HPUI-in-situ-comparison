@@ -12,7 +12,7 @@ groups = "latin_square"
 within_groups= "as_is"
 
 [configuration.variables]
-TRIALS = 1
+TRIALS = 7
 
 HPUI_UNIMANUAL = "HPUI-unimanual"
 MID_AIR = "mid-air"
