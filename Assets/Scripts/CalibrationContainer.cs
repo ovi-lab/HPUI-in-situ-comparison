@@ -191,6 +191,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             headPosition = cameraBase.transform.position;
             headForward = cameraBase.transform.forward;
+            headForward.y = 0; // make sure the forward is always level to the ground
             rightFingertipPos = rightFingertip.position;
             leftFingertipPos = leftFingertip.position;
 
