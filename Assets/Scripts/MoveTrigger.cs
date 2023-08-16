@@ -8,6 +8,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
     {
         public MoveRange moveRange;
         public FixedTargetLayout targetLayout;
+        public GameObject otherTrigger;
 
         private bool moving;
         private Transform trackingTransform;
@@ -24,11 +25,13 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private void OnEnable()
         {
             moving = false;
+            otherTrigger.SetActive(true);
         }
 
         private void OnDisable()
         {
             moving = false;
+            otherTrigger.SetActive(false);
         }
 
         private void Update()
