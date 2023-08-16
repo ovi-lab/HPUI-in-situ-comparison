@@ -10,6 +10,10 @@ packages = [{include = "hpui_in_situ_comparison_external"}]
 python = "^3.11"
 experiment-server = "^0.2.4"
 importlib-metadata = "^6.8.0"
+colormath = {git = "https://github.com/ahmed-shariff/python-colormath.git"}
+tqdm = "^4.66.1"
+opencv-python = "^4.8.0.76"
+click = "^8.1.6"
 
 
 [build-system]
