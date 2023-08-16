@@ -20,6 +20,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public float secondDisplayVisibleStartAtScale;
 
         public Transform workspace;
+        [Tooltip("The extent of the workspace Bounds")]
+        public Vector3 workspaceExtents;
         public GameObject pegsRoot;
         [SerializeField]
         List<ButtonGroup> buttonGroups;
@@ -76,8 +78,25 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             Session session = Session.instance;
             session.onBlockEnd.AddListener(OnBlockEnd);
             session.onTrialBegin.AddListener(OnTrialBegin);
+#if !UNITY_EDITOR
+            debug = false;
+#endif
         }
-        #endregion
+
+        public void OnDrawGizmos()
+        {
+            if (debug)
+            {
+                Bounds b = new Bounds();
+                b.center = workspace.position;
+                b.extents = workspaceExtents;
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireCube(b.center, b.size);
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(b.center, b.size.magnitude * 0.1f);
+            }
+        }
+       #endregion
 
         #region Setting up tasks
         /// <summary>
@@ -99,7 +118,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         // NOTE: This is not added to the session.onBlockBeing as this depends on information
         // the experiment manager gets
-        // TODO randomize target location
         public void ConfigureTaskBlock(Block block, System.Random random, InSituCompBlockData el)
         {
             SetActiveButtonGroup();
@@ -391,6 +409,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 target.Visible = true;
                 target.Active = false;
+                target.Position = new Vector3(UnityEngine.Random.value * workspaceExtents.x, 0, UnityEngine.Random.value * workspaceExtents.y);
             }
 
             foreach (Peg peg in pegs)
