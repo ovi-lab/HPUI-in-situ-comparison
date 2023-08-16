@@ -1,8 +1,9 @@
 # The `configuration` table contains settings of the study/experiment itself
 [configuration]
 # The `order` is an array of block names or an array of array of block names.
-order = [["unimanual-r-change-layout", "unimanual-r"], ["unimanual-l-change-layout", "unimanual-l"], ["mid-air-r-change-layout", "mid-air-r"], ["mid-air-l-change-layout", "mid-air-l"]]
-# order = ["mid-air-r"]
+order = [["unimanual-r-change-layout", "unimanual-r", "unimanual-r", "unimanual-r", "unimanual-r", "unimanual-r", "unimanual-r"], ["unimanual-l-change-layout", "unimanual-l", "unimanual-l", "unimanual-l", "unimanual-l", "unimanual-l", "unimanual-l"], ["mid-air-r-change-layout", "mid-air-r", "mid-air-r", "mid-air-r", "mid-air-r", "mid-air-r", "mid-air-r"], ["mid-air-l-change-layout", "mid-air-l", "mid-air-l", "mid-air-l", "mid-air-l", "mid-air-l", "mid-air-l"]]
+# order = [["unimanual-r-change-layout", "unimanual-r"], ["unimanual-l-change-layout", "unimanual-l"], ["mid-air-r-change-layout", "mid-air-r"], ["mid-air-l-change-layout", "mid-air-l"]]
+# order = ["mid-air-r-change-layout", "mid-air-r", "mid-air-l-change-layout", "mid-air-l"]
 
 # - "latin_square": apply latin square to balance the values.
 # - "randomize": for each participant randomize the order of the values in the array.
@@ -11,7 +12,7 @@ groups = "latin_square"
 within_groups= "as_is"
 
 [configuration.variables]
-TRIALS = 20
+TRIALS = 1
 
 HPUI_UNIMANUAL = "HPUI-unimanual"
 MID_AIR = "mid-air"
