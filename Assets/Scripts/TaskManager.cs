@@ -397,7 +397,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             else
             {
                 AddButtonSelectionToTable(btn.name, "accept", 0);
-                audioSource.PlayOneShot(successAudio);
+                audioSource.PlayOneShot(failAudio);
             }
         }
         #endregion
