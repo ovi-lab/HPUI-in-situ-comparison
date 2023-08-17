@@ -769,8 +769,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1873933050}
-  m_Father: {fileID: 1995198707}
-  m_RootOrder: 6
+  m_Father: {fileID: 307123222}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &122502332
 MonoBehaviour:
@@ -842,7 +842,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveRange: {fileID: 1983335332}
   targetLayout: {fileID: 1995198708}
-  otherTrigger: {fileID: 695369051}
+  otherTrigger: {fileID: 0}
 --- !u!135 &122831358
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1450,6 +1450,42 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287123787}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &307123221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 307123222}
+  m_Layer: 0
+  m_Name: move_button_objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &307123222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307123221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 955955597}
+  - {fileID: 1265924322}
+  - {fileID: 1934624183}
+  - {fileID: 695369052}
+  - {fileID: 122502331}
+  m_Father: {fileID: 1995198707}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &317889948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,7 +1627,91 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 336250477}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307123221}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 572594259}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 659547656}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 576481609}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1566032707}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 518063817}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1409395643}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &336250477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,7 +2129,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 436735552}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307123221}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &436735552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,7 +2249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveRange: {fileID: 1983335332}
   targetLayout: {fileID: 1995198708}
-  otherTrigger: {fileID: 122502330}
+  otherTrigger: {fileID: 0}
 --- !u!135 &498820614
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2260,10 +2392,7 @@ MonoBehaviour:
   deformableDisplayCalibration: {fileID: 860947862}
   settings:
   - name: HPUI-unimanual
-    commonObjects:
-    - {fileID: 1265924321}
-    - {fileID: 1934624182}
-    - {fileID: 955955596}
+    commonObjects: []
     rightHandedObjects:
     - {fileID: 7341783368309122992}
     - {fileID: 1732140125}
@@ -2287,9 +2416,6 @@ MonoBehaviour:
   - name: mid-air
     commonObjects:
     - {fileID: 6913623323537997366}
-    - {fileID: 1265924321}
-    - {fileID: 1934624182}
-    - {fileID: 955955596}
     rightHandedObjects:
     - {fileID: 2106009974}
     - {fileID: 659547656}
@@ -3125,8 +3251,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1228171455}
-  m_Father: {fileID: 1995198707}
-  m_RootOrder: 5
+  m_Father: {fileID: 307123222}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &695369053
 MonoBehaviour:
@@ -4223,14 +4349,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955955596}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.215, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 137476707}
-  m_Father: {fileID: 1995198707}
-  m_RootOrder: 2
+  m_Father: {fileID: 307123222}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &958073182
 CapsuleCollider:
@@ -4353,7 +4479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee030e0d460548a4a820a04e4037660d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0.28235295}
+  defaultColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.28235295}
   colorSprites:
   - l:
     - {fileID: 21300000, guid: e037e950e4713684a9b2a01c05d2a23f, type: 3}
@@ -5340,8 +5466,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 122831356}
-  m_Father: {fileID: 1995198707}
-  m_RootOrder: 3
+  m_Father: {fileID: 307123222}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1265924323
 MonoBehaviour:
@@ -8164,8 +8290,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 498820612}
-  m_Father: {fileID: 1995198707}
-  m_RootOrder: 4
+  m_Father: {fileID: 307123222}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1934624184
 MonoBehaviour:
@@ -8358,11 +8484,7 @@ Transform:
   m_Children:
   - {fileID: 98090273}
   - {fileID: 1272214057}
-  - {fileID: 955955597}
-  - {fileID: 1265924322}
-  - {fileID: 1934624183}
-  - {fileID: 695369052}
-  - {fileID: 122502331}
+  - {fileID: 307123222}
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

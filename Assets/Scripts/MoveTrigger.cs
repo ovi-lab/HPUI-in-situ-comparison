@@ -19,19 +19,24 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private void Start()
         {
             movingTransform = targetLayout.transform;
-            Session.instance.onBlockBegin.AddListener(OnBlockBegin);
         }
 
         private void OnEnable()
         {
             moving = false;
-            otherTrigger.SetActive(true);
+            if (otherTrigger != null)
+            {
+                otherTrigger.SetActive(true);
+            }
         }
 
         private void OnDisable()
         {
             moving = false;
-            otherTrigger.SetActive(false);
+            if (otherTrigger != null)
+            {
+                otherTrigger.SetActive(false);
+            }
         }
 
         private void Update()
@@ -63,15 +68,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 trackingTransform = null;
                 targetLayout.offset = movingTransform.position - initialPosition;
             }
-        }
-        #endregion
-
-        #region UXF callbacks
-        private void OnBlockBegin(Block block)
-        {
-            this.transform.parent.gameObject.SetActive(false);
-            moveRange.gameObject.SetActive(false);
-            moveRange.sprite.gameObject.SetActive(false);
         }
         #endregion
     }
