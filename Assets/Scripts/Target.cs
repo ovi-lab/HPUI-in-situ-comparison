@@ -19,12 +19,14 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 return colorIndex;
             }
             set {
-                Color _color = ColorIndex.instance.GetColor(value);
+                Color _color = ColorIndex.instance.GetColor(DisplayColorGroupIndex, value);
                 colorIndex = value;
                 mainDisplayElement.material.SetColor("_Color", _color);
                 secondDisplayElement.material.SetColor("_Color", _color);
             }
         }
+
+        public int DisplayColorGroupIndex { get; set; }
 
         public bool Visible
         {
@@ -45,6 +47,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 active = value;
                 if (!active)
                 {
+                    DisplayColorGroupIndex = -1;
                     DisplayColorIndex = -1;
                 }
             }

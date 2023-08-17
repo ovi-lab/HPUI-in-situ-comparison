@@ -61,7 +61,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private List<Peg> pegs;
         private List<List<int>> sequences;
         private List<List<Vector3>> sequencesLocations;
-        private int currentColorIndex, currentSequenceIndex = -1;
+        private int currentColorIndex, currentSequenceIndex = -1, activeColorLayoutIndex = -1;
         private Target currentTarget;
         private Peg currentPeg;
         private Trial currentTrial;
@@ -122,6 +122,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             if (el.changeLayout || activeColorLayout == null)
             {
+
+                int newColorLayoutIndex;
+                do
+                {
+                    newColorLayoutIndex = random.Next(ColorIndex.instance.Count());
+                } while (newColorLayoutIndex == activeColorLayoutIndex);
+
+                activeColorLayoutIndex = newColorLayoutIndex;
+
                 int newColorIndex;
                 List<int> newColorLayout = new List<int>();
 
@@ -131,9 +140,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 {
                     do
                     {
-                        newColorIndex = random.Next(ColorIndex.instance.Count());
-                    } while (newColorLayout.Contains(newColorIndex) ||
-                             activeColorLayout != null && activeColorLayout.Contains(newColorIndex));
+                        newColorIndex = random.Next(ColorIndex.instance.Count(activeColorLayoutIndex));
+                    } while (newColorLayout.Contains(newColorIndex));
                     newColorLayout.Add(newColorIndex);
                 }
 
@@ -144,7 +152,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 {
                     int colorIndex = activeColorLayout[j];
                     ButtonController btn = activeButtonGroup.colorButtons[j];
-                    btn.GetComponent<SpriteRenderer>().sprite = ColorIndex.instance.GetSprite(colorIndex);
+                    btn.GetComponent<SpriteRenderer>().sprite = ColorIndex.instance.GetSprite(activeColorLayoutIndex, colorIndex);
                     buttonToColorMapping.Add(btn, colorIndex);
                 }
             }
@@ -206,6 +214,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     selectedPosition.Add(position);
 
                     trial.settings.SetValue("colorIndex", colorIndex);
+                    trial.settings.SetValue("colorGroupIndex", activeColorLayoutIndex);
                     trial.settings.SetValue("targetIndex", targetIndex);
                     trial.settings.SetValue("targetLocation", position);
                     trial.settings.SetValue("sequenceIndex", i);
@@ -310,6 +319,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
 
             currentTarget = targets[targetIndex];
+            currentTarget.DisplayColorGroupIndex = activeColorLayoutIndex;
             currentTarget.DisplayColorIndex = currentColorIndex;
             currentTarget.Active = true;
 
@@ -358,6 +368,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             int colorIndex = buttonToColorMapping[btn];
             AddButtonSelectionToTable(btn.name, "color", colorIndex);
+            currentPeg.DisplayColorGroupIndex = activeColorLayoutIndex;
             currentPeg.DisplayColorIndex = colorIndex;
         }
 
