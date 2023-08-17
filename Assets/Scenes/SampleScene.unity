@@ -2277,12 +2277,13 @@ MonoBehaviour:
       option: 1
       forwardOffset: -0.09
       verticalOffset: 0.6
-      horizontalOffset: 0.3
+      horizontalOffset: 0
       tiltAngle: 0
       buttonScale: 0
       buttonSeperation: 0
       useComputedButtonSeperation: 0
       fixedLayoutOffset: {x: 0, y: 0, z: 0}
+      invserHandedness: 1
   - name: mid-air
     commonObjects:
     - {fileID: 6913623323537997366}
@@ -2304,22 +2305,24 @@ MonoBehaviour:
       option: 1
       forwardOffset: -0.16
       verticalOffset: 0.2
-      horizontalOffset: 0.1
+      horizontalOffset: 0.05
       tiltAngle: 20
       buttonScale: 2
       buttonSeperation: 0.05
       useComputedButtonSeperation: 1
       fixedLayoutOffset: {x: 0, y: 0, z: 0}
+      invserHandedness: 0
     - t: {fileID: 1995198707}
       option: 1
       forwardOffset: -0.09
       verticalOffset: 0.6
-      horizontalOffset: 0.3
+      horizontalOffset: 0
       tiltAngle: 0
       buttonScale: 0
       buttonSeperation: 0
       useComputedButtonSeperation: 0
       fixedLayoutOffset: {x: 0, y: 0, z: 0}
+      invserHandedness: 1
   pairs:
   - p1: {fileID: 7341783367441992233}
     p2: {fileID: 7341783368789080612}
@@ -8255,7 +8258,7 @@ Transform:
   m_GameObject: {fileID: 1983335331}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 137476707}

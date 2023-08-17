@@ -328,6 +328,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             calibrationParameters.Add(_prefix + "s.useComputedButtonSeperation", s.useComputedButtonSeperation);
             calibrationParameters.Add(_prefix + "s.verticalOffset", s.verticalOffset);
             calibrationParameters.Add(_prefix + "s.fixedLayoutOffset", s.fixedLayoutOffset);
+            calibrationParameters.Add(_prefix + "s.invserHandedness", s.invserHandedness);
         }
 
         private void SetSettingsTransformPosition(CalibrationParamters s, Vector3 position, Quaternion rotation)
@@ -357,12 +358,32 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         public void SetInFrontOfShoulderOrHip(CalibrationParamters s)
         {
-            float horizontalOffset = handedness == Handedness.Right ? s.horizontalOffset : -s.horizontalOffset;
+            Handedness usedHandedness;
+            Vector3 usedActiveFingertipPos;
+            if (s.invserHandedness)
+            {
+                if (handedness == Handedness.Right)
+                {
+                    usedHandedness = Handedness.Left;
+                    usedActiveFingertipPos = leftFingertipPos;
+                }
+                else
+                {
+                    usedHandedness = Handedness.Right;
+                    usedActiveFingertipPos = rightFingertipPos;
+                }
+            }
+            else
+            {
+                usedHandedness = handedness;
+                usedActiveFingertipPos = activeFingertipPos;
+            }
+            float horizontalOffset = usedHandedness == Handedness.Right ? s.horizontalOffset : -s.horizontalOffset;
             // Point on coronal plane (plne making the lataral ventral/dorsal axis)
             Plane headPlane = new Plane(headForward, headPosition);
-            Vector3 shoulderOrHipPoint = headPlane.ClosestPointOnPlane(activeFingertipPos); // aka shoulderOrHip point
-            Vector3 armVector = activeFingertipPos - shoulderOrHipPoint;
-            Vector3 position = activeFingertipPos + armVector * s.forwardOffset +
+            Vector3 shoulderOrHipPoint = headPlane.ClosestPointOnPlane(usedActiveFingertipPos); // aka shoulderOrHip point
+            Vector3 armVector = usedActiveFingertipPos - shoulderOrHipPoint;
+            Vector3 position = usedActiveFingertipPos + armVector * s.forwardOffset +
                 Vector3.up.normalized * armVector.magnitude * s.verticalOffset +
                 Vector3.Cross(headForward, Vector3.up).normalized * horizontalOffset;
             float tiltAngleRadian = Mathf.Deg2Rad * s.tiltAngle;
@@ -398,6 +419,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             public bool useComputedButtonSeperation;
             [HideInInspector]
             public Vector3 fixedLayoutOffset;
+            public bool invserHandedness;
         }
 
         public enum CalibrationOptions {
