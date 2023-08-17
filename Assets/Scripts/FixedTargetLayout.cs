@@ -103,6 +103,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             backplate.transform.localScale = newLocalScale;
             backplate.transform.position = topedge + (bottomedge - topedge) / 2 - Vector3.Cross(rightEdge - leftEdge, bottomedge - topedge).normalized * 0.005f;
         }
+
+        public void ResetOffset()
+        {
+            offset = Vector3.zero;
+        }
     }
 
 }
