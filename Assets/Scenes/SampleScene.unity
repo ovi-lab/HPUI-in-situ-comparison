@@ -4254,7 +4254,6 @@ GameObject:
   - component: {fileID: 985419660}
   - component: {fileID: 985419659}
   - component: {fileID: 985419661}
-  - component: {fileID: 985419662}
   m_Layer: 0
   m_Name: TaskManager
   m_TagString: Untagged
@@ -4346,77 +4345,28 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985419658}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee030e0d460548a4a820a04e4037660d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.28235295}
-  colors:
-  - {r: 0.24705884, g: 0.28627452, b: 0.7960785, a: 1}
-  - {r: 0.7254902, g: 0.4784314, b: 0.34117648, a: 1}
-  - {r: 0, g: 0.63529414, b: 0.9058824, a: 1}
-  - {r: 0, g: 0.45882356, b: 0.050980397, a: 1}
-  - {r: 1, g: 0.79215693, b: 0.050980397, a: 1}
-  - {r: 0.76470596, g: 0.76470596, b: 0.76470596, a: 1}
-  - {r: 0.41960788, g: 0.7803922, b: 0.14509805, a: 1}
-  - {r: 1, g: 0.5019608, b: 0.16078432, a: 1}
-  - {r: 1, g: 0.68235296, b: 0.79215693, a: 1}
-  - {r: 0.64705884, g: 0.28627452, b: 0.64705884, a: 1}
-  - {r: 0.93725497, g: 0.10980393, b: 0.14509805, a: 1}
-  - {r: 1, g: 0.95294124, b: 0, a: 1}
-  colorSprites:
-  - {fileID: 21300000, guid: 34083c8802d8d1b42abc2badcc78ed9b, type: 3}
-  - {fileID: 21300000, guid: ecdad42de4be13b4ba05b562bd24209a, type: 3}
-  - {fileID: 21300000, guid: a4872061991dfa343a2a26ef4cc12356, type: 3}
-  - {fileID: 21300000, guid: 708db44b139d2d54ab6d56af62c99c73, type: 3}
-  - {fileID: 21300000, guid: 6fb2a6a93f9a45547b86eea8da743f8c, type: 3}
-  - {fileID: 21300000, guid: c7c5301b53591d746bc726eadbebc313, type: 3}
-  - {fileID: 21300000, guid: da80227d71f323d43b293800643885d8, type: 3}
-  - {fileID: 21300000, guid: 8ce0026ec2614854687ef1795ca3bcfd, type: 3}
-  - {fileID: 21300000, guid: 586f1c91217755d4ea9de38874237da2, type: 3}
-  - {fileID: 21300000, guid: 383cbacbb006a2a488540c929ec3cb14, type: 3}
-  - {fileID: 21300000, guid: fd61bc3dbd3fa014bae96df81172f8e5, type: 3}
-  - {fileID: 21300000, guid: 03ad6e4670936884383da7dffc8cb94f, type: 3}
---- !u!114 &985419662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985419658}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee030e0d460548a4a820a04e4037660d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  colors:
-  - {r: 0.48235297, g: 0.69803923, b: 0.58431375, a: 1}
-  - {r: 1, g: 0.47450984, b: 0.5686275, a: 1}
-  - {r: 0.8352942, g: 0.7686275, b: 0.44705886, a: 1}
-  - {r: 0.078431375, g: 0.3647059, b: 0.3372549, a: 1}
-  - {r: 0.9803922, g: 0.44705886, b: 0, a: 1}
-  - {r: 0.43137258, g: 0.3137255, b: 0.09411766, a: 1}
-  - {r: 0.38823533, g: 0.8117648, b: 0.9803922, a: 1}
-  - {r: 0.45098042, g: 0.15686275, b: 0.53333336, a: 1}
-  - {r: 0.24705884, g: 0.8745099, b: 0.12941177, a: 1}
-  - {r: 0.86274517, g: 0.003921569, b: 0.9921569, a: 1}
-  - {r: 0.69803923, g: 0.10980393, b: 0.41960788, a: 1}
-  - {r: 0.30980393, g: 0.5411765, b: 0.93725497, a: 1}
+  defaultColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0.28235295}
   colorSprites:
-  - {fileID: 21300000, guid: e037e950e4713684a9b2a01c05d2a23f, type: 3}
-  - {fileID: 21300000, guid: 28635069ce97a094cbb55a4cf2058ccb, type: 3}
-  - {fileID: 21300000, guid: 17a89ab04ac673445b066623f6d08b7a, type: 3}
-  - {fileID: 21300000, guid: 287ee6dc7c2666a4da6408e834f4f7e5, type: 3}
-  - {fileID: 21300000, guid: 41aec1da4673bfe41bedc0ca32ce4005, type: 3}
-  - {fileID: 21300000, guid: 57f9ca873d247bc49aaab2e1d0881a1f, type: 3}
-  - {fileID: 21300000, guid: b8749e7b535916b47b850ea80b127082, type: 3}
-  - {fileID: 21300000, guid: f2da6fd9d22bacc40ba5f0cf0ce8df0a, type: 3}
-  - {fileID: 21300000, guid: 53ab0e6e7061f4b43a590b05e0ba48fc, type: 3}
-  - {fileID: 21300000, guid: f96de88d43d62ee4da7ef4220b85a105, type: 3}
-  - {fileID: 21300000, guid: cc08f735aa5c9cf4e87e2b859542e1c9, type: 3}
-  - {fileID: 21300000, guid: dd09e193e44ece34f9fe7dfc064e8260, type: 3}
+  - l:
+    - {fileID: 21300000, guid: e037e950e4713684a9b2a01c05d2a23f, type: 3}
+    - {fileID: 21300000, guid: 28635069ce97a094cbb55a4cf2058ccb, type: 3}
+    - {fileID: 21300000, guid: f2da6fd9d22bacc40ba5f0cf0ce8df0a, type: 3}
+    - {fileID: 21300000, guid: 287ee6dc7c2666a4da6408e834f4f7e5, type: 3}
+    - {fileID: 21300000, guid: 41aec1da4673bfe41bedc0ca32ce4005, type: 3}
+    - {fileID: 21300000, guid: b8749e7b535916b47b850ea80b127082, type: 3}
+  - l:
+    - {fileID: 21300000, guid: 57f9ca873d247bc49aaab2e1d0881a1f, type: 3}
+    - {fileID: 21300000, guid: 17a89ab04ac673445b066623f6d08b7a, type: 3}
+    - {fileID: 21300000, guid: 53ab0e6e7061f4b43a590b05e0ba48fc, type: 3}
+    - {fileID: 21300000, guid: f96de88d43d62ee4da7ef4220b85a105, type: 3}
+    - {fileID: 21300000, guid: cc08f735aa5c9cf4e87e2b859542e1c9, type: 3}
+    - {fileID: 21300000, guid: dd09e193e44ece34f9fe7dfc064e8260, type: 3}
+  colors: []
 --- !u!1 &989448120
 GameObject:
   m_ObjectHideFlags: 0
