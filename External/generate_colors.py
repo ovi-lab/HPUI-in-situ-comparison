@@ -1,6 +1,6 @@
 from math import cos, degrees, sin
 from colormath.color_objects import LabColor, HSLColor, AdobeRGBColor
-from colormath.color_diff import delta_e_cie1994, delta_e_cie1976
+from colormath.color_diff import delta_e_cie1994, delta_e_cie1976, delta_e_cie2000
 from colormath.color_conversions import convert_color
 from random import randint, random, randrange
 from itertools import combinations
@@ -10,13 +10,15 @@ from json import dumps, dump, load
 import numpy as np
 import cv2
 import click
+import pandas as pd
 
 
 L_MAX = 0.9
 L_MIN = 0.3
 KEEP_TOP_N = 100
-ITERATIONS = 500000
+ITERATIONS = 50000
 N = 12
+DIST_FUNCTION = delta_e_cie1976  # delta_e_cie2000
 
 
 @click.group()
@@ -56,7 +58,7 @@ def uniform_sample():
 
         dist = []
         for c1, c2 in combinations(colors, 2):
-             dist.append(delta_e_cie1994(c1, c2))
+             dist.append(DIST_FUNCTION(c1, c2))
 
         dist = min(dist)
 
@@ -87,7 +89,7 @@ def random_select():
 
             dist = []
             for c1, c2 in combinations(colors, 2):
-                 dist.append(delta_e_cie1994(c1, c2))
+                 dist.append(DIST_FUNCTION(c1, c2))
 
             dist = min(dist)
 
@@ -193,7 +195,7 @@ def get_color_dist(location, ext):
 
     dist = []
     for c1, c2 in combinations(colors, 2):
-         dist.append(delta_e_cie1994(c1, c2))
+         dist.append(DIST_FUNCTION(c1, c2))
 
     dist = min(dist)
 
@@ -204,6 +206,63 @@ def get_color_dist(location, ext):
 
     display_top_results([{"score": dist, "colors": color_results}])
     print("Score", dist)
+
+
+@cli.command()
+@click.argument("result_file")
+@click.argument("idx", type=int)
+def group_results_to_2(result_file, idx):
+    with open(result_file) as f:
+        result = load(f)
+        _r = result[idx]
+        c = []
+        for i, (r, g, b) in enumerate(_r["colors"]):
+            c.append(convert_color(AdobeRGBColor(r, g, b), LabColor))
+        res = []
+        c_idx = list(range(len(c)))
+        for _c_idx in combinations(c_idx, round(len(c) / 2)):
+            _c = [c[i] for i in _c_idx]
+            within_vals = [DIST_FUNCTION(c1, c2) for (c1, c2) in combinations(_c, 2)]
+            within_dist = sum(within_vals)
+            other_idx = [i for i in c_idx if i not in _c_idx]
+            other = [c[i] for i in other_idx]
+            within_vals_other = [DIST_FUNCTION(c1, c2) for (c1, c2) in combinations(other, 2)]
+            within_dist_other = sum(within_vals_other)
+            between_vals = [DIST_FUNCTION(c1, c2) for c1 in _c for c2 in other]
+            between_dist = sum(between_vals)
+            res.append({
+                "colors": list(_c),
+                "other_colors": list(other),
+                "within_dist": within_dist,
+                "within_mean": np.mean(within_vals),
+                "within_std": np.std(within_vals),
+                "within_min": np.min(within_vals),
+                "within_dist_other": within_dist_other,
+                "within_mean_other": np.mean(within_vals_other),
+                "within_std_other": np.std(within_vals_other),
+                "within_min_other": np.min(within_vals_other),
+                "between_dist": between_dist,
+                "between_min": np.min(between_vals),
+                "score": (np.min(within_vals) + np.min(within_vals_other) - np.min(between_vals))
+            })
+
+        res = pd.DataFrame(res)
+        res = res.sort_values("score", ascending=False)
+
+        print(res.iloc[:10].drop(["colors", "other_colors"], axis=1))
+        display_res = [] 
+        for idx, row in res.iloc[:5].iterrows():
+            ca = [convert_color(_c, AdobeRGBColor) for _c in row.colors]
+            ca = [(_c.rgb_r, _c.rgb_g, _c.rgb_b) for _c in ca]
+            cb = [convert_color(_c, AdobeRGBColor) for _c in row.other_colors]
+            cb = [(_c.rgb_r, _c.rgb_g, _c.rgb_b) for _c in cb]
+            cc = [(50, 50, 50) for _ in cb]
+
+            display_res.append({"colors": ca, "score":0})
+            display_res.append({"colors": cb, "score":0})
+            display_res.append({"colors": cc, "score":0})
+
+        display_top_results(display_res, 30)
 
 
 if __name__ == '__main__':
