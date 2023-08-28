@@ -32,13 +32,14 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         private float computedSeperation;
         private Dictionary<string, object> calibrationParameters;
         private bool getDelayedGetPosition = false;
+        private bool changeLayout = false;
         #endregion
 
         void Start()
         {
             foreach (CalibrationSettings setting in settings)
             {
-                experimentManager.AddCalibrationMethod(setting.name, (blockData) => InitiateCalibration(setting.name, blockData.handedness));
+                experimentManager.AddCalibrationMethod(setting.name, (blockData) => InitiateCalibration(setting.name, blockData.handedness, blockData.changeLayout));
             }
             getPositionsButton.onClick.AddListener(DelayedGetPositions);
             doneCalibrationButton.onClick.AddListener(OnCalibrationCompleteButton);
@@ -75,7 +76,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
-        void InitiateCalibration(String name, string handedness)
+        void InitiateCalibration(String name, string handedness, bool changeLayout)
         {
             DeactivateAll();
 
@@ -96,6 +97,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             executeCalibrationButton.interactable = recordedCalibration;
             doneCalibrationButton.interactable = false;
             currentCalibrationName = name;
+            this.changeLayout = changeLayout;
         }
 
         void SetCalibration()
@@ -338,6 +340,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 fixedLayout.relativeSeperateFactor = relativeSeperateFactor;
                 fixedLayout.SetParameters(s.buttonSeperation, s.buttonScale, position, rotation);
+                if (changeLayout)
+                {
+                    fixedLayout.offset = Vector3.zero;
+                }
                 s.fixedLayoutOffset = fixedLayout.offset;
             }
             else
