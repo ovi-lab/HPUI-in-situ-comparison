@@ -4010,7 +4010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: useJson
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: m_Enabled
@@ -6250,7 +6250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
       propertyPath: useJson
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
       propertyPath: m_Enabled
@@ -7979,7 +7979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
       propertyPath: useJson
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
       propertyPath: m_Enabled
