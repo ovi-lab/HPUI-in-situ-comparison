@@ -23,7 +23,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 Debug.LogError($"There are more than one ColorIndex's active in the scene");
             }
-            GetColors();
         }
 
         private void OnDisable()
@@ -34,7 +33,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             }
         }
 
-        private void GetColors()
+#if UNITY_EDITOR
+        public void GetColors()
         {
             colors = new List<GroupList<Color>>();
             Texture2D newTexture = null;
@@ -56,6 +56,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 colors.Add(_colors);
             }
         }
+#endif
 
         public Color GetColor(int groupIndex, int subindex = -1)
         {
