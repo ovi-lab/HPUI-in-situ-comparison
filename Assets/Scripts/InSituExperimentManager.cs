@@ -118,9 +118,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             session.trackedObjects.Add(tracker);
         }
 
-        protected override void ConfigureBlock(InSituCompBlockData el, Block block)
+        protected override void ConfigureBlock(InSituCompBlockData el, Block block, bool lastBlockCancelled)
         {
-            base.ConfigureBlock(el, block);
+            base.ConfigureBlock(el, block, lastBlockCancelled);
             // TODO: take following values from the server
             // - offset for skeleton
             // - offset of thumb collider
@@ -129,7 +129,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             block.settings.SetValue("changeLayout", el.changeLayout);
             block.settings.SetValue("startZoomAbove", el.startZoomAbove);
 
-            taskManager.ConfigureTaskBlock(block, random, el);
+            taskManager.ConfigureTaskBlock(block, random, el, lastBlockCancelled);
 
             foreach (ButtonController btn in taskManager.GetActiveButtons())
             {

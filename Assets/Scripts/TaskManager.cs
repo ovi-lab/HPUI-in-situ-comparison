@@ -105,7 +105,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         // NOTE: This is not added to the session.onBlockBeing as this depends on information
         // the experiment manager gets
-        public void ConfigureTaskBlock(Block block, System.Random random, InSituCompBlockData el)
+        public void ConfigureTaskBlock(Block block, System.Random random, InSituCompBlockData el, bool lastBlockCancelled)
         {
             SetActiveButtonGroup();
             activeButtonGroup.zoomDownButton?.contactAction.AddListener(ZoomDownButtonContact);
@@ -120,9 +120,9 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 btn.contactAction.AddListener(ColorButtonContact);
             }
 
-            if (el.changeLayout || activeColorLayout == null)
+            // If last block was canceled, we are redoing the same block => don't changelayout again
+            if ((el.changeLayout && !lastBlockCancelled) || activeColorLayout == null)
             {
-
                 int newColorLayoutIndex;
                 do
                 {
