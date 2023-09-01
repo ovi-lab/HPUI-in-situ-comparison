@@ -349,6 +349,18 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 activeButtonGroup.zoomSlider.OnSliderEventChange -= ZoomSliderChange;
             }
+
+            foreach (Peg peg in pegs)
+            {
+                peg.Active = false;
+                peg.Visible = false;
+            }
+
+            foreach (Target target in targets)
+            {
+                target.Active = false;
+                target.Visible = false;
+            }
         }
 
         public void AddButtonSelectionToTable(string btn, string function, float val)

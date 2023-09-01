@@ -13,6 +13,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public int numberOfRows = 4;
         public int numberOfColumns = 3;
         public Renderer backplate;
+        [Tooltip("The scale to set for this object when parameters are updated.")]
+        public Vector3 defaultScale = Vector3.one;
 
         [HideInInspector]
         public float Seperation { get; private set; }
@@ -23,6 +25,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         [HideInInspector]
         public Vector3 offset;
 
+        private Vector3 backplateScale;
         // Start is called before the first frame update
         void Start()
         {
@@ -42,7 +45,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         {
             transform.position = position + offset;
             transform.rotation = rotation;
-            transform.localScale = Vector3.one;
+            transform.localScale = defaultScale;
             Seperation = seperation;
 
             // Allowing layouts which are not configured by calibration
@@ -95,7 +98,12 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             rightEdge.y = rightBounds.center.y;
 
             Bounds backplateBounds = backplate.bounds;
-            Vector3 backplateScale = backplate.transform.localScale;
+
+            if (backplateScale == null)
+            {
+                backplateScale = backplate.transform.localScale;
+            }
+
             Vector3 newLocalScale = new Vector3(backplateScale.x * (leftEdge - rightEdge).magnitude * 1.2f / backplateBounds.size.x,
                                                 backplateScale.y * (topedge - bottomedge).magnitude * 1.2f / backplateBounds.size.y,
                                                 backplateScale.z);

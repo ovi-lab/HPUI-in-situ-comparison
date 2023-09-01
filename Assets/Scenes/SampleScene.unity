@@ -8540,6 +8540,7 @@ MonoBehaviour:
   numberOfRows: 0
   numberOfColumns: 0
   backplate: {fileID: 0}
+  defaultScale: {x: 0.5, y: 0.5, z: 0.5}
   relativeSeperateFactor: 1
   offset: {x: 0, y: 0, z: 0}
 --- !u!1001 &2051480518
@@ -12196,6 +12197,7 @@ MonoBehaviour:
   numberOfRows: 4
   numberOfColumns: 3
   backplate: {fileID: 1880539604}
+  defaultScale: {x: 1, y: 1, z: 1}
   relativeSeperateFactor: 1
   offset: {x: 0, y: 0, z: 0}
 --- !u!1 &6913623323779952357
