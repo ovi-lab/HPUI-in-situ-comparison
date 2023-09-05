@@ -14,6 +14,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             "val"
         };
 
+        public bool reverseColor = false;
         public Color defaultColor, highlightColor;
 
         // A value between 0 and 1;
@@ -93,7 +94,8 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             {
                 int _x, _y;
                 displayManager.idToXY(otherBtn.id, out _x, out _y);
-                if (_y >= y)
+                // Just being clear about whats happening here
+                if (!reverseColor ? _y >= y : _y <= y)
                 {
                     otherBtn.GetComponent<ButtonColorBehaviour>().DefaultColor = defaultColor;
                 }
