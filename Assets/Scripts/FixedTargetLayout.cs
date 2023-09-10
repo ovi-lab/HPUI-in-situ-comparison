@@ -20,6 +20,10 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         public float Seperation { get; private set; }
         public float relativeSeperateFactor = 1;
 
+        public bool setupDefaultOnStart = false;
+        public float defaultSeperation = 0.005f;
+        public float defaultButtonScale = 1f;
+
         public event System.Action ParametersSet;
         // Offset to add to the transform after setting parameters
         [HideInInspector]
@@ -29,7 +33,15 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         // Start is called before the first frame update
         void Start()
         {
-            // SetParameters(0.075f, 4, transform.position, transform.rotation);
+            if (setupDefaultOnStart)
+            {
+                SetDefaultParameters();
+            }
+        }
+
+        public void SetDefaultParameters()
+        {
+            SetParameters(defaultSeperation, defaultButtonScale, transform.position, transform.rotation);
         }
 
         public void SetParameters(float seperation, float scale, FixedTargetLayout relativeFixedTargetLayout)
@@ -68,7 +80,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                     targetTransform.localScale = scale * Vector3.one;
                 }
             }
-            
+
             SetBackplate();
 
             ParametersSet?.Invoke();
@@ -99,7 +111,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             Bounds backplateBounds = backplate.bounds;
 
-            if (backplateScale == null)
+            if (backplateScale == null || backplateScale == Vector3.zero)
             {
                 backplateScale = backplate.transform.localScale;
             }
@@ -109,7 +121,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                                                 backplateScale.z);
 
             backplate.transform.localScale = newLocalScale;
-            backplate.transform.position = topedge + (bottomedge - topedge) / 2 - Vector3.Cross(rightEdge - leftEdge, bottomedge - topedge).normalized * 0.005f;
+            backplate.transform.position = topedge + (bottomedge - topedge) / 2 - Vector3.Cross(rightEdge - leftEdge, bottomedge - topedge).normalized * 0.00005f;
         }
 
         public void ResetOffset()

@@ -97,7 +97,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
                 if (bg.IsActive())
                 {
                     activeButtonGroups.Add(bg);
-                    break;
                 }
             }
             InteractionManger.instance.GetButtons();
@@ -111,16 +110,19 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
             foreach(ButtonGroup activeButtonGroup in buttonGroups)
             {
-                activeButtonGroup.zoomDownButton?.contactAction.AddListener(ZoomDownButtonContact);
-                activeButtonGroup.zoomUpButton?.contactAction.AddListener(ZoomUpButtonContact);
-                if (activeButtonGroup.zoomSlider != null)
+                if (activeButtonGroup.BindCallbacks)
                 {
-                    activeButtonGroup.zoomSlider.OnSliderEventChange += ZoomSliderChange;
-                }
-                activeButtonGroup.acceptButton.contactAction.AddListener(AcceptButtonContact);
-                foreach (ButtonController btn in activeButtonGroup.colorButtons)
-                {
-                    btn.contactAction.AddListener(ColorButtonContact);
+                    activeButtonGroup.zoomDownButton?.contactAction.AddListener(ZoomDownButtonContact);
+                    activeButtonGroup.zoomUpButton?.contactAction.AddListener(ZoomUpButtonContact);
+                    if (activeButtonGroup.zoomSlider != null)
+                    {
+                        activeButtonGroup.zoomSlider.OnSliderEventChange += ZoomSliderChange;
+                    }
+                    activeButtonGroup.acceptButton.contactAction.AddListener(AcceptButtonContact);
+                    foreach (ButtonController btn in activeButtonGroup.colorButtons)
+                    {
+                        btn.contactAction.AddListener(ColorButtonContact);
+                    }
                 }
             }
 
@@ -273,7 +275,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         public List<ButtonController> GetActiveButtons()
         {
-            return activeButtonGroups.SelectMany(g => g.GetActiveButtons()).ToList();
+            return activeButtonGroups.Where(g => g.BindCallbacks).SelectMany(g => g.GetActiveButtons()).ToList();
         }
 
         public List<Slider> GetActiveSliders()
@@ -345,23 +347,26 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             currentTrial = null;
             foreach(ButtonGroup activeButtonGroup in activeButtonGroups)
             {
-                if (activeButtonGroup.zoomDownButton != null)
+                if (activeButtonGroup.BindCallbacks)
                 {
-                    activeButtonGroup.zoomDownButton.contactAction.RemoveListener(ZoomDownButtonContact);
-                }
-                if (activeButtonGroup.zoomUpButton != null)
-                {
-                    activeButtonGroup.zoomUpButton.contactAction.RemoveListener(ZoomUpButtonContact);
-                }
-                activeButtonGroup.acceptButton.contactAction.RemoveListener(AcceptButtonContact);
-                foreach (ButtonController btn in activeButtonGroup.colorButtons)
-                {
-                    btn.contactAction.RemoveListener(ColorButtonContact);
-                }
+                    if (activeButtonGroup.zoomDownButton != null)
+                    {
+                        activeButtonGroup.zoomDownButton.contactAction.RemoveListener(ZoomDownButtonContact);
+                    }
+                    if (activeButtonGroup.zoomUpButton != null)
+                    {
+                        activeButtonGroup.zoomUpButton.contactAction.RemoveListener(ZoomUpButtonContact);
+                    }
+                    activeButtonGroup.acceptButton.contactAction.RemoveListener(AcceptButtonContact);
+                    foreach (ButtonController btn in activeButtonGroup.colorButtons)
+                    {
+                        btn.contactAction.RemoveListener(ColorButtonContact);
+                    }
 
-                if (activeButtonGroup.zoomSlider != null)
-                {
-                    activeButtonGroup.zoomSlider.OnSliderEventChange -= ZoomSliderChange;
+                    if (activeButtonGroup.zoomSlider != null)
+                    {
+                        activeButtonGroup.zoomSlider.OnSliderEventChange -= ZoomSliderChange;
+                    }
                 }
             }
 
@@ -517,6 +522,7 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
             public Slider zoomSlider;
             public ButtonController zoomUpButton, zoomDownButton, acceptButton;
             public List<ButtonController> colorButtons;
+            public bool BindCallbacks = true;
 
             public bool IsActive()
             {
