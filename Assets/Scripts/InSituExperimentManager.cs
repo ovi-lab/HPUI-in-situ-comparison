@@ -41,7 +41,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         #region UFX_FUNCTIONS
         protected override void OnSessionBegin(Session session)
         {
-            OnSessionBegin(session);
             // Record the file names of the streams from vicon
             Dictionary<string, List<string>> subjectScripts = FindObjectsOfType<CustomSubjectScript>()
                 .Where(subject => subject.enabled)
@@ -120,7 +119,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         protected override void ConfigureBlock(InSituCompBlockData el, Block block, bool lastBlockCancelled)
         {
-            ConfigureBlock(el, block, lastBlockCancelled);
             // TODO: take following values from the server
             // - offset for skeleton
             // - offset of thumb collider
@@ -147,13 +145,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         protected override void OnBlockBegin(Block block)
         {
-            OnBlockBegin(block);
             // TODO setup the scene
         }
 
         protected override void OnTrialBegin(Trial trial)
         {
-            OnTrialBegin(trial);
             Debug.Log($"Startin trial:   Trial num: {Session.instance.CurrentTrial.number}     " +
                       $"Block num: {Session.instance.CurrentBlock.number}     ");
             // targetButton.contactAction.AddListener(OnButtonContact);
@@ -161,7 +157,6 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
         
         protected override void OnTrialEnd(Trial trial)
         {
-            OnTrialEnd(trial);
         }
 
         // callback functions
@@ -202,13 +197,11 @@ namespace ubc.ok.ovilab.hpuiInSituComparison.study1
 
         protected override void OnBlockEnd(Block block)
         {
-            OnBlockEnd(block);
             HideButtons();
         }
 
         protected override void OnSessionEnd(Session session)
         {
-            OnSessionEnd(session);
             HideButtons();
         }
         #endregion
