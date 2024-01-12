@@ -9,4 +9,4 @@
 	url = https://github.com/ovi-lab/EditorUtils.git
 [submodule "Packages/vicon-nexus-unity-stream"]
 	path = Packages/vicon-nexus-unity-stream
-	url = https://github.com/ahmed-shariff/vicon-nexus-unity-stream.git
+	url = https://github.com/ovi-lab/vicon-nexus-unity-stream.git
