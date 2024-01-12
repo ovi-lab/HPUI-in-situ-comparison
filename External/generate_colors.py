@@ -191,6 +191,7 @@ def get_color_dist(location, ext):
     for img in Path(location).glob(f"*.{ext}"):
         frame = cv2.imread(str(img))
         b, g, r = frame[0, 0]
+        print(img.name, f"{r/255:.2f}, {g/255:.2f}, {b/255:.2f}", "   Hex:",hex(r), hex(g), hex(b))
         colors.append(convert_color(AdobeRGBColor(r/255, g/255, b/255), LabColor))
 
     dist = []
