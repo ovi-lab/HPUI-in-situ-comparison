@@ -1,8 +1,8 @@
-using ubc.ok.ovilab.HPUI.Core;
+using ubco.ovilab.HPUI.Legacy;
 using UnityEngine;
 using UXF;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class MoveTrigger : MonoBehaviour
     {

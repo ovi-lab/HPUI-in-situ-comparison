@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using ubc.ok.ovilab.uxf.extensions;
+using ubco.ovilab.uxf.extensions;
 using UXF;
-using ubc.ok.ovilab.ViconUnityStream;
-using ubc.ok.ovilab.HPUI.Core;
+using ubco.ovilab.ViconUnityStream;
+using ubco.ovilab.HPUI.Legacy;
 using UnityEngine;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class InSituExperimentManager : ExperimentManager<InSituCompBlockData>
     {

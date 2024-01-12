@@ -4,9 +4,9 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UXF;
-using ubc.ok.ovilab.HPUI.Core;
+using ubco.ovilab.HPUI.Legacy;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class TaskManager : MonoBehaviour
     {

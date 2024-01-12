@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using ubc.ok.ovilab.HPUI.Core;
-using ubc.ok.ovilab.ViconUnityStream;
-using ubc.ok.ovilab.uxf.extensions;
+using ubco.ovilab.HPUI.Legacy;
+using ubco.ovilab.ViconUnityStream;
+using ubco.ovilab.uxf.extensions;
+using UnityEngine.XR.Hands;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class CalibrationContainer : MonoBehaviour
     {

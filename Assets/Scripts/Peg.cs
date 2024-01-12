@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ubc.ok.ovilab.HPUI.Core;
+using ubco.ovilab.HPUI.Legacy;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class Peg : MonoBehaviour
     {

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UXF;
-using ubc.ok.ovilab.ViconUnityStream;
+using ubco.ovilab.ViconUnityStream;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(GazeFocusTracker), true)]

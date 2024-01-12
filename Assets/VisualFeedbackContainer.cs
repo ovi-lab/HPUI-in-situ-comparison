@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ubc.ok.ovilab.HPUI.Core;
+using ubco.ovilab.HPUI.Legacy;
 using System;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class VisualFeedbackContainer : MonoBehaviour
     {

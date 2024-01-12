@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class ColorIndex : MonoBehaviour
     {

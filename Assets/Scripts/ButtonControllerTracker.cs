@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UXF;
 using System.Linq;
-using ubc.ok.ovilab.HPUI.Core;
+using ubco.ovilab.HPUI.Legacy;
 using UnityEngine;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     /// <summary>
     /// Extending the PositionRotationTracker to also include data from the button controller.

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     [DisallowMultipleComponent]
     public class Outline : MonoBehaviour

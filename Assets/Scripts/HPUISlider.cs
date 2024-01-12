@@ -1,4 +1,4 @@
-namespace ubc.ok.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.study1
 {
     public class HPUISlider : Slider
     {}
