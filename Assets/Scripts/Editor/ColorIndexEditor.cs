@@ -1,12 +1,7 @@
-using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using ubco.ovilab.ViconUnityStream;
 
-namespace ubco.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.common
 {
     [CustomEditor(typeof(ColorIndex), true)]
     public class ColorIndexEditor: UnityEditor.Editor

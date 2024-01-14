@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using ubco.ovilab.HPUI.Legacy;
+using ubco.ovilab.hpuiInSituComparison.common;
 
 namespace ubco.ovilab.hpuiInSituComparison.study1
 {
-    public class Peg : MonoBehaviour
+    public class Peg : MonoBehaviour, IPeg
     {
         private Renderer displayRenderer;
         private TransformLinker linker;
@@ -29,6 +28,10 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
                 return colorIndex;
             }
             set {
+                if (displayRenderer == null)
+                {
+                    displayRenderer = GetComponentInChildren<Renderer>();
+                }
                 Color _color = ColorIndex.instance.GetColor(DisplayColorGroupIndex, value);
                 colorIndex = value;
                 displayRenderer.material.SetColor("_Color", _color);
@@ -78,7 +81,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
         {
             linker = GetComponent<TransformLinker>();
             trackingObject = null; // trigger activation
-            displayRenderer = GetComponentInChildren<Renderer>();
         }
     }
 }

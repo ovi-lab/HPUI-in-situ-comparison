@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ubco.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.common
 {
     public class Target : MonoBehaviour
     {
@@ -123,7 +121,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<Peg>() != null)
+            if (other.GetComponent<IPeg>() != null)
             {
                 IsSelected = true;
                 onSelectionStart?.Invoke(this);
@@ -132,7 +130,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.GetComponent<Peg>() != null)
+            if (other.GetComponent<IPeg>() != null)
             {
                 IsSelected = false;
                 onSelectionEnd?.Invoke(this);
