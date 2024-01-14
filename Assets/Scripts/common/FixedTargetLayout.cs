@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using ubco.ovilab.HPUI.Legacy;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace ubco.ovilab.hpuiInSituComparison.common
 {
