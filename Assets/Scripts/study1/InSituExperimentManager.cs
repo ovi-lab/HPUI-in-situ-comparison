@@ -7,6 +7,7 @@ using UXF;
 using ubco.ovilab.ViconUnityStream;
 using ubco.ovilab.HPUI.Legacy;
 using UnityEngine;
+using ubco.ovilab.hpuiInSituComparison.common;
 
 namespace ubco.ovilab.hpuiInSituComparison.study1
 {
@@ -244,11 +245,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
         #endregion
     }
 
-    public class InSituCompBlockData: BlockData
+    public class InSituCompBlockData: HPUIBlockData
     {
-        public int numTrials;
-        public string handedness;
-        public bool changeLayout;
         public bool startZoomAbove;
 
         public override string ToString()

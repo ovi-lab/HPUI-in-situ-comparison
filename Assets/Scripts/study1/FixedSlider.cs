@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using ubco.ovilab.HPUI.Legacy.DeformableSurfaceDisplay;
 using ubco.ovilab.HPUI.Legacy;
+using ubco.ovilab.hpuiInSituComparison.common;
 
 namespace ubco.ovilab.hpuiInSituComparison.study1
 {

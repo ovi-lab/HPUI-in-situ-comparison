@@ -4,7 +4,7 @@ using ubco.ovilab.HPUI.Legacy;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ubco.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.common
 {
     public class FixedTargetLayout : MonoBehaviour
     {

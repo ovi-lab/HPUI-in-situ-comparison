@@ -4,7 +4,7 @@ using UXF;
 using System.Linq;
 using UnityEngine;
 
-namespace ubco.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.common
 {
     /// <summary>
     /// Extending the PositionRotationTracker to also include which object is getting gaze focus

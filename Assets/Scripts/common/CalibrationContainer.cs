@@ -3,19 +3,17 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using ubco.ovilab.HPUI.Legacy;
-using ubco.ovilab.ViconUnityStream;
-using ubco.ovilab.uxf.extensions;
 using UnityEngine.XR.Hands;
+using ubco.ovilab.uxf.extensions;
 
-namespace ubco.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.common
 {
     public class CalibrationContainer : MonoBehaviour
     {
         #region PUBLIC_VARIABLES
-        public InSituExperimentManager experimentManager;
+        public ExperimentManager<HPUIBlockData> experimentManager;
         public Handedness handedness = Handedness.Right;
         public Transform rightFingertip, leftFingertip, cameraBase;
         public Transform rightAboveHandAnchor, leftAboveHandAnchor;

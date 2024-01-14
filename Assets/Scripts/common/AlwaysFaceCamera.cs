@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ubco.ovilab.hpuiInSituComparison.study1
+namespace ubco.ovilab.hpuiInSituComparison.common
 {
     public class AlwaysFaceCamera : MonoBehaviour
     {
