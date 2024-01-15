@@ -32,8 +32,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             if (usingJointFollower)
                 return;
 
-            transform.position = parent.position;
-            transform.rotation = parent.rotation;
+            if (parent != null)
+            {
+                transform.position = parent.position;
+                transform.rotation = parent.rotation;
+            }
         }
 
         /// <summary>
