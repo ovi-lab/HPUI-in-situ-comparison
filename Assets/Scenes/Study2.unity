@@ -132,8 +132,36 @@ PrefabInstance:
     m_TransformParent: {fileID: 1862787208}
     m_Modifications:
     - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: URI
+      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/left
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: baseURI
+      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: useJson
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: useDefaultData
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: enableWriteData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407556507, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: useHandSubsystem
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702616543860469452, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7109402446381087972, guid: 8b0d584932ba2ba4da398cbb997388d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -323,7 +351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941707717386601862, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 941707717386601863, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,7 +367,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: URI
-      value: http://127.0.0.1:5000/marker/HWD
+      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/HWD
+      objectReference: {fileID: 0}
+    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
+      propertyPath: baseURI
+      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/
+      objectReference: {fileID: 0}
+    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
+      propertyPath: useJson
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: m_Enabled
@@ -347,11 +383,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: useDefaultData
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
+      propertyPath: enableWriteData
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 941707717447344477, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 941707717304283155, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
@@ -622,7 +662,6 @@ MonoBehaviour:
   offsetAngle: 0
   offsetAsRatioToRadius: 1
   longitudinalOffset: 0
-  xrOrigin: {fileID: 0}
 --- !u!1 &899232052
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,6 +984,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
+      propertyPath: URI
+      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/right
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
+      propertyPath: baseURI
+      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
       propertyPath: useJson
       value: 0
       objectReference: {fileID: 0}
@@ -954,15 +1001,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
       propertyPath: useDefaultData
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
       propertyPath: enableWriteData
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302737125989553611, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
+      propertyPath: useHandSubsystem
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4403110424507050924, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
       propertyPath: m_Name
       value: hand_test_4 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944651633658642217, guid: 9be4c166b2ff0d14bbb444e856617e8d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1713,7 +1768,6 @@ MonoBehaviour:
   offsetAngle: 0
   offsetAsRatioToRadius: 0
   longitudinalOffset: 0
-  xrOrigin: {fileID: 0}
 --- !u!135 &1746662764
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2404,8 +2458,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f267dc9e93377f4897f95ac98ef2889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handedness: 0
-  jointID: 0
+  handedness: 2
+  jointID: 1
   useSecondJointID: 0
   secondJointID: 0
   defaultJointRadius: 0.01
@@ -2413,7 +2467,6 @@ MonoBehaviour:
   offsetAngle: 0
   offsetAsRatioToRadius: 1
   longitudinalOffset: 0
-  xrOrigin: {fileID: 0}
 --- !u!114 &1665867033977818406
 MonoBehaviour:
   m_ObjectHideFlags: 0
