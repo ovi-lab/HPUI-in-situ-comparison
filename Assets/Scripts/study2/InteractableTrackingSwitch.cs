@@ -11,19 +11,17 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     /// </summary>
     public class InteractableTrackingSwitch : MonoBehaviour
     {
-        private JointFollower jointFollower;
+        public JointFollower jointFollower;
         public bool usingJointFollower;
         public Transform parent;
 
         /// <inheritdoc />
         private void OnEnable()
         {
-            if (jointFollower == null)
+            if (jointFollower != null)
             {
-                jointFollower = GetComponent<JointFollower>();
+                jointFollower.enabled = usingJointFollower;
             }
-
-            jointFollower.enabled = usingJointFollower;
         }
 
         /// <inheritdoc />
@@ -42,10 +40,14 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// <summary>
         /// Switch tracking.
         /// </summary>
-        public void UseJointFollower(bool usingJointFollower)
+        public void UseJointFollower(bool usingJointFollower, JointFollower jointFollower=null)
         {
             this.usingJointFollower = usingJointFollower;
-            jointFollower.enabled = usingJointFollower;
+            if (jointFollower != null)
+            {
+                this.jointFollower = jointFollower;
+                jointFollower.enabled = usingJointFollower;
+            }
         }
 
         /// <summary>

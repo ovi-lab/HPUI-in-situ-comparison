@@ -33,6 +33,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             activeWindowManager.SetupWindows(0);
         }
 
+        // TODO: For debugging
         public void Start()
         {
             activeWindowManager.SetupFrames();

@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using ubco.ovilab.hpuiInSituComparison.common;
+using ubco.ovilab.HPUI.Interaction;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +14,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public List<Frame> frames;
         [Tooltip("From the left most to right most.")]
         public List<InteractablesWindow> windows;
+        public GameObject continuousInteractablesRoot;
+        public AnchorIndexToJointMapping anchorIndexToJointMapping;
         public int currentOffset;
         public float fixedLayoutSeperation = 0.005f;
         public float fixedLayoutButtonScale = 1f;
@@ -23,6 +24,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         private Dictionary<int, InteractablesWindow> frameWindowMapping = new Dictionary<int, InteractablesWindow>();
 
+        /// <summary>
+        /// Setup the frames on which the windows will be displayed.
+        /// </summary>
         public void SetupFrames()
         {
             foreach(Frame frame in frames)
@@ -31,6 +35,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
         }
 
+        /// <summary>
+        /// Setup the windows with the correct layout of windows.
+        /// </summary>
         public void SetupWindows(int offset)
         {
             Debug.Assert(frames.Select(f => f.index == 0).Any(), "Cannot have a frame with index 0!!");
@@ -58,7 +65,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     Frame frame = sortedFrames[i];
                     if (frame.index == 0)
                     {
-                        window.UseHPUI();
+                        window.UseHPUI(anchorIndexToJointMapping);
                     }
                     else
                     {
@@ -72,69 +79,20 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
         }
 
+        /// <summary>
+        /// Shift all the windows to the right
+        /// </summary>
         public void ShiftWindowsRight()
         {
             SetupWindows(currentOffset + 1);
         }
 
+        /// <summary>
+        /// Shift all the windows to the left
+        /// </summary>
         public void ShiftWindowsLeft()
         {
             SetupWindows(currentOffset - 1);
-        }
-    }
-
-    [Serializable]
-    /// <summary>
-    /// Individual frames where a window can be placed.
-    /// </summary>
-    public class Frame
-    {
-        public int index;
-        public Transform baseAnchor;
-        /// <summary>
-        /// The elements in a given layout, when not on HPUI, would be using these transforms.
-        /// </summary>
-        [HideInInspector] public List<Transform> gridAnchors;
-        [HideInInspector] public FixedTargetLayout fixedTargetLayout;
-
-        public Frame(int index)
-        {
-            this.index = index;
-        }
-
-        public void SetupLayout(int fixedLayoutColumns, int fixedLayoutRows, float fixedLayoutSeperation, float fixedLayoutButtonScale)
-        {
-            GameObject frameObject = new GameObject($"frame_{baseAnchor.name}");
-            // FIXME: Should be first destroyed?
-            fixedTargetLayout = frameObject.AddComponent<FixedTargetLayout>();
-            fixedTargetLayout.numberOfColumns = fixedLayoutColumns;
-            fixedTargetLayout.numberOfRows = fixedLayoutRows;
-            fixedTargetLayout.targets = Enumerable.Range(1, fixedLayoutColumns * fixedLayoutRows)
-                .Select(i => new GameObject($"anchor_{i}").transform)
-                .Select(t => { t.parent = baseAnchor; return t; })
-                .ToList();
-            // TODO: Backplate
-            fixedTargetLayout.SetParameters(fixedLayoutSeperation, fixedLayoutButtonScale, baseAnchor.position, baseAnchor.rotation);
-            frameObject.transform.parent = baseAnchor;
-
-            // FIXME: Debug code
-            foreach(var t in fixedTargetLayout.targets)
-            {
-                var x = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                x.transform.parent = t;
-                x.transform.localPosition = Vector3.zero;
-                x.transform.localRotation = Quaternion.identity;
-                x.transform.localScale = Vector3.one * 0.004f;
-            }
-        }
-
-        public Transform GetAnchor(int index)
-        {
-            if (fixedTargetLayout != null)
-            {
-                return fixedTargetLayout.targets[index];
-            }
-            return gridAnchors[index];
         }
     }
 }

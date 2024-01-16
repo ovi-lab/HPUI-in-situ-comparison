@@ -32,12 +32,13 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
         }
 
-        public void UseHPUI()
+        public void UseHPUI(AnchorIndexToJointMapping anchorIndexToJointMapping)
         {
             Show();
-            foreach (InteractableTrackingSwitch interactable in interactables)
+            for (int i = 0; i < interactables.Count; i++)
             {
-                interactable.UseJointFollower(true);
+                InteractableTrackingSwitch interactable = interactables[i];
+                interactable.UseJointFollower(true, anchorIndexToJointMapping.jointFollowers[i]);
             }
         }
     }
