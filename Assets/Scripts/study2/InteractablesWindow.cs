@@ -10,7 +10,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     {
         public int index;
         [Tooltip("Interactables with a `InteractableTrackingSwitch`")]
-        public List<InteractableTrackingSwitch> interactables;
+        public List<InteractableTracker> interactables;
 
         public void Show()
         {
@@ -27,18 +27,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             Show();
             for (int i = 0; i < interactables.Count; i++)
             {
-                InteractableTrackingSwitch interactable = interactables[i];
+                InteractableTracker interactable = interactables[i];
                 interactable.UseTransformAnchor(frame.GetAnchor(i));
-            }
-        }
-
-        public void UseHPUI(AnchorIndexToJointMapping anchorIndexToJointMapping)
-        {
-            Show();
-            for (int i = 0; i < interactables.Count; i++)
-            {
-                InteractableTrackingSwitch interactable = interactables[i];
-                interactable.UseJointFollower(true, anchorIndexToJointMapping.jointFollowers[i]);
             }
         }
     }

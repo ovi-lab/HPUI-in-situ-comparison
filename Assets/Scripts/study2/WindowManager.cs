@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
+using ubco.ovilab.HPUI.Tracking;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,15 +24,23 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public int fixedLayoutRows = 2;
 
         private Dictionary<int, InteractablesWindow> frameWindowMapping = new Dictionary<int, InteractablesWindow>();
+        private Frame hpuiFrame;
 
         /// <summary>
         /// Setup the frames on which the windows will be displayed.
         /// </summary>
         public void SetupFrames()
         {
+            Debug.Assert(frames.Select(f => f.index == 0).Any(), "Cannot have a frame with index 0!!");
             foreach(Frame frame in frames)
             {
                 frame.SetupLayout(fixedLayoutColumns, fixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale);
+            }
+
+            hpuiFrame = new Frame(0);
+            foreach (JointFollower follower in anchorIndexToJointMapping.JointFollowers)
+            {
+                hpuiFrame.gridAnchors.Add(follower.transform);
             }
         }
 
@@ -45,7 +54,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             IEnumerable<int> indices = frames.Select(f => f.index);
             currentOffset = Mathf.Clamp(offset, indices.Min(), indices.Max() - 1);
 
-            List<Frame> sortedFrames = frames.ToList().Append(new Frame(0)).OrderBy(f => f.index).ToList();
+            List<Frame> sortedFrames = frames.ToList().Append(hpuiFrame).OrderBy(f => f.index).ToList();
             List<InteractablesWindow> selectedWindows = windows.ToList(); // Creating a copy
 
             if (offset > 0)
@@ -63,14 +72,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 if (i < sortedFrames.Count)
                 {
                     Frame frame = sortedFrames[i];
-                    if (frame.index == 0)
-                    {
-                        window.UseHPUI(anchorIndexToJointMapping);
-                    }
-                    else
-                    {
-                        window.UseFrame(frame);
-                    }
+                    window.UseFrame(frame);
                 }
                 else
                 {

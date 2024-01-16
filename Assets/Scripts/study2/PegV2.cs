@@ -5,7 +5,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 {
     public class PegV2 : Peg
     {
-        private InteractableTrackingSwitch tracker;
+        private InteractableTracker tracker;
 
         public new Transform trackingObject
         {
@@ -20,7 +20,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         private void Start()
         {
-            tracker = GetComponent<InteractableTrackingSwitch>();
+            tracker = GetComponent<InteractableTracker>();
             trackingObject = null; // trigger activation
         }
     }

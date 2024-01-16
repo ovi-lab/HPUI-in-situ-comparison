@@ -18,12 +18,13 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// <summary>
         /// The elements in a given layout, when not on HPUI, would be using these transforms.
         /// </summary>
-        [HideInInspector] public List<Transform> gridAnchors;
+        public List<Transform> gridAnchors;
         [HideInInspector] public FixedTargetLayout fixedTargetLayout;
 
         public Frame(int index)
         {
             this.index = index;
+            this.gridAnchors = new List<Transform>();
         }
 
         public void SetupLayout(int fixedLayoutColumns, int fixedLayoutRows, float fixedLayoutSeperation, float fixedLayoutButtonScale)

@@ -25,7 +25,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                         .Select(i =>
                         {
                             GameObject interactableObj = GameObject.Instantiate(buttonPrefab, windowGameObject.transform);
-                            return interactableObj.AddComponent<InteractableTrackingSwitch>();
+                            return interactableObj.AddComponent<InteractableTracker>();
                         })
                         .ToList();
                     return interactablesWindow;
