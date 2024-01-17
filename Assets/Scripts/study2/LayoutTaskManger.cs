@@ -44,7 +44,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         public void OnTap(HPUITapEventArgs args)
         {
-            Debug.Log($"tappppgggg");
         }
     }
 }

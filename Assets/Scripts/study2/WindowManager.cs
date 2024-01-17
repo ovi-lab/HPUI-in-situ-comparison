@@ -107,7 +107,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// </summary>
         public void OnGesture(HPUIGestureEventArgs args)
         {
-            if (args.CumilativeDirection.magnitude > 0.3)
+            if (args.State == HPUIGestureState.Stopped && args.CumilativeDirection.magnitude > 0.02)
             {
                 if (args.CumilativeDirection.y > 0)
                 {
