@@ -116,6 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1697861888062256125}
   - component: {fileID: 1274688969958003469}
+  - component: {fileID: 8114068076040209075}
   m_Layer: 0
   m_Name: HPUI_Button_interactable
   m_TagString: Untagged
@@ -221,3 +222,18 @@ MonoBehaviour:
   gestureEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8114068076040209075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108819001507874141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5ecffb283a49f42842aef99f265bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theme: {fileID: 11400000, guid: f8e0fcf6727350440906eb35b2e853a1, type: 2}
+  interactable: {fileID: 1274688969958003469}
+  targetRenderer: {fileID: 5180638183244375062}
