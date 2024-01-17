@@ -1,4 +1,5 @@
 using System.Linq;
+using ubco.ovilab.HPUI.Interaction;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                         .Select(i =>
                         {
                             GameObject interactableObj = GameObject.Instantiate(buttonPrefab, windowGameObject.transform);
+                            interactableObj.GetComponent<HPUIBaseInteractable>().TapEvent.AddListener(OnTap);
                             return interactableObj.AddComponent<InteractableTracker>();
                         })
                         .ToList();
@@ -38,6 +40,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         {
             activeWindowManager.SetupFrames();
             Setup(7);
+        }
+
+        public void OnTap(HPUITapEventArgs args)
+        {
+            Debug.Log($"tappppgggg");
         }
     }
 }

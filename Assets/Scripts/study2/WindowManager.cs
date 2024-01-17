@@ -15,7 +15,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public List<Frame> frames;
         [Tooltip("From the left most to right most.")]
         public List<InteractablesWindow> windows;
-        public GameObject continuousInteractablesRoot;
+        public List<HPUIContinuousInteractable> continuousInteractables;
         public AnchorIndexToJointMapping anchorIndexToJointMapping;
         public int currentOffset;
         public float fixedLayoutSeperation = 0.005f;
@@ -41,6 +41,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             foreach (JointFollower follower in anchorIndexToJointMapping.JointFollowers)
             {
                 hpuiFrame.gridAnchors.Add(follower.transform);
+            }
+
+            foreach (HPUIContinuousInteractable interactable in continuousInteractables)
+            {
+                interactable.GestureEvent.AddListener(OnGesture);
             }
         }
 
@@ -95,6 +100,24 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public void ShiftWindowsLeft()
         {
             SetupWindows(currentOffset - 1);
+        }
+
+        /// <summary>
+        /// Callback for <see cref="IHPUIInteractable.OnGestureEvent"/> for continuous interactables.
+        /// </summary>
+        public void OnGesture(HPUIGestureEventArgs args)
+        {
+            if (args.CumilativeDirection.magnitude > 0.3)
+            {
+                if (args.CumilativeDirection.y > 0)
+                {
+                    ShiftWindowsLeft();
+                }
+                else
+                {
+                    ShiftWindowsRight();
+                }
+            }
         }
     }
 }
