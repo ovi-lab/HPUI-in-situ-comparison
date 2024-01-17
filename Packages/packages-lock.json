@@ -290,15 +290,6 @@
         "com.unity.xr.interaction.toolkit": "3.0.0-pre.1"
       }
     },
-    "ubc.ok.ovilab.uxf.extensions": {
-      "version": "file:UXF-extensions",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.31",
-        "com.unity.textmeshpro": "3.0.6"
-      }
-    },
     "ubc.ok.ovilab.vicon-nexus-unity-stream": {
       "version": "file:vicon-nexus-unity-stream",
       "depth": 0,
@@ -306,6 +297,15 @@
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.0.1",
         "com.unity.xr.hands": "1.4.0-pre.1"
+      }
+    },
+    "ubco.ovilab.uxf.extensions": {
+      "version": "file:UXF-extensions",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31",
+        "com.unity.textmeshpro": "3.0.6"
       }
     },
     "com.unity.modules.ai": {
