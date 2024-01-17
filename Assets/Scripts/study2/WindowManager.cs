@@ -17,10 +17,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public int fixedLayoutColumns = 3;
         public int fixedLayoutRows = 2;
 
-
-        private Dictionary<int, InteractablesWindow> frameWindowMapping = new Dictionary<int, InteractablesWindow>();
-        private Frame hpuiFrame;
-
         private List<InteractablesWindow> windows;
         public List<InteractablesWindow> Windows { get => windows; set => windows = value; }
 
