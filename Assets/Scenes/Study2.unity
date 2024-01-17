@@ -1037,7 +1037,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 5108819001507874141, guid: a9c7817954d272a409e2e605361c0c1f, type: 3}
   buttonsPerWindow: 6
   defaultOffset: 0
-  activeWindowManager: {fileID: 1915577303}
+  activeWindowManager: {fileID: 1915577304}
 --- !u!4 &927169709
 Transform:
   m_ObjectHideFlags: 0
@@ -2532,7 +2532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915577302}
-  - component: {fileID: 1915577303}
+  - component: {fileID: 1915577304}
   m_Layer: 0
   m_Name: WM1
   m_TagString: Untagged
@@ -2556,7 +2556,7 @@ Transform:
   - {fileID: 896826666}
   m_Father: {fileID: 1313303008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1915577303
+--- !u!114 &1915577304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2565,7 +2565,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1915577301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 140be7a89baf45f4694352d2ef3c2d60, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e82263bef71568459ce5c7c832edb9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frames:
@@ -2585,17 +2585,16 @@ MonoBehaviour:
     baseAnchor: {fileID: 2065259683}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
-  windows: []
-  continuousInteractables:
-  - {fileID: 1994890025}
-  - {fileID: 2130721399}
-  - {fileID: 597891330}
   anchorIndexToJointMapping: {fileID: 1837900660}
   currentOffset: 0
   fixedLayoutSeperation: 0.02
   fixedLayoutButtonScale: 1
   fixedLayoutColumns: 3
   fixedLayoutRows: 2
+  continuousInteractables:
+  - {fileID: 1994890025}
+  - {fileID: 2130721399}
+  - {fileID: 597891330}
 --- !u!1 &1957980527
 GameObject:
   m_ObjectHideFlags: 0
