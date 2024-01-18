@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
+using ubco.ovilab.hpuiInSituComparison.study1;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UXF;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
 {
@@ -40,7 +44,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 })
                 .ToList();
             return interactablesWindow;
-
         }
 
 
@@ -53,6 +56,16 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         public void OnTap(HPUITapEventArgs args)
         {
+        }
+
+        public void ConfigureTaskBlock(Block block, System.Random random, InSituCompBlockData el, bool lastBlockCancelled)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IHPUIInteractable> GetInteractables()
+        {
+            throw new NotImplementedException();
         }
     }
 }

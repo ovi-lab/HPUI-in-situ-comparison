@@ -13,20 +13,14 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     public class InSituLayoutExperimentManager : ExperimentManager<InSituCompBlockData>
     {
         public Camera mainCamera;
-        public List<Transform> buttonsRoots;
-        public Color defaultColor = Color.white;
-        public Color defaultHoverColor = Color.yellow;
-        public Color targetButtonColor = Color.red;
-        public Color defaultHighlightColor = Color.green;
         public AudioClip contactAudio;
         public AudioSource audioSource;
         public bool trackJoints = true; // Adding this for performance reasons
-        public TaskManager taskManager;
+        public LayoutTaskManger taskManager;
         public List<XRHandJointID> forceTrackJoints = new List<XRHandJointID>(); // When trackJoints is false, bypass that for the coordinates in this list
 
         #region HIDDEN_VARIABLES
-        private Dictionary<string, (IHPUIInteractable interactable, Tracker tracker, Vector3 localScale)> buttons;
-        private List<string> activeButtons;
+        private Dictionary<IHPUIInteractable, (Tracker tracker, Vector3 localScale)> interactables;
         private System.Random random;
         #endregion
 
@@ -75,39 +69,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 }
             }
 
-            // Adding all button locations to the tracked objects and save ButtonControllers
-            buttons = new Dictionary<string, (IHPUIInteractable, Tracker, Vector3)>();
-            foreach (Transform buttonsRoot in buttonsRoots)
-            {
-                foreach(IHPUIInteractable interactable in buttonsRoot.GetComponentsInChildren<IHPUIInteractable>())
-                {
-                    string buttonName = interactable.transform.name;
-
-                    // Configuring the colors of each buttons
-                    // TODO: Figure out how to change colors
-                    // SetButtonColor(interactable, defaultColor);
-                    // interactable.GetComponent<ButtonColorBehaviour>().highlightColor = defaultHighlightColor;
-
-                    // Setting up the trackers
-                    tracker = interactable.transform.GetComponent<HPUIInteratableTracker>();
-
-                    if (tracker == null)
-                    {
-                        tracker = interactable.transform.gameObject.AddComponent<ButtonControllerTracker>();
-                        tracker.objectName = "btn_" + buttonName;
-                    }
-
-                    // This RecordRow will be called everytime an interaction happens
-                    tracker.updateType = TrackerUpdateType.Manual;
-
-                    // Tracking buttons
-                    buttons.Add(buttonName, (interactable, tracker, interactable.transform.parent.localScale));
-
-                    session.trackedObjects.Add(tracker);
-                }
-            }
-
-            HideButtons();
+            interactables = new Dictionary<IHPUIInteractable, (Tracker, Vector3)>();
+            HideInteractables();
 
             tracker = mainCamera.GetComponent<PositionRotationTracker>();
             if (tracker == null)
@@ -129,14 +92,38 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
             taskManager.ConfigureTaskBlock(block, random, el, lastBlockCancelled);
 
-            // TODO: Get the buttons to interact with and confiure them
-            // foreach (ButtonController btn in taskManager.GetActiveButtons())
-            // {
-            //     btn.Show();
-            //     btn.ResetStates();
-            //     btn.contactAction.AddListener(OnButtonContact);
-            //     btn.proximateAction.AddListener(OnButtonHover);
-            // }
+            foreach(IHPUIInteractable interactable in taskManager.GetInteractables())
+            {
+                if (!interactables.ContainsKey(interactable))
+                {
+                    string interactableName = $"{interactable.transform.parent.parent?.name}_{interactable.transform.parent.name}_{interactable.transform.name}";
+
+                    // Setting up the trackers
+                    Tracker tracker = interactable.transform.GetComponent<HPUIInteratableTracker>();
+
+                    if (tracker == null)
+                    {
+                        tracker = interactable.transform.gameObject.AddComponent<ButtonControllerTracker>();
+                        tracker.objectName = "btn_" + interactableName;
+                    }
+
+                    // This RecordRow will be called everytime an interaction happens
+                    tracker.updateType = TrackerUpdateType.Manual;
+
+                    // Tracking buttons
+                    interactables.Add(interactable, (tracker, interactable.transform.parent.localScale));
+
+                    Session.instance.trackedObjects.Add(tracker);
+                }
+                if (interactable is HPUIContinuousInteractable continuousInteractable)
+                {
+                    continuousInteractable.GestureEvent.RemoveListener(OnButtonGesture);
+                }
+                else
+                {
+                    (interactable as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnButtonTap);
+                }
+            }
         }
 
         protected override void OnBlockBegin(Block block)
@@ -155,12 +142,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         protected override void OnBlockEnd(Block block)
         {
-            HideButtons();
+            HideInteractables();
         }
 
         protected override void OnSessionEnd(Session session)
         {
-            HideButtons();
+            HideInteractables();
         }
         #endregion
 
@@ -176,13 +163,14 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 return;
             }
 
-            buttons[interactable.transform.name].tracker.RecordRow();
+            Tracker tracker = interactables[interactable].tracker;
+            tracker.RecordRow();
             // targetButton.ResetStates();
             // targetButton.contactAction.RemoveListener(OnButtonContact);
 
             Debug.Log($"Button contact  Trial num: {Session.instance.CurrentTrial.number}     " +
                       $"Block num: {Session.instance.CurrentBlock.number}     " +
-                      $"Contact button: {interactable.transform.name}     ");
+                      $"Contact button: {tracker.objectName}     ");
         }
 
         private void OnButtonGesture(HPUIGestureEventArgs args)
@@ -196,41 +184,26 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
             Debug.Log($"Slider change Trial num: {Session.instance.CurrentTrial.number}     " +
                       $"Block num: {Session.instance.CurrentBlock.number}     " +
-                      $"Slider: {interactable.transform.name}    Value: {(args.Position - interactable.boundsMin) / (interactable.boundsMax - interactable.boundsMin)} ");
+                      $"Slider: {interactables[interactable].tracker.objectName}    Value: {(args.Position - interactable.boundsMin) / (interactable.boundsMax - interactable.boundsMin)} ");
         }
 
         #endregion
 
         #region HELPER_FUNCTIONS
-        private void HideButtons()
+        private void HideInteractables()
         {
-            foreach ((IHPUIInteractable button, Tracker tracker, Vector3 localScale) in buttons.Values)
+            foreach (IHPUIInteractable interactable in interactables.Keys)
             {
-                if (button is HPUIContinuousInteractable continuousInteractable)
+                if (interactable is HPUIContinuousInteractable continuousInteractable)
                 {
                     continuousInteractable.GestureEvent.RemoveListener(OnButtonGesture);
                 }
                 else
                 {
-                    (button as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnButtonTap);
+                    (interactable as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnButtonTap);
                 }
-                button.transform.gameObject.SetActive(false);
+                interactable.transform.gameObject.SetActive(false);
             }
-        }
-
-        // TODO: Do I need a set of method of button behavior?
-        private void SetButtonColor(IHPUIInteractable buttonController, Color color, Color? hoverColor=null)
-        {
-            // buttonController.GetComponent<ButtonColorBehaviour>().DefaultColor = color;
-
-            // if (hoverColor == null)
-            // {
-            //     buttonController.GetComponent<ButtonColorBehaviour>().hoverColor = color;  // disabling the hover color
-            // }
-            // else
-            // {
-            //     buttonController.GetComponent<ButtonColorBehaviour>().hoverColor = (Color) hoverColor;
-            // }
         }
         #endregion
     }
