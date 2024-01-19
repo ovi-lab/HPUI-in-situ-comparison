@@ -31,5 +31,14 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 interactable.UseTransformAnchor(frame.GetAnchor(i));
             }
         }
+
+        private void OnDestory()
+        {
+            foreach (InteractableTracker interactable in interactables)
+            {
+                Destroy(interactable.gameObject);
+            }
+            interactables.Clear();
+        }
     }
 }

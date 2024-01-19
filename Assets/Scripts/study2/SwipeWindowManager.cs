@@ -85,6 +85,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             SetupWindows(currentOffset - 1);
         }
 
+        /// <inheritdoc />
+        public override List<IHPUIInteractable> GetManagedInteractables()
+        {
+            return continuousInteractables.Select(c => c as IHPUIInteractable).ToList();
+        }
+
         /// <summary>
         /// Callback for <see cref="IHPUIInteractable.OnGestureEvent"/> for continuous interactables.
         /// </summary>

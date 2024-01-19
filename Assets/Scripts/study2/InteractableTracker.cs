@@ -1,4 +1,4 @@
-using ubco.ovilab.HPUI.Tracking;
+using ubco.ovilab.HPUI.Interaction;
 using UnityEngine;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
@@ -11,9 +11,31 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     public class InteractableTracker : MonoBehaviour
     {
         public Transform parent;
+        public IHPUIInteractable interactable;
+        public SpriteRenderer spriteRenderer;
+        public HPUIInteratableTracker tracker;
 
         /// <inheritdoc />
-        public void Update()
+        private void OnEnable()
+        {
+            if (interactable == null)
+            {
+                interactable = GetComponent<IHPUIInteractable>();
+            }
+
+            if (spriteRenderer == null)
+            {
+                spriteRenderer = GetComponent<SpriteRenderer>();
+            }
+
+            if (tracker == null)
+            {
+                tracker = GetComponent<HPUIInteratableTracker>();
+            }
+        }
+
+        /// <inheritdoc />
+        private void Update()
         {
             if (parent != null)
             {

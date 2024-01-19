@@ -9,6 +9,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
     {
         public static ColorIndex instance;
         public Color defaultColor;
+        public Sprite defaultSprite;
         public List<GroupList<Sprite>> colorSprites;
 
         public List<GroupList<Color>> colors;

@@ -218,7 +218,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
 
                     selectedColorIndices.Add(colorIndex);
 
-                    int x = 0;
                     do
                     {
                         position = new Vector3(UnityEngine.Random.value * workspaceExtents.x * 2 - workspaceExtents.x,
