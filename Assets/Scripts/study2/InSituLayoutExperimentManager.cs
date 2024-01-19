@@ -7,10 +7,11 @@ using UnityEngine;
 using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiInSituComparison.study1;
 using UnityEngine.XR.Hands;
+using ubco.ovilab.hpuiInSituComparison.common;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
 {
-    public class InSituLayoutExperimentManager : ExperimentManager<InSituCompBlockData>
+    public class InSituLayoutExperimentManager : ExperimentManager<InSituLayoutCompBlockData>
     {
         public Camera mainCamera;
         public AudioClip contactAudio;
@@ -26,6 +27,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         public override void Start()
         {
+            // TODO: Update this!
             Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex","colorGroupIndex", "targetIndex", "targetLocation", "sequenceIndex",
                         "inSequenceIndex", "startZoomScale", "secondDisplayVisibleStartAtScale", "secondDisplayVisibleScaleWindow"});
             base.Start();
@@ -70,6 +72,38 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
 
             interactables = new Dictionary<IHPUIInteractable, (Tracker, Vector3)>();
+
+            foreach(IHPUIInteractable interactable in taskManager.GetInteractables())
+            {
+                if (!interactables.ContainsKey(interactable))
+                {
+                    string interactableName = $"{interactable.transform.parent.parent?.name}_{interactable.transform.parent.name}_{interactable.transform.name}";
+
+                    // Setting up the trackers
+                    tracker = interactable.transform.GetComponent<HPUIInteratableTracker>();
+
+                    if (tracker == null)
+                    {
+                        tracker = interactable.transform.gameObject.AddComponent<ButtonControllerTracker>();
+                        tracker.objectName = "btn_" + interactableName;
+                    }
+
+                    InteractableTracker interactableTracker = interactable.transform.GetComponent<InteractableTracker>();
+                    if (interactableTracker != null)
+                    {
+                        interactableTracker.tracker = tracker as HPUIInteratableTracker;
+                    }
+
+                    // This RecordRow will be called everytime an interaction happens
+                    tracker.updateType = TrackerUpdateType.Manual;
+
+                    // Tracking buttons
+                    interactables.Add(interactable, (tracker, interactable.transform.parent.localScale));
+
+                    Session.instance.trackedObjects.Add(tracker);
+                }
+            }
+
             HideInteractables();
 
             tracker = mainCamera.GetComponent<PositionRotationTracker>();
@@ -81,7 +115,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             session.trackedObjects.Add(tracker);
         }
 
-        protected override void ConfigureBlock(InSituCompBlockData el, Block block, bool lastBlockCancelled)
+        protected override void ConfigureBlock(InSituLayoutCompBlockData el, Block block, bool lastBlockCancelled)
         {
             // TODO: take following values from the server
             // - offset for skeleton
@@ -92,36 +126,15 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
             taskManager.ConfigureTaskBlock(block, random, el, lastBlockCancelled);
 
-            foreach(IHPUIInteractable interactable in taskManager.GetInteractables())
+            foreach(IHPUIInteractable interactable in taskManager.GetAvtiveInteractables())
             {
-                if (!interactables.ContainsKey(interactable))
-                {
-                    string interactableName = $"{interactable.transform.parent.parent?.name}_{interactable.transform.parent.name}_{interactable.transform.name}";
-
-                    // Setting up the trackers
-                    Tracker tracker = interactable.transform.GetComponent<HPUIInteratableTracker>();
-
-                    if (tracker == null)
-                    {
-                        tracker = interactable.transform.gameObject.AddComponent<ButtonControllerTracker>();
-                        tracker.objectName = "btn_" + interactableName;
-                    }
-
-                    // This RecordRow will be called everytime an interaction happens
-                    tracker.updateType = TrackerUpdateType.Manual;
-
-                    // Tracking buttons
-                    interactables.Add(interactable, (tracker, interactable.transform.parent.localScale));
-
-                    Session.instance.trackedObjects.Add(tracker);
-                }
                 if (interactable is HPUIContinuousInteractable continuousInteractable)
                 {
-                    continuousInteractable.GestureEvent.RemoveListener(OnButtonGesture);
+                    continuousInteractable.GestureEvent.AddListener(OnButtonGesture);
                 }
                 else
                 {
-                    (interactable as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnButtonTap);
+                    (interactable as HPUIBaseInteractable)?.TapEvent.AddListener(OnButtonTap);
                 }
             }
         }
@@ -206,5 +219,22 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
         }
         #endregion
+    }
+
+    public class InSituLayoutCompBlockData: HPUIBlockData
+    {
+        public string windowManager;
+        public int numberOfColors;
+
+        public override string ToString()
+        {
+            return
+                base.ToString() +
+                $"Number of Trials: {numTrials}    " +
+                $"Buttons used: {handedness}   " +
+                $"Change Layout: {changeLayout}   " +
+                $"Start zoom above: {windowManager}    " +
+                $"Number of colors: {numberOfColors}    ";
+        }
     }
 }
