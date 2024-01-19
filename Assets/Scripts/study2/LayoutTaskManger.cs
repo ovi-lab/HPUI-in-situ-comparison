@@ -37,6 +37,13 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         [Tooltip("The start zoom level to set for the workspace.")] // NOTE: This may be removed in future. See `Scale`.
         [SerializeField] private float startZoomScale = 0.5f;
 
+        [Tooltip("Played when trial completion condition not met.")]
+        [SerializeField] private AudioClip failAudio;
+        [Tooltip("Played when trial completion conditions are met.")]
+        [SerializeField] private AudioClip successAudio;
+        [Tooltip("The audio source that will play the above audio.")]
+        [SerializeField] private AudioSource audioSource;
+
         public float Scale
         {
             get {
@@ -62,7 +69,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         private List<Target> targets;
         private List<InteractablesWindow> windows = new List<InteractablesWindow>();
         private List<int> activeColorLayout;
-        private Dictionary<InteractableTracker, int> buttonToColorMapping;
+        private Dictionary<IHPUIInteractable, (int index, string name)> buttonToColorMapping = new Dictionary<IHPUIInteractable, (int index, string name)>();
+        private Dictionary<IHPUIInteractable, InteractableTracker> allActiveTrackersMapping = new Dictionary<IHPUIInteractable, InteractableTracker>();
         private List<List<int>> sequences;
         private List<List<Vector3>> sequencesLocations;
         private int currentColorIndex, currentSequenceIndex = -1, activeColorLayoutIndex = -1;
@@ -83,6 +91,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             windows.Clear();
             windows.AddRange(Enumerable.Range(1, numberOfWindows)
                              .Select(i => GenerateWindow(i, buttonsPerWindow, transform, OnTap)));
+
+            allActiveTrackersMapping = GetWindowsInteractables().ToDictionary(i => i.interactable, i => i);
 
             foreach (WindowManager windowManager in windowManagers)
             {
@@ -183,7 +193,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     int colorIndex = activeColorLayout[j];
                     InteractableTracker interactable = interactables[j];
                     interactable.spriteRenderer.sprite = ColorIndex.instance.GetSprite(activeColorLayoutIndex, colorIndex);
-                    buttonToColorMapping.Add(interactable, colorIndex);
+                    buttonToColorMapping.Add(interactable.interactable, (colorIndex, interactable.tracker.name));
                 }
             }
             currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
@@ -247,9 +257,40 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         private void OnTap(HPUITapEventArgs args)
         {
-            // TODO: task specific setup
-            // TODO: handle buttonSelectionsTable
-            // TODO: start next trial when appropriate
+            if (buttonToColorMapping.ContainsKey(args.interactableObject))
+            {
+                int colorIndex = buttonToColorMapping[args.interactableObject].index;
+                string interactableName = buttonToColorMapping[args.interactableObject].name;
+                AddButtonSelectionToTable(interactableName, "color", colorIndex);
+                currentPeg.DisplayColorGroupIndex = activeColorLayoutIndex;
+                currentPeg.DisplayColorIndex = colorIndex;
+
+                if (currentPeg.DisplayColorIndex == currentColorIndex && currentTarget.IsSelected)
+                {
+                    AddButtonSelectionToTable(interactableName, "accept", 1);
+                    currentTrial.SaveDataTable(buttonSelectionsTable, "buttonSelections");
+                    audioSource.PlayOneShot(successAudio);
+                    try
+                    {
+                        Session.instance.EndCurrentTrial();
+                        Session.instance.BeginNextTrial();
+                    }
+                    catch (NoSuchTrialException)
+                    {
+                        Debug.Log($"Session ended. (probably?)");
+                    }
+                }
+                else
+                {
+                    AddButtonSelectionToTable(interactableName, "accept", 0);
+                    audioSource.PlayOneShot(failAudio);
+                }
+            }
+            else
+            {
+                AddButtonSelectionToTable(allActiveTrackersMapping[args.interactableObject].tracker.name, "accept", -1);
+                // Audio feedback will be coming from the experiment manager setup.
+            }
         }
         #endregion
 
@@ -389,6 +430,22 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 peg.Active = false;
                 peg.Visible = false;
             }
+        }
+
+        public void AddButtonSelectionToTable(string btn, string function, float val)
+        {
+            if (buttonSelectionsTable == null)
+            {
+                return;
+            }
+
+            UXFDataRow row = new UXFDataRow(){
+                ("time", Time.time),
+                ("buttonName", btn),
+                ("function", function),
+                ("value", val)
+            };
+            buttonSelectionsTable.AddCompleteRow(row);
         }
         #endregion
     }
