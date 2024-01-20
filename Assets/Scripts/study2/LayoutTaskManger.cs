@@ -13,9 +13,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     public class LayoutTaskManger : MonoBehaviour
     {
         [Tooltip("The button prefab used to populate a window.")]
-        [SerializeField] private GameObject buttonPrefab;
+        [SerializeField] private GameObject interactablePrefab;
         [Tooltip("The number of buttons to be populated in a window.")]
-        [SerializeField] private int buttonsPerWindow = 6;
+        [SerializeField] private int interactablesPerWindow = 6;
         [Tooltip("The number of total windows to genrated.")]
         [SerializeField] private int numberOfWindows = 7;
         [Tooltip("The offset on the list of frames. The windows will be shifted by this number.")]
@@ -69,7 +69,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         private List<Target> targets;
         private List<InteractablesWindow> windows = new List<InteractablesWindow>();
         private List<int> activeColorLayout;
-        private Dictionary<IHPUIInteractable, (int index, string name)> buttonToColorMapping = new Dictionary<IHPUIInteractable, (int index, string name)>();
+        private Dictionary<IHPUIInteractable, (int index, string name)> interactablesToColorMapping = new Dictionary<IHPUIInteractable, (int index, string name)>();
         private Dictionary<IHPUIInteractable, InteractableTracker> allActiveTrackersMapping = new Dictionary<IHPUIInteractable, InteractableTracker>();
         private List<List<int>> sequences;
         private List<List<Vector3>> sequencesLocations;
@@ -77,7 +77,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         private Target currentTarget;
         private PegV2 currentPeg;
         private Trial currentTrial;
-        private UXFDataTable buttonSelectionsTable;
+        private UXFDataTable interactablesSelectionsTable;
 
         private void Start()
         {
@@ -90,7 +90,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
             windows.Clear();
             windows.AddRange(Enumerable.Range(1, numberOfWindows)
-                             .Select(i => GenerateWindow(i, buttonsPerWindow, transform, OnTap)));
+                             .Select(i => GenerateWindow(i, interactablesPerWindow, transform, OnTap)));
 
             allActiveTrackersMapping = GetWindowsInteractables().ToDictionary(i => i.interactable, i => i);
 
@@ -157,7 +157,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
                 activeColorLayout = newColorLayout;
 
-                buttonToColorMapping.Clear();
+                interactablesToColorMapping.Clear();
 
                 // Determine wich of the interactables in the windows are to be targets.
                 List<InteractableTracker> interactables = new List<InteractableTracker>();
@@ -193,7 +193,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     int colorIndex = activeColorLayout[j];
                     InteractableTracker interactable = interactables[j];
                     interactable.spriteRenderer.sprite = ColorIndex.instance.GetSprite(activeColorLayoutIndex, colorIndex);
-                    buttonToColorMapping.Add(interactable.interactable, (colorIndex, interactable.tracker.name));
+                    interactablesToColorMapping.Add(interactable.interactable, (colorIndex, interactable.tracker.name));
                 }
             }
             currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
@@ -257,18 +257,18 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         private void OnTap(HPUITapEventArgs args)
         {
-            if (buttonToColorMapping.ContainsKey(args.interactableObject))
+            if (interactablesToColorMapping.ContainsKey(args.interactableObject))
             {
-                int colorIndex = buttonToColorMapping[args.interactableObject].index;
-                string interactableName = buttonToColorMapping[args.interactableObject].name;
-                AddButtonSelectionToTable(interactableName, "color", colorIndex);
+                int colorIndex = interactablesToColorMapping[args.interactableObject].index;
+                string interactableName = interactablesToColorMapping[args.interactableObject].name;
+                AddInteractablesSelectionToTable(interactableName, "color", colorIndex);
                 currentPeg.DisplayColorGroupIndex = activeColorLayoutIndex;
                 currentPeg.DisplayColorIndex = colorIndex;
 
                 if (currentPeg.DisplayColorIndex == currentColorIndex && currentTarget.IsSelected)
                 {
-                    AddButtonSelectionToTable(interactableName, "accept", 1);
-                    currentTrial.SaveDataTable(buttonSelectionsTable, "buttonSelections");
+                    AddInteractablesSelectionToTable(interactableName, "accept", 1);
+                    currentTrial.SaveDataTable(interactablesSelectionsTable, "buttonSelections");
                     audioSource.PlayOneShot(successAudio);
                     try
                     {
@@ -282,13 +282,13 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 }
                 else
                 {
-                    AddButtonSelectionToTable(interactableName, "accept", 0);
+                    AddInteractablesSelectionToTable(interactableName, "accept", 0);
                     audioSource.PlayOneShot(failAudio);
                 }
             }
             else
             {
-                AddButtonSelectionToTable(allActiveTrackersMapping[args.interactableObject].tracker.name, "accept", -1);
+                AddInteractablesSelectionToTable(allActiveTrackersMapping[args.interactableObject].tracker.name, "accept", -1);
                 // Audio feedback will be coming from the experiment manager setup.
             }
         }
@@ -302,7 +302,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 activeWindowManager.Enable();
             }
 
-            buttonSelectionsTable = new UXFDataTable("time","buttonName", "function", "value");
+            interactablesSelectionsTable = new UXFDataTable("time","buttonName", "function", "value");
             currentTrial = trial;
 
             int sequenceIndex = trial.settings.GetInt("sequenceIndex");
@@ -360,15 +360,15 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// <summary>
         /// Generates a window.
         /// </summary>
-        public InteractablesWindow GenerateWindow(int windowIndex, int buttonsPerWindow, Transform parentTransform, UnityAction<HPUITapEventArgs> OnTap)
+        public InteractablesWindow GenerateWindow(int windowIndex, int interactablesPerWindow, Transform parentTransform, UnityAction<HPUITapEventArgs> OnTap)
         {
             GameObject windowGameObject = new GameObject($"WindowSet_{windowIndex}");
             windowGameObject.transform.parent = parentTransform;
             InteractablesWindow interactablesWindow = windowGameObject.AddComponent<InteractablesWindow>();
-            interactablesWindow.interactables = Enumerable.Range(1, buttonsPerWindow)
+            interactablesWindow.interactables = Enumerable.Range(1, interactablesPerWindow)
                 .Select(i =>
                 {
-                    GameObject interactableObj = GameObject.Instantiate(buttonPrefab, windowGameObject.transform);
+                    GameObject interactableObj = GameObject.Instantiate(interactablePrefab, windowGameObject.transform);
                     interactableObj.GetComponent<HPUIBaseInteractable>().TapEvent.AddListener(OnTap);
                     return interactableObj.AddComponent<InteractableTracker>();
                 })
@@ -432,9 +432,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
         }
 
-        public void AddButtonSelectionToTable(string btn, string function, float val)
+        public void AddInteractablesSelectionToTable(string btn, string function, float val)
         {
-            if (buttonSelectionsTable == null)
+            if (interactablesSelectionsTable == null)
             {
                 return;
             }
@@ -445,7 +445,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 ("function", function),
                 ("value", val)
             };
-            buttonSelectionsTable.AddCompleteRow(row);
+            interactablesSelectionsTable.AddCompleteRow(row);
         }
         #endregion
     }

@@ -5,7 +5,6 @@ using UXF;
 using ubco.ovilab.ViconUnityStream;
 using UnityEngine;
 using ubco.ovilab.HPUI.Interaction;
-using ubco.ovilab.hpuiInSituComparison.study1;
 using UnityEngine.XR.Hands;
 using ubco.ovilab.hpuiInSituComparison.common;
 
@@ -28,8 +27,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public override void Start()
         {
             // TODO: Update this!
-            Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex","colorGroupIndex", "targetIndex", "targetLocation", "sequenceIndex",
-                        "inSequenceIndex", "startZoomScale", "secondDisplayVisibleStartAtScale", "secondDisplayVisibleScaleWindow"});
+            Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex","colorGroupIndex", "targetIndex",
+                        "targetLocation", "sequenceIndex", "inSequenceIndex"});
             base.Start();
         }
 
@@ -84,7 +83,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
                     if (tracker == null)
                     {
-                        tracker = interactable.transform.gameObject.AddComponent<ButtonControllerTracker>();
+                        tracker = interactable.transform.gameObject.AddComponent<HPUIInteratableTracker>();
                         tracker.objectName = "btn_" + interactableName;
                     }
 
@@ -97,7 +96,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     // This RecordRow will be called everytime an interaction happens
                     tracker.updateType = TrackerUpdateType.Manual;
 
-                    // Tracking buttons
+                    // Tracking interactables
                     interactables.Add(interactable, (tracker, interactable.transform.parent.localScale));
 
                     Session.instance.trackedObjects.Add(tracker);
@@ -130,11 +129,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 if (interactable is HPUIContinuousInteractable continuousInteractable)
                 {
-                    continuousInteractable.GestureEvent.AddListener(OnButtonGesture);
+                    continuousInteractable.GestureEvent.AddListener(OnInteractableGesture);
                 }
                 else
                 {
-                    (interactable as HPUIBaseInteractable)?.TapEvent.AddListener(OnButtonTap);
+                    (interactable as HPUIBaseInteractable)?.TapEvent.AddListener(OnInteractableTap);
                 }
             }
         }
@@ -166,7 +165,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         #region HPUI functions
         // callback functions
-        private void OnButtonTap(HPUITapEventArgs args)
+        private void OnInteractableTap(HPUITapEventArgs args)
         {
             IHPUIInteractable interactable = args.interactableObject;
             audioSource.PlayOneShot(contactAudio);
@@ -181,12 +180,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             // targetButton.ResetStates();
             // targetButton.contactAction.RemoveListener(OnButtonContact);
 
-            Debug.Log($"Button contact  Trial num: {Session.instance.CurrentTrial.number}     " +
+            Debug.Log($"Interactable contact  Trial num: {Session.instance.CurrentTrial.number}     " +
                       $"Block num: {Session.instance.CurrentBlock.number}     " +
-                      $"Contact button: {tracker.objectName}     ");
+                      $"Contact interactable: {tracker.objectName}     ");
         }
 
-        private void OnButtonGesture(HPUIGestureEventArgs args)
+        private void OnInteractableGesture(HPUIGestureEventArgs args)
         {
             IHPUIInteractable interactable = args.interactableObject;
             audioSource.PlayOneShot(contactAudio);
@@ -209,11 +208,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 if (interactable is HPUIContinuousInteractable continuousInteractable)
                 {
-                    continuousInteractable.GestureEvent.RemoveListener(OnButtonGesture);
+                    continuousInteractable.GestureEvent.RemoveListener(OnInteractableGesture);
                 }
                 else
                 {
-                    (interactable as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnButtonTap);
+                    (interactable as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnInteractableTap);
                 }
                 interactable.transform.gameObject.SetActive(false);
             }

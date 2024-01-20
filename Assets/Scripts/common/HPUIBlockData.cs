@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 using ubco.ovilab.uxf.extensions;
-using UXF;
-using ubco.ovilab.ViconUnityStream;
-using UnityEngine;
 
 namespace ubco.ovilab.hpuiInSituComparison.common
 {
