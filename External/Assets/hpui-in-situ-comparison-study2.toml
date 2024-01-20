@@ -1,0 +1,50 @@
+[configuration]
+order = [["swipe-navigation-change-layout", "swipe-navigation"], ["slide-navigation-change-layout", "slide-navigation"]]
+
+groups = "latin_square"
+within_groups= "as_is"
+
+[configuration.variables]
+TRIALS = 7
+NUMBER_OF_COLORS = 6
+
+HPUI_UNIMANUAL = "HPUI-unimanual"
+
+[[blocks]]
+name = "swipe-navigation"
+[blocks.config]
+numTrials = "$TRIALS"
+calibrationName = "$HPUI_UNIMANUAL"
+changeLayout = false
+windowManager = "swipe"
+numberOfColors = "$NUMBER_OF_COLORS"
+
+[[blocks]]
+name = "slide-navigation"
+extends = "swipe-navigation"
+[blocks.config]
+windowManager = "slide"
+
+[[blocks]]
+name = "tap-navigation"
+extends = "swipe-navigation"
+[blocks.config]
+windowManager = "tap"
+
+[[blocks]]
+name = "swipe-navigation-change-layout"
+extends = "swipe-navigation"
+[blocks.config]
+changeLayout = true
+
+[[blocks]]
+name = "slide-navigation-change-layout"
+extends = "slide-navigation"
+[blocks.config]
+changeLayout = true
+
+[[blocks]]
+name = "tap-navigation-change-layout"
+extends = "tap-navigation"
+[blocks.config]
+changeLayout = true

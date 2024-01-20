@@ -3939,7 +3939,7 @@ MonoBehaviour:
   audioSource: {fileID: 1655942053}
   trackJoints: 0
   taskManager: {fileID: 927169708}
-  forceTrackJoints: 
+  forceTrackJoints: 04000000050000000600000003000000
 --- !u!4 &1651553606
 Transform:
   m_ObjectHideFlags: 0

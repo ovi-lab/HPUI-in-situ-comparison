@@ -1,0 +1,38 @@
+[
+  {
+    "changeLayout": true,
+    "windowManager": "slide",
+    "numTrials": 7,
+    "calibrationName": "HPUI-unimanual",
+    "numberOfColors": 6,
+    "participant_index": 300,
+    "name": "slide-navigation-change-layout"
+  },
+  {
+    "windowManager": "slide",
+    "numTrials": 7,
+    "calibrationName": "HPUI-unimanual",
+    "changeLayout": false,
+    "numberOfColors": 6,
+    "participant_index": 300,
+    "name": "slide-navigation"
+  },
+  {
+    "changeLayout": true,
+    "numTrials": 7,
+    "calibrationName": "HPUI-unimanual",
+    "windowManager": "swipe",
+    "numberOfColors": 6,
+    "participant_index": 300,
+    "name": "swipe-navigation-change-layout"
+  },
+  {
+    "numTrials": 7,
+    "calibrationName": "HPUI-unimanual",
+    "changeLayout": false,
+    "windowManager": "swipe",
+    "numberOfColors": 6,
+    "participant_index": 300,
+    "name": "swipe-navigation"
+  }
+]
