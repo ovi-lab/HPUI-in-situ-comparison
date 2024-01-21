@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using ubco.ovilab.HPUI.Legacy;
 using UnityEngine.XR.Hands;
 using ubco.ovilab.uxf.extensions;
+using UnityEngine.Events;
 
 namespace ubco.ovilab.hpuiInSituComparison.common
 {
@@ -20,6 +21,8 @@ namespace ubco.ovilab.hpuiInSituComparison.common
         public CalibrateButton2 deformableDisplayCalibration;
         public List<CalibrationSettings> settings;
         public List<ComputeDistancePair> pairs;
+        public UnityEvent onCalibrationStarted;
+        public UnityEvent onCalibrationEnded;
         #endregion
 
         #region PRIVATE_VARIABLES
@@ -102,6 +105,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
             doneCalibrationButton.interactable = false;
             currentCalibrationName = name;
             this.changeLayout = changeLayout;
+            onCalibrationStarted?.Invoke();
         }
 
         void SetCalibration()
@@ -153,6 +157,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
             doneCalibrationButton.interactable = false;
             experimentManager.CalibrationComplete(calibrationParameters);
             calibrationParameters = null;
+            onCalibrationEnded?.Invoke();
         }
 
         void GetPositionsDominantRight()
