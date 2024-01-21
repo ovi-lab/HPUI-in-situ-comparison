@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b4d8388989e4d498d280656310192d, type: 3}
   m_Name: Study2ExperimtDataSource
   m_EditorClassIdentifier: 
-  useLocalData: 0
-  participantIndex: 0
-  configJsonFile: {fileID: 0}
+  useLocalData: 1
+  participantIndex: 300
+  configJsonFile: {fileID: 4900000, guid: 8e7ea2898ff284b4b90032613a3b84d2, type: 3}
   experimentServerUrl: http://127.0.0.1:5000
   experimentStartFrom0: 0

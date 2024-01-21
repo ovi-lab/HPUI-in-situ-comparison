@@ -219,7 +219,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
             recordedCalibration = true;
             executeCalibrationButton.interactable = true;
 
-            deformableDisplayCalibration.OnClick();
+            deformableDisplayCalibration?.OnClick();
         }
 
         void GetAnchorPositions(Handedness handedness, string prefix, int handIndex)
@@ -231,6 +231,11 @@ namespace ubco.ovilab.hpuiInSituComparison.common
                 anchor = rightAboveHandAnchor;
             } else if (handedness == Handedness.Left){
                 anchor = leftAboveHandAnchor;
+            }
+
+            if (anchor == null)
+            {
+                return;
             }
 
             Transform palmBase = HandsManager.instance.handCoordinateManagers[handIndex].palmBase.transform;
@@ -288,16 +293,21 @@ namespace ubco.ovilab.hpuiInSituComparison.common
                 case CalibrationOptions.AboveDominantHand:
                     SetSettingsTransformPosition(s, Vector3.zero, Quaternion.identity);
                     linker = s.t.GetComponent<TransformLinker>();
+                    if (linker != null)
+                    {
+                        if (handedness == Handedness.Right && rightAboveHandAnchor != null)
+                        {
+                            linker.parent = rightAboveHandAnchor;
+                            linker.enabled = true;
+                        }
+                        else if (handedness == Handedness.Left && leftAboveHandAnchor != null)
+                        {
+                            linker.parent = leftAboveHandAnchor;
+                            linker.enabled = true;
+                        }
+                    }
+
                     alwaysFaceCamera = s.t.GetComponent<AlwaysFaceCamera>();
-                    if (handedness == Handedness.Right)
-                    {
-                        linker.parent = rightAboveHandAnchor;
-                    }
-                    else
-                    {
-                        linker.parent = leftAboveHandAnchor;
-                    }
-                    linker.enabled = true;
                     if (alwaysFaceCamera != null)
                     {
                         alwaysFaceCamera.enabled = true;
@@ -306,16 +316,21 @@ namespace ubco.ovilab.hpuiInSituComparison.common
                 case CalibrationOptions.AboveNonDominantHand:
                     SetSettingsTransformPosition(s, Vector3.zero, Quaternion.identity);
                     linker = s.t.GetComponent<TransformLinker>();
+                    if (linker != null)
+                    {
+                        if (handedness == Handedness.Right && leftAboveHandAnchor != null)
+                        {
+                            linker.parent = leftAboveHandAnchor;
+                            linker.enabled = true;
+                        }
+                        else if (handedness == Handedness.Left && rightAboveHandAnchor != null)
+                        {
+                            linker.parent = rightAboveHandAnchor;
+                            linker.enabled = true;
+                        }
+                    }
+
                     alwaysFaceCamera = s.t.GetComponent<AlwaysFaceCamera>();
-                    if (handedness == Handedness.Right)
-                    {
-                        linker.parent = leftAboveHandAnchor;
-                    }
-                    else
-                    {
-                        linker.parent = rightAboveHandAnchor;
-                    }
-                    linker.enabled = true;
                     if (alwaysFaceCamera != null)
                     {
                         alwaysFaceCamera.enabled = true;

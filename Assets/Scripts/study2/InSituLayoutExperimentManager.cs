@@ -4,6 +4,7 @@ using ubco.ovilab.uxf.extensions;
 using UXF;
 using ubco.ovilab.ViconUnityStream;
 using UnityEngine;
+using UnityEngine.UI;
 using ubco.ovilab.HPUI.Interaction;
 using UnityEngine.XR.Hands;
 using ubco.ovilab.hpuiInSituComparison.common;
@@ -19,10 +20,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public LayoutTaskManger taskManager;
         public CalibrationContainer calibrationContainer;
         public List<XRHandJointID> forceTrackJoints = new List<XRHandJointID>(); // When trackJoints is false, bypass that for the coordinates in this list
+        public Button setRightButton, setLeftButton;
 
         #region HIDDEN_VARIABLES
         private Dictionary<IHPUIInteractable, (Tracker tracker, Vector3 localScale)> interactables;
         private System.Random random;
+        private string handedness; // Set by the button in the scene
         #endregion
 
         public override void Start()
@@ -31,6 +34,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex","colorGroupIndex", "targetIndex",
                         "targetLocation", "sequenceIndex", "inSequenceIndex"});
             calibrationContainer.SetupCalibrationMethods(this);
+            onBlockRecieved.AddListener(OnBlockRecieved);
+            setRightButton.onClick.AddListener(() => handedness = "right");
+            setLeftButton.onClick.AddListener(() => handedness = "left");
             base.Start();
         }
 
@@ -218,6 +224,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 }
                 interactable.transform.gameObject.SetActive(false);
             }
+        }
+
+        private void OnBlockRecieved(InSituLayoutCompBlockData newBlockData)
+        {
+            newBlockData.handedness = handedness;
         }
         #endregion
     }
