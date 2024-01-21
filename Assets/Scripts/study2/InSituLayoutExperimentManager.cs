@@ -17,6 +17,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public AudioSource audioSource;
         public bool trackJoints = true; // Adding this for performance reasons
         public LayoutTaskManger taskManager;
+        public CalibrationContainer calibrationContainer;
         public List<XRHandJointID> forceTrackJoints = new List<XRHandJointID>(); // When trackJoints is false, bypass that for the coordinates in this list
 
         #region HIDDEN_VARIABLES
@@ -29,6 +30,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             // TODO: Update this!
             Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex","colorGroupIndex", "targetIndex",
                         "targetLocation", "sequenceIndex", "inSequenceIndex"});
+            calibrationContainer.SetupCalibrationMethods(this);
             base.Start();
         }
 

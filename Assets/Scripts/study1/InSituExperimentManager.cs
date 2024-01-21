@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using ubco.ovilab.uxf.extensions;
 using UXF;
 using ubco.ovilab.ViconUnityStream;
@@ -23,6 +21,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
         public AudioSource audioSource;
         public bool trackJoints = true; // Adding this for performance reasons
         public TaskManager taskManager;
+        public CalibrationContainer calibrationContainer;
         public List<string> forceTrackJoints = new List<string>(); // When trackJoints is false, bypass that for the coordinates in this list
 
         #region HIDDEN_VARIABLES
@@ -36,6 +35,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study1
         {
             Session.instance.settingsToLog.AddRange(new List<string>(){"colorIndex","colorGroupIndex", "targetIndex", "targetLocation", "sequenceIndex",
                         "inSequenceIndex", "startZoomScale", "secondDisplayVisibleStartAtScale", "secondDisplayVisibleScaleWindow"});
+            calibrationContainer.SetupCalibrationMethods(this);
             base.Start();
         }
 

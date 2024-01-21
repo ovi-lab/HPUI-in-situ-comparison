@@ -13,8 +13,6 @@ namespace ubco.ovilab.hpuiInSituComparison.common
     public class CalibrationContainer : MonoBehaviour
     {
         #region PUBLIC_VARIABLES
-        public ExperimentManager<HPUIBlockData> experimentManager;
-        public Handedness handedness = Handedness.Right;
         public Transform rightFingertip, leftFingertip, cameraBase;
         public Transform rightAboveHandAnchor, leftAboveHandAnchor;
         public Button getPositionsButton, executeCalibrationButton, doneCalibrationButton;
@@ -25,6 +23,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
         #endregion
 
         #region PRIVATE_VARIABLES
+        private Handedness handedness = Handedness.Right;
         private bool recordedCalibration = false;
         private Vector3 headPosition, headForward, activeFingertipPos, rightFingertipPos, leftFingertipPos;
         private string currentCalibrationName = null;
@@ -32,14 +31,11 @@ namespace ubco.ovilab.hpuiInSituComparison.common
         private Dictionary<string, object> calibrationParameters;
         private bool getDelayedGetPosition = false;
         private bool changeLayout = false;
+        private IExperimentCalibration<HPUIBlockData> experimentManager;
         #endregion
 
         void Start()
         {
-            foreach (CalibrationSettings setting in settings)
-            {
-                experimentManager.AddCalibrationMethod(setting.name, (blockData) => InitiateCalibration(setting.name, blockData.handedness, blockData.changeLayout));
-            }
             getPositionsButton.onClick.AddListener(DelayedGetPositions);
             doneCalibrationButton.onClick.AddListener(OnCalibrationCompleteButton);
             executeCalibrationButton.onClick.AddListener(SetCalibration);
@@ -52,6 +48,15 @@ namespace ubco.ovilab.hpuiInSituComparison.common
                 getPositionsButton.interactable = true;
                 GetPositions();
                 getDelayedGetPosition = false;
+            }
+        }
+
+        public void SetupCalibrationMethods(IExperimentCalibration<HPUIBlockData> experimentManager)
+        {
+            this.experimentManager = experimentManager;
+            foreach (CalibrationSettings setting in settings)
+            {
+                experimentManager.AddCalibrationMethod(setting.name, (blockData) => InitiateCalibration(setting.name, blockData.handedness, blockData.changeLayout));
             }
         }
 
