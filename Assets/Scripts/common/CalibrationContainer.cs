@@ -34,7 +34,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
         private Dictionary<string, object> calibrationParameters;
         private bool getDelayedGetPosition = false;
         private bool changeLayout = false;
-        private IExperimentCalibration<HPUIBlockData> experimentManager;
+        private IExperimentManager<HPUIBlockData> experimentManager;
         #endregion
 
         void Start()
@@ -54,7 +54,7 @@ namespace ubco.ovilab.hpuiInSituComparison.common
             }
         }
 
-        public void SetupCalibrationMethods(IExperimentCalibration<HPUIBlockData> experimentManager)
+        public void SetupCalibrationMethods(IExperimentManager<HPUIBlockData> experimentManager)
         {
             this.experimentManager = experimentManager;
             foreach (CalibrationSettings setting in settings)
