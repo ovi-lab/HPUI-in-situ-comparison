@@ -11,27 +11,49 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     public class InteractableTracker : MonoBehaviour
     {
         public Transform parent;
-        public IHPUIInteractable interactable;
-        public SpriteRenderer spriteRenderer;
-        public HPUIInteratableTracker tracker;
+        [SerializeField] private IHPUIInteractable interactable;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private HPUIInteratableTracker tracker;
 
-        /// <inheritdoc />
-        private void OnEnable()
+        public IHPUIInteractable Interactable
         {
-            if (interactable == null)
+            get
             {
-                interactable = GetComponent<IHPUIInteractable>();
+                if (interactable == null)
+                {
+                    interactable = GetComponent<IHPUIInteractable>();
+                }
+                return interactable;
+            }
+            set => interactable = value;
+        }
+
+        public SpriteRenderer SpriteRenderer
+        {
+            get
+            {
+                if (spriteRenderer == null)
+                {
+                    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                }
+                return spriteRenderer;
             }
 
-            if (spriteRenderer == null)
+            set => spriteRenderer = value;
+        }
+
+        public HPUIInteratableTracker Tracker
+        {
+            get
             {
-                spriteRenderer = GetComponent<SpriteRenderer>();
+                if (tracker == null)
+                {
+                    tracker = GetComponent<HPUIInteratableTracker>();
+                }
+                return tracker;
             }
 
-            if (tracker == null)
-            {
-                tracker = GetComponent<HPUIInteratableTracker>();
-            }
+            set => tracker = value;
         }
 
         /// <inheritdoc />

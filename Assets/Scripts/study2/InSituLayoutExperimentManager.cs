@@ -98,7 +98,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     InteractableTracker interactableTracker = interactable.transform.GetComponent<InteractableTracker>();
                     if (interactableTracker != null)
                     {
-                        interactableTracker.tracker = tracker as HPUIInteratableTracker;
+                        interactableTracker.Tracker = tracker as HPUIInteratableTracker;
                     }
 
                     // This RecordRow will be called everytime an interaction happens

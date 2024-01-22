@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
@@ -92,7 +93,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             windows.AddRange(Enumerable.Range(1, numberOfWindows)
                              .Select(i => GenerateWindow(i, interactablesPerWindow, transform, OnTap)));
 
-            allActiveTrackersMapping = GetWindowsInteractables().ToDictionary(i => i.interactable, i => i);
+            allActiveTrackersMapping = GetWindowsInteractables().ToDictionary(i => i.Interactable, i => i);
 
             foreach (WindowManager windowManager in windowManagers)
             {
@@ -164,7 +165,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
                 // Trying to uniformly sample from all windows.
                 // KLUDGE: maybe rethink the distribution of targest?
-                float pColorPerWindow = blockData.numberOfColors / windows.Count;
+                float pColorPerWindow = (float)blockData.numberOfColors / (float)windows.Count;
                 bool firstIteration = true;
                 do
                 {
@@ -185,15 +186,15 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                             }
                         } while (--currentP > 1);
                     }
-                    firstIteration = true;
+                    firstIteration = false;
                 } while (interactables.Count != blockData.numberOfColors);
 
                 for (int j = 0; j < interactables.Count; j++)
                 {
                     int colorIndex = activeColorLayout[j];
                     InteractableTracker interactable = interactables[j];
-                    interactable.spriteRenderer.sprite = ColorIndex.instance.GetSprite(activeColorLayoutIndex, colorIndex);
-                    interactablesToColorMapping.Add(interactable.interactable, (colorIndex, interactable.tracker.name));
+                    interactable.SpriteRenderer.sprite = ColorIndex.instance.GetSprite(activeColorLayoutIndex, colorIndex);
+                    interactablesToColorMapping.Add(interactable.Interactable, (colorIndex, interactable.Tracker.name));
                 }
             }
             currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
@@ -288,7 +289,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
             else
             {
-                AddInteractablesSelectionToTable(allActiveTrackersMapping[args.interactableObject].tracker.name, "accept", -1);
+                AddInteractablesSelectionToTable(allActiveTrackersMapping[args.interactableObject].Tracker.name, "accept", -1);
                 // Audio feedback will be coming from the experiment manager setup.
             }
         }
@@ -382,7 +383,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public IEnumerable<IHPUIInteractable> GetInteractables()
         {
             return GetWindowsInteractables()
-                .Select(i => i.interactable)
+                .Select(i => i.Interactable)
                 .Union(windowManagers
                        .SelectMany(wm => wm.GetManagedInteractables()));
         }
@@ -393,7 +394,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public IEnumerable<IHPUIInteractable> GetAvtiveInteractables()
         {
             return GetWindowsInteractables()
-                .Select(i => i.interactable)
+                .Select(i => i.Interactable)
                 .Union(activeWindowManager.GetManagedInteractables());
         }
 
