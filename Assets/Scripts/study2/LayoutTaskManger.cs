@@ -7,6 +7,7 @@ using ubco.ovilab.hpuiInSituComparison.common;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.XR.Hands;
 using UXF;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
@@ -194,7 +195,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     int colorIndex = activeColorLayout[j];
                     InteractableTracker interactable = interactables[j];
                     interactable.SpriteRenderer.sprite = ColorIndex.instance.GetSprite(activeColorLayoutIndex, colorIndex);
-                    interactablesToColorMapping.Add(interactable.Interactable, (colorIndex, interactable.Tracker.name));
+                    interactablesToColorMapping.Add(interactable.Interactable, (colorIndex, interactable.Tracker.objectName));
                 }
             }
             currentSequenceIndex = -1; // Make sure the first trial gets setup correctly
@@ -252,7 +253,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 sequencesLocations.Add(selectedPosition);
             }
 
-            InitTargetsAndPegs();
+            InitTargetsAndPegs(blockData.handedness);
             // TODO: Log the mapping of buttons to colors
         }
 
@@ -370,6 +371,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 .Select(i =>
                 {
                     GameObject interactableObj = GameObject.Instantiate(interactablePrefab, windowGameObject.transform);
+                    interactableObj.transform.name = $"item_{i}";
                     interactableObj.GetComponent<HPUIBaseInteractable>().TapEvent.AddListener(OnTap);
                     return interactableObj.AddComponent<InteractableTracker>();
                 })
@@ -407,7 +409,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 .SelectMany(w => w.interactables);
         }
 
-        private void InitTargetsAndPegs()
+        private void InitTargetsAndPegs(string handedness="None")
         {
             List<Vector3> targetPositions;
             if (currentSequenceIndex != -1)
@@ -428,6 +430,15 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
             foreach (PegV2 peg in pegs)
             {
+                if (handedness == "left")
+                {
+                    peg.Handedness = Handedness.Left;
+                }
+                else if (handedness == "right")
+                {
+                    peg.Handedness = Handedness.Right;
+                }
+
                 peg.Active = false;
                 peg.Visible = false;
             }

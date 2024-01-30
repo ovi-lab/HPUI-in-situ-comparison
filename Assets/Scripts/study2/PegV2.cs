@@ -1,27 +1,21 @@
-using UnityEngine;
 using ubco.ovilab.hpuiInSituComparison.study1;
+using ubco.ovilab.HPUI.Tracking;
+using UnityEngine.XR.Hands;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
 {
     public class PegV2 : Peg
     {
-        private InteractableTracker tracker;
+        public JointFollower follower;
 
-        public new Transform trackingObject
+        public Handedness Handedness
         {
-            get {
-                return tracker.parent;
-            }
-            set {
-                tracker.enabled = value != null;
-                tracker.parent = value;
-            }
+            get => follower.Handedness;
+            set => follower.Handedness = value;
         }
 
         private void Start()
         {
-            tracker = GetComponent<InteractableTracker>();
-            trackingObject = null; // trigger activation
         }
     }
 }
