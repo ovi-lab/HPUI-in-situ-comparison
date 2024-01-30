@@ -222,7 +222,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 {
                     (interactable as HPUIBaseInteractable)?.TapEvent.RemoveListener(OnInteractableTap);
                 }
-                interactable.transform.gameObject.SetActive(false);
             }
         }
 

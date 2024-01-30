@@ -355,6 +355,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 target.Active = false;
                 target.Visible = false;
             }
+
+            foreach(InteractablesWindow window in windows)
+            {
+                window.Hide();
+            }
         }
         #endregion
 
