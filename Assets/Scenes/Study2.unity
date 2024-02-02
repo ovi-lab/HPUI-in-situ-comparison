@@ -3332,6 +3332,8 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 57f9ca873d247bc49aaab2e1d0881a1f, type: 3}
     - {fileID: 21300000, guid: b8749e7b535916b47b850ea80b127082, type: 3}
     - {fileID: 21300000, guid: f2da6fd9d22bacc40ba5f0cf0ce8df0a, type: 3}
+    - {fileID: 21300000, guid: 53ab0e6e7061f4b43a590b05e0ba48fc, type: 3}
+    - {fileID: 21300000, guid: f96de88d43d62ee4da7ef4220b85a105, type: 3}
   colors:
   - l:
     - {r: 0.48235294, g: 0.69803923, b: 0.5803922, a: 1}
@@ -3342,6 +3344,8 @@ MonoBehaviour:
     - {r: 0.42745098, g: 0.30980393, b: 0.09411765, a: 1}
     - {r: 0.3882353, g: 0.80784315, b: 0.9843137, a: 1}
     - {r: 0.4509804, g: 0.15686275, b: 0.5294118, a: 1}
+    - {r: 0.24313726, g: 0.8745098, b: 0.12941177, a: 1}
+    - {r: 0.85882354, g: 0.007843138, b: 0.9882353, a: 1}
 --- !u!1 &933604324
 GameObject:
   m_ObjectHideFlags: 0

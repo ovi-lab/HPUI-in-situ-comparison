@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Linq;
 
 namespace ubco.ovilab.hpuiInSituComparison.common
 {
@@ -86,6 +87,11 @@ namespace ubco.ovilab.hpuiInSituComparison.common
                 return colors.Count;
             }
             return colors[groupIndex].Count;
+        }
+
+        public List<int> GetRandomColorIndices(System.Random random, int groupIndex, int number)
+        {
+            return Enumerable.Range(0, Count(groupIndex)).OrderBy(_ => random.NextDouble()).Take(number).ToList();
         }
     }
 

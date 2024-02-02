@@ -43,32 +43,65 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         {
             Debug.Assert(frames.Select(f => f.index == 0).Any(), "Cannot have a frame with index 0!!");
 
-            IEnumerable<int> indices = frames.Select(f => f.index);
-            currentOffset = Mathf.Clamp(offset, indices.Min(), indices.Max() - 1);
-
-            List<Frame> sortedFrames = frames.ToList().Append(hpuiFrame).OrderBy(f => f.index).ToList();
-            List<InteractablesWindow> selectedWindows = Windows.ToList(); // Creating a copy
-
-            if (offset > 0)
+            if (offset > (Windows.Count - 1) || offset < 0)
             {
-                sortedFrames = sortedFrames.Skip(offset).ToList();
-            }
-            else if (offset < 0)
-            {
-                selectedWindows = selectedWindows.Skip(-offset).ToList();
+                return;
             }
 
-            for (int i = 0; i < selectedWindows.Count; i++)
+            currentOffset = offset;
+
+            IEnumerable<Frame> sortedFrames = frames.ToList().Append(hpuiFrame).OrderBy(f => f.index);
+            IEnumerable<InteractablesWindow> selectedWindows = Windows.ToList(); // Creating a copy
+
+            int indexOfZero = sortedFrames.ToList().IndexOf(hpuiFrame);
+
+            int frameEndIndex = indexOfZero + offset,
+                frameStartIndex = frameEndIndex - selectedWindows.Count() + 1,
+                sortedFramesCount = sortedFrames.Count();
+
+            if (frameStartIndex < 0)
             {
-                InteractablesWindow window = selectedWindows[i];
-                if (i < sortedFrames.Count)
+                for (int i = frameStartIndex; i < 0; i++)
                 {
-                    Frame frame = sortedFrames[i];
-                    window.UseFrame(frame);
+                    sortedFrames = sortedFrames.Prepend(null);
+                }
+            }
+            else if (frameStartIndex > 0)
+            {
+                for (int i = frameStartIndex; i > 0; i--)
+                {
+                    selectedWindows = selectedWindows.Prepend(null);
+                }
+            }
+
+            if (frameEndIndex > sortedFramesCount)
+            {
+                for (int i = sortedFramesCount; i < frameEndIndex; i++)
+                {
+                    sortedFrames = sortedFrames.Append(null);
+                }
+            }
+            else if (frameEndIndex < sortedFramesCount)
+            {
+                for (int i = sortedFramesCount; i > frameEndIndex; i--)
+                {
+                    selectedWindows = selectedWindows.Append(null);
+                }
+            }
+
+            foreach((InteractablesWindow window, Frame frame) pair in selectedWindows.Zip(sortedFrames, (window, frame) => (window, frame)))
+            {
+                if (pair.window == null)
+                {
+                    continue;
+                }
+                else if (pair.frame == null)
+                {
+                    pair.window.Hide();
                 }
                 else
                 {
-                    window.Hide();
+                    pair.window.UseFrame(pair.frame);
                 }
             }
         }

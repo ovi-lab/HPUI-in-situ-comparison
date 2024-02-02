@@ -142,22 +142,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 } while (newColorLayoutIndex == activeColorLayoutIndex);
 
                 activeColorLayoutIndex = newColorLayoutIndex;
-
-                int newColorIndex;
-                List<int> newColorLayout = new List<int>();
-
-                // NOTE: Assuming there are enough colors in the color index
-                // to have two completely different layouts
-                for(int j = 0; j < blockData.numberOfColors; j++)
-                {
-                    do
-                    {
-                        newColorIndex = random.Next(ColorIndex.instance.Count(activeColorLayoutIndex));
-                    } while (newColorLayout.Contains(newColorIndex));
-                    newColorLayout.Add(newColorIndex);
-                }
-
-                activeColorLayout = newColorLayout;
+                activeColorLayout = ColorIndex.instance.GetRandomColorIndices(random, activeColorLayoutIndex, blockData.numberOfColors);
 
                 interactablesToColorMapping.Clear();
 
