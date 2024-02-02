@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using ubco.ovilab.HPUI.Interaction;
 using UnityEngine.XR.Hands;
 using ubco.ovilab.hpuiInSituComparison.common;
+using ubco.ovilab.HPUI.Tracking;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
 {
@@ -53,7 +54,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             Tracker tracker;
 
             // Adding all points from the HandsManagers to the tracked objects.
-            foreach (Handedness coordinateManager in new List<Handedness>(){Handedness.Left, Handedness.Right})
+            foreach (Handedness _handedness in new List<Handedness>(){Handedness.Left, Handedness.Right})
             {
                 for(int i = XRHandJointID.BeginMarker.ToIndex(); i < XRHandJointID.EndMarker.ToIndex(); i++)
                 {
@@ -62,18 +63,14 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     // NOTE: This condition is added to reduce the number of files that get written.
                     if (trackJoints || forceTrackJoints.Contains(jointID))
                     {
-                        Transform coordinate = new GameObject(jointID.ToString()).transform;
+                        string _name = _handedness.ToString() + "_" + jointID.ToString();
+                        Transform coordinate = new GameObject(_name).transform;
                         coordinate.parent = this.transform;
-                        if (coordinate != null)
-                        {
-                            tracker = coordinate.GetComponent<PositionRotationTracker>();
-                            if (tracker == null)
-                            {
-                                tracker = coordinate.gameObject.AddComponent<PositionRotationTracker>();
-                                tracker.objectName = jointID.ToString();
-                            }
-                            session.trackedObjects.Add(tracker);
-                        }
+                        tracker = coordinate.gameObject.AddComponent<PositionRotationTracker>();
+                        tracker.objectName = _name;
+                        JointFollower follower = coordinate.gameObject.AddComponent<JointFollower>();
+                        follower.JointFollowerDatumProperty.Value.handedness = _handedness;
+                        follower.JointFollowerDatumProperty.Value.jointID = jointID;
                     }
                 }
             }
