@@ -15,6 +15,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private HPUIInteratableTracker tracker;
 
+        private Transform previousParent;
+        private float tween;
+
         public IHPUIInteractable Interactable
         {
             get
@@ -61,7 +64,14 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         {
             if (parent != null)
             {
-                transform.position = parent.position;
+                if (previousParent != null && tween < 1)
+                {
+                    transform.position = Vector3.Lerp(previousParent.position, parent.position, tween);
+                }
+                else
+                {
+                    transform.position = parent.position;
+                }
                 transform.rotation = parent.rotation;
             }
         }
@@ -71,7 +81,16 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// </summary>
         public void UseTransformAnchor(Transform parent)
         {
+            if (parent != this.parent)
+            {
+                previousParent = this.parent;
+            }
             this.parent = parent;
+        }
+
+        public void SetTween(float tween)
+        {
+            this.tween = Mathf.Clamp(tween, 0, 1);
         }
     }
 }
