@@ -168,7 +168,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
                             if (currentP > 1 || random.NextDouble() < currentP)
                             {
-                                interactables.Add(window.interactables[random.Next(window.interactables.Count)]);
+                                List<InteractableTracker> validInteractables = window.interactables.Except(interactables).ToList();
+                                Debug.Assert(validInteractables.Count != 0);
+                                interactables.Add(validInteractables[random.Next(validInteractables.Count)]);
                             }
                         } while (--currentP > 1);
                     }
