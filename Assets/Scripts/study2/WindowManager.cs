@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ubco.ovilab.HPUI.Interaction;
+using ubco.ovilab.HPUI.Tracking;
 using UnityEngine;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
@@ -11,8 +12,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     {
         [Tooltip("The identifier for this windowmanager. Will be refernced in all other material by this.")]
         public string id;
-        [Tooltip("The list of frames this window manager is handling.")]
-        [SerializeField] protected List<Frame> frames;
         [Tooltip("From the left most to right most.")]
         [SerializeField] protected AnchorIndexToJointMapping anchorIndexToJointMapping;
 
@@ -22,30 +21,26 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         [SerializeField] protected int fixedLayoutColumns = 3;
         [SerializeField] protected int fixedLayoutRows = 2;
 
-        protected int currentOffset;
+        protected Frame hpuiFrame;
 
-        private List<InteractablesWindow> windows;
-        public List<InteractablesWindow> Windows { get => windows; set => windows = value; }
+        public List<InteractablesWindow> Windows { get;set; }
 
         /// <summary>
         /// Setup the frames on which the windows will be displayed.
         /// </summary>
-        public abstract void SetupFrames();
+        public virtual void SetupFrames()
+        {
+            hpuiFrame = new Frame(0);
+            foreach (JointFollower follower in anchorIndexToJointMapping.JointFollowers)
+            {
+                hpuiFrame.gridAnchors.Add(follower.transform);
+            }
+        }
 
         /// <summary>
         /// Setup the windows with the correct layout of windows.
         /// </summary>
         public abstract void SetupWindows(int offset);
-
-        /// <summary>
-        /// Shift all the windows to the right
-        /// </summary>
-        public abstract void ShiftWindowsRight();
-
-        /// <summary>
-        /// Shift all the windows to the left
-        /// </summary>
-        public abstract void ShiftWindowsLeft();
 
         /// <summary>
         /// Get any interactables specifically managed by the window manager.

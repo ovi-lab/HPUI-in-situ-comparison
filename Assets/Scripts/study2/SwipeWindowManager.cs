@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
-using ubco.ovilab.HPUI.Tracking;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,24 +11,24 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
     /// </summary>
     public class SwipeWindowManager : WindowManager
     {
+        [Tooltip("The list of frames this window manager is handling.")]
+        [SerializeField] protected List<Frame> frames;
+
+        protected int currentOffset;
+
         public List<HPUIContinuousInteractable> continuousInteractables;
         private Dictionary<int, InteractablesWindow> frameWindowMapping = new Dictionary<int, InteractablesWindow>();
-        private Frame hpuiFrame;
 
         // NOTE: Expecting the frame.index to go from -N to +N, exluding 0.
         /// <inheritdoc />
         public override void SetupFrames()
         {
+            base.SetupFrames();
+
             Debug.Assert(frames.Select(f => f.index == 0).Any(), "Cannot have a frame with index 0!!");
             foreach(Frame frame in frames)
             {
                 frame.SetupLayout(fixedLayoutColumns, fixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale);
-            }
-
-            hpuiFrame = new Frame(0);
-            foreach (JointFollower follower in anchorIndexToJointMapping.JointFollowers)
-            {
-                hpuiFrame.gridAnchors.Add(follower.transform);
             }
         }
 
@@ -119,14 +118,18 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
         }
 
-        /// <inheritdoc />
-        public override void ShiftWindowsRight()
+        /// <summary>
+        /// Shift all the windows to the right
+        /// </summary>
+        public void ShiftWindowsRight()
         {
             SetupWindows(currentOffset + 1);
         }
 
-        /// <inheritdoc />
-        public override void ShiftWindowsLeft()
+        /// <summary>
+        /// Shift all the windows to the left
+        /// </summary>
+        public void ShiftWindowsLeft()
         {
             SetupWindows(currentOffset - 1);
         }
@@ -152,6 +155,26 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 {
                     ShiftWindowsRight();
                 }
+            }
+        }
+
+        /// <inheritdoc />
+        public override void Enable()
+        {
+            base.Enable();
+            foreach (HPUIContinuousInteractable interactable in continuousInteractables)
+            {
+                interactable.gameObject.SetActive(true);
+            }
+        }
+
+        /// <inheritdoc />
+        public override void Disable()
+        {
+            base.Disable();
+            foreach (HPUIContinuousInteractable interactable in continuousInteractables)
+            {
+                interactable.gameObject.SetActive(false);
             }
         }
     }

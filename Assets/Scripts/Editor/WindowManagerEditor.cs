@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using ubco.ovilab.hpuiInSituComparison.common;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +9,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         WindowManager t;
         float scale;
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             t = target as WindowManager;
         }
@@ -26,16 +22,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 t.SetupFrames();
             }
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Shift left"))
-            {
-                t.ShiftWindowsLeft();
-            }
-            if (GUILayout.Button("Shift right"))
-            {
-                t.ShiftWindowsRight();
-            }
-            EditorGUILayout.EndHorizontal();
             GUI.enabled = true;
         }
     }
