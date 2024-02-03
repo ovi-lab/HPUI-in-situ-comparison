@@ -16,22 +16,26 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public override void SetupFrames()
         {
             base.SetupFrames();
-            windowSize = 1 / (frames.Count + 1); // number of frames + hpui
+            windowSize = (frames.Count + 1); // number of frames + hpui
             minIndex = frames.Select(f => f.index).Min();
         }
 
         /// <inheritdoc />
         public override void OnGesture(HPUIGestureEventArgs args)
         {
-            float max = args.interactableObject.boundsMax.y;
-            float min = args.interactableObject.boundsMin.y;
-
-            float currentVal = (args.CumilativeDirection.y - min) / (max - min);
-
-            int newOffset = Mathf.FloorToInt(currentVal / windowSize) - minIndex;
-            if (currentOffset != newOffset)
+            // Start gesturing only after moving for a bit
+            if (args.CumilativeDistance > 0.02)
             {
-                SetupWindows(newOffset);
+                float max = args.interactableObject.boundsMax.y;
+                float min = args.interactableObject.boundsMin.y;
+
+                float currentVal = (args.CumilativeDirection.y - min) / (max - min);
+
+                int newOffset = Mathf.FloorToInt(currentVal * windowSize);
+                if (currentOffset != newOffset)
+                {
+                    SetupWindows(newOffset);
+                }
             }
         }
     }

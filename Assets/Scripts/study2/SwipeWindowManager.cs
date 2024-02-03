@@ -31,10 +31,23 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 hpuiFrame.gridAnchors.Add(follower.transform);
             }
+        }
 
+        /// <inheritdoc />
+        protected virtual void OnEnable()
+        {
             foreach (HPUIContinuousInteractable interactable in continuousInteractables)
             {
                 interactable.GestureEvent.AddListener(OnGesture);
+            }
+        }
+
+        /// <inheritdoc />
+        protected virtual void OnDisable()
+        {
+            foreach (HPUIContinuousInteractable interactable in continuousInteractables)
+            {
+                interactable.GestureEvent.RemoveListener(OnGesture);
             }
         }
 

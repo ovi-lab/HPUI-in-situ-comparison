@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
@@ -424,11 +423,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 if (handedness == "left")
                 {
-                    peg.Handedness = Handedness.Left;
+                    peg.Handedness = Handedness.Right;
                 }
                 else if (handedness == "right")
                 {
-                    peg.Handedness = Handedness.Right;
+                    peg.Handedness = Handedness.Left;
                 }
 
                 peg.Active = false;

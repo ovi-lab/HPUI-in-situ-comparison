@@ -3824,8 +3824,8 @@ MonoBehaviour:
       secondJointID: 6
       defaultJointRadius: 0.01
       offsetAngle: 0
-      offsetAsRatioToRadius: 0
-      longitudinalOffset: 0
+      offsetAsRatioToRadius: 0.5
+      longitudinalOffset: 0.8
     m_Variable: {fileID: 0}
   targetTransform: {fileID: 0}
 --- !u!1 &1039955903
@@ -4735,7 +4735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1451255227
 Transform:
   m_ObjectHideFlags: 0
@@ -7185,7 +7185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1915577302
 Transform:
   m_ObjectHideFlags: 0
