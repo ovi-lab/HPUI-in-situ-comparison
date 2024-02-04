@@ -29,18 +29,33 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
         public void SetupLayout(int fixedLayoutColumns, int fixedLayoutRows, float fixedLayoutSeperation, float fixedLayoutButtonScale)
         {
-            GameObject frameObject = new GameObject($"frame_{baseAnchor.name}");
+            // targetRotation is accounting for different corrdinate systems used
+            SetupLayout(fixedLayoutColumns, fixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale, baseAnchor, baseAnchor.position, baseAnchor.rotation, Quaternion.LookRotation(baseAnchor.right, baseAnchor.forward));
+        }
+
+        public void SetupLayout(int fixedLayoutColumns, int fixedLayoutRows, float fixedLayoutSeperation, float fixedLayoutButtonScale, Quaternion targetRotation)
+        {
+            SetupLayout(fixedLayoutColumns, fixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale, baseAnchor, baseAnchor.position, baseAnchor.rotation, targetRotation);
+        }
+
+        public void SetupLayout(int fixedLayoutColumns, int fixedLayoutRows, float fixedLayoutSeperation, float fixedLayoutButtonScale, Transform parent, Vector3 layoutPosition, Quaternion layoutRotation, Quaternion targetRotation)
+        {
+            GameObject frameObject = new GameObject($"frame_{parent.name}");
             // FIXME: Should be first destroyed?
             fixedTargetLayout = frameObject.AddComponent<FixedTargetLayout>();
             fixedTargetLayout.numberOfColumns = fixedLayoutColumns;
             fixedTargetLayout.numberOfRows = fixedLayoutRows;
             fixedTargetLayout.targets = Enumerable.Range(1, fixedLayoutColumns * fixedLayoutRows)
                 .Select(i => new GameObject($"anchor_{i}").transform)
-                .Select(t => { t.parent = baseAnchor; return t; })
+                .Select(t => {
+                    t.parent = parent;
+                    t.rotation = targetRotation;
+                    return t;
+                             })
                 .ToList();
             // TODO: Backplate
-            fixedTargetLayout.SetParameters(fixedLayoutSeperation, fixedLayoutButtonScale, baseAnchor.position, baseAnchor.rotation);
-            frameObject.transform.parent = baseAnchor;
+            fixedTargetLayout.SetParameters(fixedLayoutSeperation, fixedLayoutButtonScale, layoutPosition, layoutRotation);
+            frameObject.transform.parent = parent;
 
             // FIXME: Debug code
             foreach(var t in fixedTargetLayout.targets)
