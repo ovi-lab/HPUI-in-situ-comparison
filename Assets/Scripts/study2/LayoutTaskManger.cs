@@ -5,7 +5,6 @@ using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiInSituComparison.common;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.XR.Hands;
 using UXF;
 
@@ -91,7 +90,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
             windows.Clear();
             windows.AddRange(Enumerable.Range(1, numberOfWindows)
-                             .Select(i => GenerateWindow(i, interactablesPerWindow, transform, OnTap)));
+                             .Select(i => InteractablesWindow.GenerateWindow(i, interactablesPerWindow, transform, OnTap, interactablePrefab)));
 
             allActiveTrackersMapping = GetWindowsInteractables().ToDictionary(i => i.Interactable, i => i);
 
@@ -350,26 +349,6 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         #endregion
 
         #region helper functions
-        /// <summary>
-        /// Generates a window.
-        /// </summary>
-        public InteractablesWindow GenerateWindow(int windowIndex, int interactablesPerWindow, Transform parentTransform, UnityAction<HPUITapEventArgs> OnTap)
-        {
-            GameObject windowGameObject = new GameObject($"WindowSet_{windowIndex}");
-            windowGameObject.transform.parent = parentTransform;
-            InteractablesWindow interactablesWindow = windowGameObject.AddComponent<InteractablesWindow>();
-            interactablesWindow.interactables = Enumerable.Range(1, interactablesPerWindow)
-                .Select(i =>
-                {
-                    GameObject interactableObj = GameObject.Instantiate(interactablePrefab, windowGameObject.transform);
-                    interactableObj.transform.name = $"item_{i}";
-                    interactableObj.GetComponent<HPUIBaseInteractable>().TapEvent.AddListener(OnTap);
-                    return interactableObj.AddComponent<InteractableTracker>();
-                })
-                .ToList();
-            return interactablesWindow;
-        }
-
         /// <summary>
         /// Get all interactables related to the task.
         /// </summary>

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
+using ubco.ovilab.HPUI.Interaction;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ubco.ovilab.hpuiInSituComparison.study2
 {
@@ -75,5 +78,27 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 }
             }
         }
+
+        /// <summary>
+        /// Generates a window.
+        /// </summary>
+        public static InteractablesWindow GenerateWindow(int windowIndex, int interactablesPerWindow, Transform parentTransform, UnityAction<HPUITapEventArgs> OnTap, GameObject interactablePrefab)
+        {
+            GameObject windowGameObject = new GameObject($"WindowSet_{windowIndex}");
+            windowGameObject.transform.parent = parentTransform;
+            InteractablesWindow interactablesWindow = windowGameObject.AddComponent<InteractablesWindow>();
+            interactablesWindow.index = windowIndex;
+            interactablesWindow.interactables = Enumerable.Range(1, interactablesPerWindow)
+                .Select(i =>
+                {
+                    GameObject interactableObj = GameObject.Instantiate(interactablePrefab, windowGameObject.transform);
+                    interactableObj.transform.name = $"item_{i}";
+                    interactableObj.GetComponent<HPUIBaseInteractable>().TapEvent.AddListener(OnTap);
+                    return interactableObj.AddComponent<InteractableTracker>();
+                })
+                .ToList();
+            return interactablesWindow;
+        }
+
     }
 }
