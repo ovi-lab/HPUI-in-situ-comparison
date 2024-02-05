@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
@@ -52,6 +51,20 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             }
 
             frameSelectionWindow = InteractablesWindow.GenerateWindow(-1, 9, this.transform, OnTap, interactablePrefab);
+
+            foreach ((InteractableTracker t, Sprite s) item in frameSelectionWindow.interactables.Zip(sprites, (t, s) => (t, s)))
+            {
+                item.t.SpriteRenderer.sprite = item.s;
+            }
+
+            foreach((Frame f, Sprite s) item in frames.Zip(sprites, (f, s) => (f, s)))
+            {
+                // TODO: Revisit position
+                GameObject label = new GameObject("label");
+                SpriteRenderer labelRenderer = label.AddComponent<SpriteRenderer>();
+                labelRenderer.sprite = item.s;
+                label.transform.parent = item.f.baseAnchor;
+            }
 
             interactableToTrackerMapping = frameSelectionWindow.interactables.ToDictionary(i => i.Interactable as HPUIBaseInteractable, i => i);
         }
