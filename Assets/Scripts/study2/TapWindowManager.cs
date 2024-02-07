@@ -69,7 +69,10 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 SpriteRenderer labelRenderer = label.AddComponent<SpriteRenderer>();
                 labelRenderer.sprite = item.s;
                 label.transform.parent = item.f.baseAnchor;
-                label.transform.localScale = Vector3.one * 0.02f;
+                label.transform.localScale = Vector3.one * 0.005f;
+                float offset = fixedLayoutSeperation / displayToSubFrameRatio;
+                label.transform.localPosition = new Vector3(offset, -offset, -0.001f);
+                label.transform.rotation = Quaternion.LookRotation(-item.f.baseAnchor.forward, item.f.baseAnchor.up);
             }
 
             interactableToTrackerMapping = frameSelectionWindow.interactables.ToDictionary(i => i.Interactable as HPUIBaseInteractable, i => frameSelectionWindow.interactables.IndexOf(i));

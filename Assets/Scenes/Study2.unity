@@ -6829,12 +6829,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: tap
   anchorIndexToJointMapping: {fileID: 1837900660}
-  fixedLayoutSeperation: 0.035
+  fixedLayoutSeperation: 0.045
   fixedLayoutButtonScale: 1
   fixedLayoutColumns: 3
-  fixedLayoutRows: 2
+  fixedLayoutRows: 3
+  interactablePrefab: {fileID: 5108819001507874141, guid: a9c7817954d272a409e2e605361c0c1f, type: 3}
   switchInteractable: {fileID: 1296422062}
   displayAnchor: {fileID: 294938635}
+  sprites:
+  - {fileID: 21300000, guid: 67aa79b4913658d4f972755bb617be25, type: 3}
+  - {fileID: 21300000, guid: 14b3c9d218ef6214cbe952cc973de97d, type: 3}
+  - {fileID: 21300000, guid: f2ffb429e342b9647839969f4c1ac9ce, type: 3}
+  - {fileID: 21300000, guid: 31e2d7dddb4573b4188af493ae925758, type: 3}
+  - {fileID: 21300000, guid: 5db75d1d2f7d17749bc8ceb012b4e1f6, type: 3}
+  - {fileID: 21300000, guid: 30afafb4fdb55d14bac9d438e6e6fb0c, type: 3}
+  - {fileID: 21300000, guid: 2c86c11470427584392e06056429b1b6, type: 3}
+  - {fileID: 21300000, guid: 3c38a988aa804084492c7b643ce28bde, type: 3}
+  - {fileID: 21300000, guid: 07950dac571e596478af1809256c8a12, type: 3}
   displayToSubFrameRatio: 4
 --- !u!1 &1788808794
 GameObject:
