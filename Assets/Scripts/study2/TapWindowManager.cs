@@ -27,7 +27,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         private bool frameSelection;
 
         private InteractablesWindow frameSelectionWindow;
-        private Dictionary<HPUIBaseInteractable, InteractableTracker> interactableToTrackerMapping;
+        private Dictionary<HPUIBaseInteractable, int> interactableToTrackerMapping;
+
+        public bool tapRecieved { get; private set; }
 
         #region window manager implementations
         /// <inheritdoc />
@@ -39,6 +41,9 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             // NOTE: The fixedLayoutButtonScale doesn't impact the targets as they are only following the buttons.
             // This would take effect if they are set as the FixedLayoutButton.targets
             displayFrame.SetupLayout(fixedLayoutColumns, fixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale, displayAnchor.rotation);
+
+            frames = new List<Frame>();
+
             for (int i = 0; i < fixedLayoutColumns * fixedLayoutRows; i++)
             {
                 Frame subFrame = new Frame(i);
@@ -64,9 +69,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 SpriteRenderer labelRenderer = label.AddComponent<SpriteRenderer>();
                 labelRenderer.sprite = item.s;
                 label.transform.parent = item.f.baseAnchor;
+                label.transform.localScale = Vector3.one * 0.02f;
             }
 
-            interactableToTrackerMapping = frameSelectionWindow.interactables.ToDictionary(i => i.Interactable as HPUIBaseInteractable, i => i);
+            interactableToTrackerMapping = frameSelectionWindow.interactables.ToDictionary(i => i.Interactable as HPUIBaseInteractable, i => frameSelectionWindow.interactables.IndexOf(i));
+
+            switchInteractable.TapEvent.AddListener(OnTap);
         }
 
         /// <inheritdoc />
@@ -116,20 +124,40 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 frameSelectionWindow.Hide();
 
-                foreach(InteractablesWindow window in Windows)
-                {
-                    window.Hide();
-                }
-
                 SetupWindows(currentOffset);
+
+                for (int i=0; i < Windows.Count; ++i)
+                {
+                    if (i != currentOffset)
+                    {
+                        Windows[i].Hide();
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// The callback used on the items that are to appear on the fingers when switching
+        /// </summary>
         private void OnTap(HPUITapEventArgs args)
         {
             // Should always get a HPUIBaseInteractable
-            currentOffset = frameSelectionWindow.interactables.IndexOf(interactableToTrackerMapping[args.interactableObject as HPUIBaseInteractable]);
-            ToggleState();
+            HPUIBaseInteractable interactable = args.interactableObject as HPUIBaseInteractable;
+            if (interactableToTrackerMapping.ContainsKey(interactable))
+            {
+                currentOffset = interactableToTrackerMapping[interactable];
+            }
+            tapRecieved = true;
+        }
+
+        private void Update()
+        {
+            // This is done to avoid the race condition where the Interactable.OnDisable the the TapEvent being called in the same frame.
+            if (tapRecieved)
+            {
+                ToggleState();
+                tapRecieved = false;
+            }
         }
     }
 }
