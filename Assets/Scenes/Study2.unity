@@ -4693,18 +4693,22 @@ MonoBehaviour:
     baseAnchor: {fileID: 584827627}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   - index: -1
     baseAnchor: {fileID: 1951462823}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   - index: 1
     baseAnchor: {fileID: 1586890852}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   - index: 2
     baseAnchor: {fileID: 933604325}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   continuousInteractables:
   - {fileID: 1994890025}
   - {fileID: 2130721399}
@@ -6611,7 +6615,7 @@ MonoBehaviour:
   fixedLayoutSeperation: 0.045
   fixedLayoutButtonScale: 1
   fixedLayoutColumns: 3
-  fixedLayoutRows: 3
+  fixedLayoutRows: 2
   interactablePrefab: {fileID: 5108819001507874141, guid: a9c7817954d272a409e2e605361c0c1f, type: 3}
   switchInteractable: {fileID: 1296422062}
   displayAnchor: {fileID: 294938635}
@@ -6625,6 +6629,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2c86c11470427584392e06056429b1b6, type: 3}
   - {fileID: 21300000, guid: 3c38a988aa804084492c7b643ce28bde, type: 3}
   - {fileID: 21300000, guid: 07950dac571e596478af1809256c8a12, type: 3}
+  parentFixedLayoutColumns: 3
+  parentFixedLayoutRows: 3
   displayToSubFrameRatio: 4
 --- !u!1 &1788808794
 GameObject:
@@ -7267,18 +7273,22 @@ MonoBehaviour:
     baseAnchor: {fileID: 1809545649}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   - index: -1
     baseAnchor: {fileID: 1280767406}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   - index: 1
     baseAnchor: {fileID: 1764774124}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   - index: 2
     baseAnchor: {fileID: 2065259683}
     gridAnchors: []
     fixedTargetLayout: {fileID: 0}
+    backplateObject: {fileID: 0}
   continuousInteractables:
   - {fileID: 1994890025}
   - {fileID: 2130721399}

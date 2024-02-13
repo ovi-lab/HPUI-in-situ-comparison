@@ -23,6 +23,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// <inheritdoc />
         public override void OnGesture(HPUIGestureEventArgs args)
         {
+            SetBackplateVisibility(args.State);
             // Start gesturing only after moving for a bit
             if (args.CumilativeDistance > 0.02)
             {

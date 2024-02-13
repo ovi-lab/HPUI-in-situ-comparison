@@ -19,6 +19,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         [Tooltip("Sprites used to select sub frames. Must be in order.")]
         [SerializeField] private List<Sprite> sprites;
 
+        [SerializeField] private int parentFixedLayoutColumns = 3;
+        [SerializeField] private int parentFixedLayoutRows = 3;
         [SerializeField] private float displayToSubFrameRatio = 4;
 
         private Frame displayFrame;
@@ -40,11 +42,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             displayFrame.baseAnchor = displayAnchor;
             // NOTE: The fixedLayoutButtonScale doesn't impact the targets as they are only following the buttons.
             // This would take effect if they are set as the FixedLayoutButton.targets
-            displayFrame.SetupLayout(fixedLayoutColumns, fixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale, displayAnchor.rotation);
+            displayFrame.SetupLayout(parentFixedLayoutColumns, parentFixedLayoutRows, fixedLayoutSeperation, fixedLayoutButtonScale, displayAnchor.rotation);
+            Destroy(displayFrame.backplateObject);
 
             frames = new List<Frame>();
 
-            for (int i = 0; i < fixedLayoutColumns * fixedLayoutRows; i++)
+            for (int i = 0; i < parentFixedLayoutColumns * parentFixedLayoutRows; i++)
             {
                 Frame subFrame = new Frame(i);
                 subFrame.baseAnchor = displayFrame.GetAnchor(i);

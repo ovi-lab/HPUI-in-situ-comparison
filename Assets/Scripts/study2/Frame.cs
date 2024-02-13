@@ -21,6 +21,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public List<Transform> gridAnchors;
         [HideInInspector] public FixedTargetLayout fixedTargetLayout;
 
+        [HideInInspector] public GameObject backplateObject;
+
         public Frame(int index)
         {
             this.index = index;
@@ -41,11 +43,12 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         public void SetupLayout(int fixedLayoutColumns, int fixedLayoutRows, float fixedLayoutSeperation, float fixedLayoutButtonScale, Transform parent, Vector3 layoutPosition, Quaternion layoutRotation, Quaternion targetRotation)
         {
             GameObject frameObject = new GameObject($"frame_{parent.name}");
-            // FIXME: Should be first destroyed?
+            frameObject.transform.parent = parent;
+
             fixedTargetLayout = frameObject.AddComponent<FixedTargetLayout>();
             fixedTargetLayout.numberOfColumns = fixedLayoutColumns;
             fixedTargetLayout.numberOfRows = fixedLayoutRows;
-            fixedTargetLayout.targets = Enumerable.Range(1, fixedLayoutColumns * fixedLayoutRows)
+            List<Transform> targets = Enumerable.Range(1, fixedLayoutColumns * fixedLayoutRows)
                 .Select(i => new GameObject($"anchor_{i}").transform)
                 .Select(t => {
                     t.parent = parent;
@@ -53,9 +56,33 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                     return t;
                              })
                 .ToList();
-            // TODO: Backplate
+            fixedTargetLayout.targets = targets;
+
             fixedTargetLayout.SetParameters(fixedLayoutSeperation, fixedLayoutButtonScale, layoutPosition, layoutRotation);
-            frameObject.transform.parent = parent;
+
+            backplateObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            Transform backplate = backplateObject.transform;
+            backplate.parent = frameObject.transform;
+            backplate.position = targets.Select(t => t.position).Aggregate((tot, next) => tot + next) / targets.Count;
+            backplate.position -= backplate.up.normalized * 0.001f;
+            backplate.localScale = new Vector3(fixedLayoutSeperation * fixedLayoutRows, 0.01f, fixedLayoutSeperation * fixedLayoutColumns) * 0.1f;
+            backplate.rotation = targetRotation;
+
+            MeshRenderer backplateRenderer = backplate.GetComponent<MeshRenderer>();
+            Material material = new Material(Shader.Find("Standard"));
+
+            // Yoinked from https://forum.unity.com/threads/change-standard-shader-render-mode-in-runtime.318815/
+            material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+            material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            material.SetInt("_ZWrite", 0);
+            material.DisableKeyword("_ALPHATEST_ON");
+            material.DisableKeyword("_ALPHABLEND_ON");
+            material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+            Color c = Color.white;
+            c.a = 0.4f;
+            material.color = c;
+
+            backplateRenderer.material = material;
 
             // FIXME: Debug code
             foreach(var t in fixedTargetLayout.targets)

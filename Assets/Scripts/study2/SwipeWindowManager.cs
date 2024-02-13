@@ -39,6 +39,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 interactable.GestureEvent.AddListener(OnGesture);
             }
+
+            foreach (Frame f in frames)
+            {
+                f.backplateObject.SetActive(false);
+            }
         }
 
         /// <inheritdoc />
@@ -145,6 +150,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         /// </summary>
         public virtual void OnGesture(HPUIGestureEventArgs args)
         {
+            SetBackplateVisibility(args.State);
             if (args.State == HPUIGestureState.Stopped && args.CumilativeDirection.magnitude > 0.02)
             {
                 if (args.CumilativeDirection.y < 0)
@@ -154,6 +160,20 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
                 else
                 {
                     ShiftWindowsRight();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update the visibility of the backplate based on the gesture state. Used in OnGesture
+        /// </summary>
+        protected void SetBackplateVisibility(HPUIGestureState gestureState)
+        {
+            if (gestureState == HPUIGestureState.Started || gestureState == HPUIGestureState.Stopped)
+            {
+                foreach (Frame f in frames)
+                {
+                    f.backplateObject.SetActive(gestureState == HPUIGestureState.Started);
                 }
             }
         }
