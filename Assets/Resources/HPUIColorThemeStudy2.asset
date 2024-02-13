@@ -19,4 +19,4 @@ MonoBehaviour:
     color: {r: 1, g: 0.8410459, b: 0.6084906, a: 1}
   - stateName: tap
     color: {r: 0.013794942, g: 0.5849056, b: 0.052478828, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 0}

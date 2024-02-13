@@ -2014,7 +2014,7 @@ MonoBehaviour:
       m_PokeDirection: 5
       m_InteractionDepthOffset: 0
       m_EnablePokeAngleThreshold: 1
-      m_PokeAngleThreshold: 45
+      m_PokeAngleThreshold: 70
     m_Variable: {fileID: 0}
 --- !u!1 &663864047
 GameObject:
@@ -2235,7 +2235,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1994890025}
         m_TargetAssemblyTypeName: ubco.ovilab.HPUI.Interaction.HPUIContinuousInteractable,
           ubco.ovilab.HPUI
-        m_MethodName: Configure
+        m_MethodName: ManualRecompute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2248,7 +2248,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2130721399}
         m_TargetAssemblyTypeName: ubco.ovilab.HPUI.Interaction.HPUIContinuousInteractable,
           ubco.ovilab.HPUI
-        m_MethodName: Configure
+        m_MethodName: ManualRecompute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2261,7 +2261,7 @@ MonoBehaviour:
       - m_Target: {fileID: 597891330}
         m_TargetAssemblyTypeName: ubco.ovilab.HPUI.Interaction.HPUIContinuousInteractable,
           ubco.ovilab.HPUI
-        m_MethodName: Configure
+        m_MethodName: ManualRecompute
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7583,7 +7583,7 @@ MonoBehaviour:
       m_PokeDirection: 5
       m_InteractionDepthOffset: 0
       m_EnablePokeAngleThreshold: 1
-      m_PokeAngleThreshold: 45
+      m_PokeAngleThreshold: 70
     m_Variable: {fileID: 0}
 --- !u!1 &2065259682
 GameObject:
@@ -7791,7 +7791,7 @@ MonoBehaviour:
       m_PokeDirection: 5
       m_InteractionDepthOffset: 0
       m_EnablePokeAngleThreshold: 1
-      m_PokeAngleThreshold: 45
+      m_PokeAngleThreshold: 70
     m_Variable: {fileID: 0}
 --- !u!1 &2133864015
 GameObject:
