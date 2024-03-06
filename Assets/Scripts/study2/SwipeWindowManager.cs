@@ -42,7 +42,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
 
             foreach (Frame f in frames)
             {
-                f.backplateObject.SetActive(false);
+                f.backplateObject.SetActive(true);
             }
         }
 
@@ -52,6 +52,11 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             foreach (HPUIContinuousInteractable interactable in continuousInteractables)
             {
                 interactable.GestureEvent.RemoveListener(OnGesture);
+            }
+
+            foreach (Frame f in frames)
+            {
+                f.backplateObject.SetActive(false);
             }
         }
 

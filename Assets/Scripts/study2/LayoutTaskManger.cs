@@ -284,10 +284,7 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
         #region UXF functions
         private void OnTrialBegin(Trial trial)
         {
-            if (!activeWindowManager.isActiveAndEnabled)
-            {
-                activeWindowManager.Enable();
-            }
+            activeWindowManager.Enable();
 
             interactablesSelectionsTable = new UXFDataTable("time","buttonName", "function", "value");
             currentTrial = trial;
@@ -345,6 +342,8 @@ namespace ubco.ovilab.hpuiInSituComparison.study2
             {
                 window.Hide();
             }
+
+            activeWindowManager.Disable();
         }
         #endregion
 

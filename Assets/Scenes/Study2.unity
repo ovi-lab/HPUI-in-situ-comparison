@@ -1109,146 +1109,6 @@ Transform:
   - {fileID: 1915464264}
   m_Father: {fileID: 1530906072}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1001 &248160558
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.47
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274193, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717278274194, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_Name
-      value: MainViconCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717304283154, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717304283154, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717304283154, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717304283155, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717386601862, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717386601863, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717386601863, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717386601863, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: URI
-      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/HWD
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: baseURI
-      value: http://viconmx.hcilab.ok.ubc.ca:5001/marker/
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: useJson
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: useDefaultData
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344451, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: enableWriteData
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941707717447344477, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 941707717304283155, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-    - {fileID: 941707717304283180, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 941707717304283182, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 248160562}
-  m_SourcePrefab: {fileID: 100100000, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
---- !u!1 &248160559 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 941707717304283182, guid: c700db344c5358a4d92fa375ff80872b, type: 3}
-  m_PrefabInstance: {fileID: 248160558}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &248160562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248160559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52086698788a44e4fa24616922076a20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  otherOrigin: {fileID: 1655942049}
 --- !u!1 &255938208
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,7 +1710,6 @@ GameObject:
   - component: {fileID: 597891328}
   - component: {fileID: 597891330}
   - component: {fileID: 597891329}
-  - component: {fileID: 597891331}
   m_Layer: 0
   m_Name: RingContinuous
   m_TagString: Untagged
@@ -1994,28 +1853,6 @@ MonoBehaviour:
   todo:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &597891331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 597891327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 115f1a2a50d85cd4b9d6dad4c95622be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Interactable: {fileID: 597891330}
-  m_PokeCollider: {fileID: 0}
-  m_PokeConfiguration:
-    m_UseConstant: 1
-    m_ConstantValue:
-      m_PokeDirection: 5
-      m_InteractionDepthOffset: 0
-      m_EnablePokeAngleThreshold: 1
-      m_PokeAngleThreshold: 70
-    m_Variable: {fileID: 0}
 --- !u!1 &663864047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2232,6 +2069,42 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1994890023}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2130721396}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 597891327}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1994890025}
         m_TargetAssemblyTypeName: ubco.ovilab.HPUI.Interaction.HPUIContinuousInteractable,
           ubco.ovilab.HPUI
@@ -7429,7 +7302,6 @@ GameObject:
   - component: {fileID: 1994890024}
   - component: {fileID: 1994890025}
   - component: {fileID: 1994890026}
-  - component: {fileID: 1994890027}
   m_Layer: 0
   m_Name: IndexContinuous
   m_TagString: Untagged
@@ -7573,28 +7445,6 @@ MonoBehaviour:
       longitudinalOffset: 0.01
     m_Variable: {fileID: 0}
   targetTransform: {fileID: 0}
---- !u!114 &1994890027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1994890023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 115f1a2a50d85cd4b9d6dad4c95622be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Interactable: {fileID: 1994890025}
-  m_PokeCollider: {fileID: 0}
-  m_PokeConfiguration:
-    m_UseConstant: 1
-    m_ConstantValue:
-      m_PokeDirection: 5
-      m_InteractionDepthOffset: 0
-      m_EnablePokeAngleThreshold: 1
-      m_PokeAngleThreshold: 70
-    m_Variable: {fileID: 0}
 --- !u!1 &2065259682
 GameObject:
   m_ObjectHideFlags: 0
@@ -7637,7 +7487,6 @@ GameObject:
   - component: {fileID: 2130721397}
   - component: {fileID: 2130721399}
   - component: {fileID: 2130721398}
-  - component: {fileID: 2130721400}
   m_Layer: 0
   m_Name: MiddleContinuous
   m_TagString: Untagged
@@ -7781,28 +7630,6 @@ MonoBehaviour:
   todo:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2130721400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130721396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 115f1a2a50d85cd4b9d6dad4c95622be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Interactable: {fileID: 2130721399}
-  m_PokeCollider: {fileID: 0}
-  m_PokeConfiguration:
-    m_UseConstant: 1
-    m_ConstantValue:
-      m_PokeDirection: 5
-      m_InteractionDepthOffset: 0
-      m_EnablePokeAngleThreshold: 1
-      m_PokeAngleThreshold: 70
-    m_Variable: {fileID: 0}
 --- !u!1 &2133864015
 GameObject:
   m_ObjectHideFlags: 0
@@ -7965,9 +7792,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1524649546}
     m_Modifications:
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: handedness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_PokeWidth
+      value: 0.0075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_Handedness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: tapTimeThreshold
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_PokeHoverRadius
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_PokeSelectWidth
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: tapDistanceThreshold
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_PokeInteractionOffset
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_DebugVisualizationsEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5696224369019087437, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: m_Name
       value: HPUIInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190181896940648844, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7676618689736515774, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8007,6 +7874,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7676618689736515774, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7725145404854938320, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8501,13 +8372,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Renderer: {fileID: 7436014446730271689}
   m_MaterialIndex: 0
+--- !u!1001 &7659156549692457648
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474869, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973872577179474870, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: m_Name
+      value: MainViconCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294561673526989026, guid: d494c0a95617ce2428859652e655f00b, type: 3}
+      propertyPath: otherOrigin
+      value: 
+      objectReference: {fileID: 1655942049}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d494c0a95617ce2428859652e655f00b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1957980529}
   - {fileID: 674880301}
-  - {fileID: 248160558}
+  - {fileID: 7659156549692457648}
   - {fileID: 899232055}
   - {fileID: 1651553606}
   - {fileID: 918335807}
