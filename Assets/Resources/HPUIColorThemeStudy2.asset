@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   values:
   - stateName: hovered
-    color: {r: 1, g: 0.740566, b: 0.740566, a: 1}
+    color: {r: 1, g: 1, b: 1, a: 0}
   - stateName: selected
     color: {r: 1, g: 0.8410459, b: 0.6084906, a: 1}
   - stateName: tap
